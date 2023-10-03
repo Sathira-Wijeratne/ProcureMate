@@ -31,6 +31,9 @@ app.use("/test", testRouter);
 const supplierRouter = require("./routes/supplier.js");
 app.use("/supplier", supplierRouter);
 
+const procurementStaffMemberRouter = require("./routes/procurementStaffMember.js");
+app.use("/procurementstaffmember", procurementStaffMemberRouter);
+
 app.listen(PORT, () => {
   console.log(`Server is up and running on PORT : ${PORT}`);
 });
