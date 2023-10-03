@@ -28,7 +28,9 @@ connection.once("open", () => {
 const testRouter = require("./routes/test.js");
 app.use("/test", testRouter);
 
+const supplierRouter = require("./routes/supplier.js");
+app.use("/supplier", supplierRouter);
+
 app.listen(PORT, () => {
-    console.log(`Server is up and running on PORT : ${PORT}`);
-  });
-  
+  console.log(`Server is up and running on PORT : ${PORT}`);
+});
