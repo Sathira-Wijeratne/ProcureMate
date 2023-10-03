@@ -28,6 +28,14 @@ const staffMemberSchema = new Schema({
     type: String,
     required: true,
   },
+  siteID: {
+    type: String,
+    required: false,
+  },
+  location: {
+    type: String,
+    required: false,
+  },
 });
 
 // create a model based on the buyer schema
