@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// define a new schema for buyer
-const procurementStaffMemberSchema = new Schema({
+// define a new schema for staff member
+const staffMemberSchema = new Schema({
   empId: {
     type: String,
     required: true,
@@ -24,13 +24,14 @@ const procurementStaffMemberSchema = new Schema({
     type: String,
     required: true,
   },
+  userRole: {
+    type: String,
+    required: true,
+  },
 });
 
 // create a model based on the buyer schema
-const ProcurementStaffMember = mongoose.model(
-  "ProcurementStaffMember",
-  procurementStaffMemberSchema
-);
+const StaffMember = mongoose.model("StaffMember", staffMemberSchema);
 
 // export the Buyer model to be used in other parts of the application
-module.exports = ProcurementStaffMember;
+module.exports = StaffMember;
