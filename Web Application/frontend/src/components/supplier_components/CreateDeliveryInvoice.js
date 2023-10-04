@@ -21,6 +21,8 @@ export default function CreateDeliveryInvoice() {
     year: "numeric",
   };
   const [order, setOrder] = useState({});
+  const [item, setItem] = useState({});
+  const [deliveredQty, setDeliveredQty] = useState(0);
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
@@ -30,11 +32,25 @@ export default function CreateDeliveryInvoice() {
       .then((res) => {
         console.log(res.data[0]);
         setOrder(res.data[0]);
+        setDeliveredQty(res.data[0].qty);
+        axios
+          .get(
+            `http://localhost:8070/supplier/getitem/${supplierId}/${res.data[0].itemName}`
+          )
+          .then((res) => {
+            setItem(res.data[0]);
+            console.log(res.data[0]);
+          });
       })
       .catch((err) => {
         alert(err.message);
       });
   }, [supplierId, pOrderId]);
+
+  function proceed(e) {
+    e.preventDefault();
+    alert("Working");
+  }
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
@@ -128,99 +144,122 @@ export default function CreateDeliveryInvoice() {
             <h2>
               <b>Pending Order</b>
             </h2>
-            <div className="row" style={{ marginTop: "2%" }}>
-              <div className="col">
-                <center>
-                  <b>PO ID - #{pOrderId}</b>
-                </center>
-                <div
-                  style={{
-                    marginTop: "10%",
-                    width: "100%",
-                    height: "100%",
-                    border: "3px solid gray",
-                  }}
-                >
-                  <center style={{ marginTop: "4%" }}>
-                    <h5>
-                      <b>Delivery Information</b>
-                    </h5>
-                  </center>
+            <form onSubmit={proceed}>
+              <div className="row" style={{ marginTop: "2%" }}>
+                <div className="col">
                   <center>
-                    <table style={{ marginTop: "15%" }}>
-                      <tr>
-                        <th>DO ID</th>
-                        <td>- #D-0001</td>
-                      </tr>
-                      <tr>
-                        <th>Requested Quantity</th>
-                        <td>- #D-0001</td>
-                      </tr>
-                      <tr>
-                        <th>Delivery Quantity</th>
-                        <td>
-                          - <input type="number" /> kg
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Site ID</th>
-                        <td>- #D-0001</td>
-                      </tr>
-                      <tr>
-                        <th>Location</th>
-                        <td>- #D-0001</td>
-                      </tr>
-                    </table>
+                    <b>PO ID - #{pOrderId}</b>
                   </center>
+                  <div
+                    style={{
+                      marginTop: "10%",
+                      width: "100%",
+                      height: "100%",
+                      border: "3px solid gray",
+                    }}
+                  >
+                    <center style={{ marginTop: "4%" }}>
+                      <h5>
+                        <b>Delivery Information</b>
+                      </h5>
+                    </center>
+                    <center>
+                      <table style={{ marginTop: "15%" }}>
+                        <tr>
+                          <th>DO ID</th>
+                          <td>- #D-{pOrderId.substring(2)}</td>
+                        </tr>
+                        <tr>
+                          <th>Requested Quantity</th>
+                          <td>
+                            - {order.qty} {order.uom}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Delivered Quantity</th>
+                          <td>
+                            -{" "}
+                            <input
+                              type="number"
+                              value={deliveredQty}
+                              onChange={(e) => {
+                                setDeliveredQty(e.target.value);
+                              }}
+                            />{" "}
+                            {order.uom}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Site ID</th>
+                          <td>- {order.siteId}</td>
+                        </tr>
+                        <tr>
+                          <th>Location</th>
+                          <td>- {order.location}</td>
+                        </tr>
+                      </table>
+                    </center>
+                  </div>
                 </div>
-              </div>
-              <div className="col">
-                <center>
-                  <b>Item Name - {order.itemName}</b>
-                </center>
-                <div
-                  style={{
-                    marginTop: "10%",
-                    width: "100%",
-                    height: "100%",
-                    border: "3px solid gray",
-                  }}
-                >
-                  <center style={{ marginTop: "4%" }}>
-                    <h5>
-                      <b>Invoice Details</b>
-                    </h5>
-                  </center>
+                <div className="col">
                   <center>
-                    <table style={{ marginTop: "15%" }}>
-                      <tr>
-                        <th>Invoice No</th>
-                        <td>- #IN-0001</td>
-                      </tr>
-                      <tr>
-                        <th>Unit Price</th>
-                        <td>- #D-0001</td>
-                      </tr>
-                      <tr>
-                        <th>Quantity</th>
-                        <td>- 480</td>
-                      </tr>
-                      <tr>
-                        <th>Total Amount</th>
-                        <td>- Rs. 13000</td>
-                      </tr>
-                    </table>
+                    <b>Item Name - {order.itemName}</b>
                   </center>
-                </div>
-              </div>
-            </div>
+                  <div
+                    style={{
+                      marginTop: "10%",
+                      width: "100%",
+                      height: "100%",
+                      border: "3px solid gray",
+                    }}
+                  >
+                    <center style={{ marginTop: "4%" }}>
+                      <h5>
+                        <b>Invoice Details</b>
+                      </h5>
+                    </center>
+                    <center>
+                      <table style={{ marginTop: "15%" }}>
+                        <tr>
+                          <th>Invoice No</th>
+                          <td>- #IN-{pOrderId.substring(2)}</td>
+                        </tr>
+                        <tr>
+                          <th>Unit Price</th>
+                          <td>
+                            - Rs. {Number.parseFloat(item.unitPrice).toFixed(2)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Quantity</th>
+                          <td>
+                            - {deliveredQty} {order.uom}
+                          </td>
+                        </tr>
 
-            <Button
-              style={{ float: "right", marginTop: "10%" }}
-              variant="btn btn-success"
-            >
-              <b>Proceed</b>
-            </Button>
+                        <tr>
+                          <th>Total Amount</th>
+                          <td>
+                            - Rs.{" "}
+                            {Number.parseFloat(
+                              deliveredQty * item.unitPrice
+                            ).toFixed(2)}
+                          </td>
+                        </tr>
+                      </table>
+                    </center>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                style={{ float: "right", marginTop: "10%" }}
+                variant="btn btn-success"
+              >
+                <b>Proceed</b>
+              </Button>
+            </form>
           </div>
         </div>
         <div style={{ width: "1px" }}>
