@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 
 export default function PendingOrders() {
+  const [currTime, setCurrTime] = useState(new Date());
+
+  useEffect(() => {
+    setInterval(() => setCurrTime(new Date()), 1000);
+  });
   return (
     <div style={{ margin: "20px" }}>
       <div className="row" style={{ height: "100%" }}>
@@ -70,10 +75,17 @@ export default function PendingOrders() {
               sessionStorage.removeItem("sTravPlaNimda");
             }}
           >
-            <Button variant="danger">Signout</Button>{" "}
+            <Button variant="btn btn-light">
+              <b>Log Out</b>
+            </Button>
           </a>
-          {/* Add a Service Provider */}
-          Hello
+          <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
+          <span style={{ marginLeft: "5%" }}>
+            {currTime.toLocaleDateString()}
+          </span>
+          <div style={{ marginTop: "3%" }}>
+            <h2>Pending Orders</h2>
+          </div>
         </div>
         <div style={{ width: "1px" }}>
           <p style={{ color: "white" }}>Invisible</p>
