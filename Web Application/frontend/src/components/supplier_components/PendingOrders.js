@@ -1,16 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
+import axios from "axios";
 
 export default function PendingOrders() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
     window.location.replace("/");
   }
+
+  const supplierId = sessionStorage.getItem("supplierId");
   const [currTime, setCurrTime] = useState(new Date());
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
-  });
+
+    axios
+      .get(`http://localhost:8070/supplier/getpendingorders/${supplierId}`)
+      .then((res) => {
+        console.log(res.data);
+        setOrders(res.data);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  }, [supplierId]);
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
