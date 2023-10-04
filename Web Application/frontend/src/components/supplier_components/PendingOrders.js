@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 
 export default function PendingOrders() {
   return (
@@ -9,7 +10,7 @@ export default function PendingOrders() {
           <p style={{ color: "white" }}>Invisible</p>
         </div>
         <div
-          className="col-4"
+          className="col-3"
           style={{ backgroundColor: "#b9bdba", height: "100vh" }}
         >
           <div
@@ -26,48 +27,40 @@ export default function PendingOrders() {
           >
             <b>Pending Orders</b>
           </div>
-          <a href="/admin/managerequests/view">
-            <button
-              type="button"
-              class="btn btn-info btn-lg"
-              style={{ width: "90%", height: "17%" }}
+          <div style={{ textAlign: "center", marginTop: "3%" }}>
+            <b>Kamal Perera</b>
+            <br />
+            Supplier
+          </div>
+          <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
+            <a
+              href="/supplierhome/pendingorders"
+              style={{ textDecoration: "none" }}
             >
-              Manage Requests
-            </button>
-          </a>
-          <br />
-          <br />
-          <a href="/admin/addserviceprovider">
-            <button
-              type="button"
-              class="btn btn-success btn-lg"
-              style={{ width: "90%", height: "17%" }}
+              <BsFillStarFill
+                style={{ marginBottom: "2%", marginRight: "5%" }}
+              />
+              <b style={{ color: "#3a7ae0" }}>Pending Orders</b>
+            </a>
+            <br />
+            <a href="/supplierhome/invoices" style={{ textDecoration: "none" }}>
+              <BsMenuButtonWideFill
+                style={{ marginBottom: "1%", marginRight: "5%" }}
+              />
+              <b style={{ color: "black" }}>Invoices</b>
+            </a>
+            <br />
+            <a
+              href="/supplierhome/deliverylog"
+              style={{ textDecoration: "none" }}
             >
-              Add Service Provider
-            </button>
-          </a>
-          <br />
-          <br />
-          <a href="/admin/manageserviceproviders">
-            <button
-              type="button"
-              class="btn btn-primary btn-lg"
-              style={{ width: "90%", height: "17%" }}
-            >
-              Manage Service Providers
-            </button>
-          </a>
-          <br />
-          <br />
-          <a href="/admin/managetourists">
-            <button
-              type="button"
-              class="btn btn-warning btn-lg"
-              style={{ width: "90%", height: "17%" }}
-            >
-              Manage Tourists
-            </button>
-          </a>
+              <BsMenuButtonWideFill
+                style={{ marginBottom: "1%", marginRight: "5%" }}
+              />
+              <b style={{ color: "black" }}>My Delovery Log</b>
+            </a>
+            <br />
+          </div>
         </div>
         <div className="col">
           <a
