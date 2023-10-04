@@ -18,9 +18,13 @@ export default function PendingOrders() {
               color: "white",
               textAlign: "center",
               width: "100%",
+              height: "8%",
+              lineHeight: "250%",
+              verticalAlign: "middle",
+              fontSize: "150%",
             }}
           >
-            Pending Orders
+            <b>Pending Orders</b>
           </div>
           <a href="/admin/managerequests/view">
             <button
