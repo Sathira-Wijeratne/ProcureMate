@@ -49,7 +49,11 @@ export default function CreateDeliveryInvoice() {
 
   function proceed(e) {
     e.preventDefault();
-    alert("Working");
+    var response = window.confirm(
+      "Are you sure you want to proceed?\nThis process will create the invoice and send the delivery note."
+    );
+    if (response) {
+    }
   }
   return (
     <div>
@@ -179,13 +183,29 @@ export default function CreateDeliveryInvoice() {
                           <th>Delivered Quantity</th>
                           <td>
                             -{" "}
-                            <input
-                              type="number"
-                              value={deliveredQty}
-                              onChange={(e) => {
-                                setDeliveredQty(e.target.value);
-                              }}
-                            />{" "}
+                            {order.uom !== "" && (
+                              <input
+                                type="number"
+                                value={deliveredQty}
+                                min="0"
+                                step="0.001"
+                                onChange={(e) => {
+                                  setDeliveredQty(e.target.value);
+                                }}
+                                required
+                              />
+                            )}
+                            {order.uom === "" && (
+                              <input
+                                type="number"
+                                value={deliveredQty}
+                                min="0"
+                                onChange={(e) => {
+                                  setDeliveredQty(e.target.value);
+                                }}
+                                required
+                              />
+                            )}{" "}
                             {order.uom}
                           </td>
                         </tr>
