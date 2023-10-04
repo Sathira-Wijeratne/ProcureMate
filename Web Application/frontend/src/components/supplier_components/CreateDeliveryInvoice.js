@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function CreateDeliveryInvoice() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
     window.location.replace("/");
   }
+
+  const { pOrderId } = useParams();
 
   const supplierId = sessionStorage.getItem("supplierId");
   const supplierName = sessionStorage.getItem("supplierName");
@@ -17,21 +20,21 @@ export default function CreateDeliveryInvoice() {
     day: "numeric",
     year: "numeric",
   };
-  const [orders, setOrders] = useState([]);
+  const [order, setOrder] = useState({});
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
 
     axios
-      .get(`http://localhost:8070/supplier/getpendingorders/${supplierId}`)
+      .get(`http://localhost:8070/supplier/getorder/${supplierId}/${pOrderId}`)
       .then((res) => {
-        console.log(res.data);
-        setOrders(res.data);
+        console.log(res.data[0]);
+        setOrder(res.data[0]);
       })
       .catch((err) => {
         alert(err.message);
       });
-  }, [supplierId]);
+  }, [supplierId, pOrderId]);
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
@@ -125,6 +128,14 @@ export default function CreateDeliveryInvoice() {
             <h2>
               <b>Pending Order</b>
             </h2>
+            <div className="row" style={{ marginTop: "2%" }}>
+              <div className="col">
+                <b>PO ID - #{pOrderId}</b>
+              </div>
+              <div className="col">
+                <b>Item Name - {order.itemName}</b>
+              </div>
+            </div>
           </div>
         </div>
         <div style={{ width: "1px" }}>

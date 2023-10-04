@@ -28,7 +28,7 @@ router.route("/get/email/:email").get(async (req, res) => {
     });
 });
 
-// Get supplier by email
+// Get pending orders
 router.route("/getpendingorders/:supplierid").get(async (req, res) => {
   let supplierId = req.params.supplierid;
   await PurchaseOrder.find({ supplierId: supplierId, status: "Approved" })
@@ -37,12 +37,27 @@ router.route("/getpendingorders/:supplierid").get(async (req, res) => {
     })
     .catch((err) => {
       console.log(err.message);
-      res
-        .status(500)
-        .send({
-          status: "Error with get the purchase orders",
-          error: err.message,
-        });
+      res.status(500).send({
+        status: "Error with get the purchase orders",
+        error: err.message,
+      });
+    });
+});
+
+// Get order
+router.route("/getorder/:supplierid/:pOrderId").get(async (req, res) => {
+  let supplierId = req.params.supplierid;
+  let pOrderId = "#" + req.params.pOrderId;
+  await PurchaseOrder.find({ supplierId: supplierId, pOrderId: pOrderId })
+    .then((purchaseOrder) => {
+      res.json(purchaseOrder);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send({
+        status: "Error with get the purchase order",
+        error: err.message,
+      });
     });
 });
 
