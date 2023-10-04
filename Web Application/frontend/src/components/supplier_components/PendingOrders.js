@@ -84,7 +84,9 @@ export default function PendingOrders() {
             {currTime.toLocaleDateString()}
           </span>
           <div style={{ marginTop: "3%" }}>
-            <h2>Pending Orders</h2>
+            <h2>
+              <b>Pending Orders</b>
+            </h2>
           </div>
         </div>
         <div style={{ width: "1px" }}>
