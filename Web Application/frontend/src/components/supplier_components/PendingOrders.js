@@ -11,6 +11,12 @@ export default function PendingOrders() {
   const supplierId = sessionStorage.getItem("supplierId");
   const supplierName = sessionStorage.getItem("supplierName");
   const [currTime, setCurrTime] = useState(new Date());
+  const dateFormatOptions = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -113,7 +119,7 @@ export default function PendingOrders() {
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
           <span style={{ marginLeft: "5%" }}>
-            {currTime.toLocaleDateString()}
+            {currTime.toLocaleDateString("en-US", dateFormatOptions)}
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
