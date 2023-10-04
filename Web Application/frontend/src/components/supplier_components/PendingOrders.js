@@ -3,17 +3,20 @@ import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 
 export default function PendingOrders() {
+  if (sessionStorage.getItem("prMateReilppus") === null) {
+    window.location.replace("/");
+  }
   const [currTime, setCurrTime] = useState(new Date());
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
   });
   return (
-    <div style={{ margin: "20px" }}>
+    <div>
       <div className="row" style={{ height: "100%" }}>
-        <div style={{ width: "1px" }}>
+        {/* <div style={{ width: "1px" }}>
           <p style={{ color: "white" }}>Invisible</p>
-        </div>
+        </div> */}
         <div
           className="col-3"
           style={{ backgroundColor: "#b9bdba", height: "100vh" }}
@@ -23,11 +26,12 @@ export default function PendingOrders() {
               backgroundColor: "#3a7ae0",
               color: "white",
               textAlign: "center",
-              width: "100%",
+              width: "104%",
               height: "8%",
               lineHeight: "250%",
               verticalAlign: "middle",
               fontSize: "150%",
+              marginTop: "5%",
             }}
           >
             <b>Pending Orders</b>
@@ -48,31 +52,43 @@ export default function PendingOrders() {
               <b style={{ color: "#3a7ae0" }}>Pending Orders</b>
             </a>
             <br />
+            <br />
             <a href="/supplierhome/invoices" style={{ textDecoration: "none" }}>
               <BsMenuButtonWideFill
-                style={{ marginBottom: "1%", marginRight: "5%" }}
+                style={{
+                  marginBottom: "1%",
+                  marginRight: "5%",
+                  color: "black",
+                }}
               />
               <b style={{ color: "black" }}>Invoices</b>
             </a>
+            <br />
             <br />
             <a
               href="/supplierhome/deliverylog"
               style={{ textDecoration: "none" }}
             >
               <BsMenuButtonWideFill
-                style={{ marginBottom: "1%", marginRight: "5%" }}
+                style={{
+                  marginBottom: "1%",
+                  marginRight: "5%",
+                  color: "black",
+                }}
               />
               <b style={{ color: "black" }}>My Delovery Log</b>
             </a>
             <br />
           </div>
         </div>
-        <div className="col">
+        <div className="col" style={{ marginTop: "2%" }}>
           <a
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("sTravPlaNimda");
+              sessionStorage.removeItem("prMateReilppus");
+              sessionStorage.removeItem("supplierEmail");
+              sessionStorage.removeItem("supplierId");
             }}
           >
             <Button variant="btn btn-light">

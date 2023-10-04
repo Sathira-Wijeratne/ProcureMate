@@ -16,7 +16,9 @@ export default function LoginSupplier() {
           sessionStorage.setItem("prMateReilppus", Math.random().toString());
           sessionStorage.setItem("supplierEmail", email);
           sessionStorage.setItem("supplierId", res.data[0].id);
-          window.location.replace(`http://localhost:3000/supplierhome`);
+          window.location.replace(
+            `http://localhost:3000/supplierhome/pendingorders`
+          );
         } else {
           alert("Invalid Credentials !");
         }
