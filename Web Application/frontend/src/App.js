@@ -4,6 +4,8 @@ import Test from "./components/Test";
 import LoginSupplier from "./components/login_components/LoginSupplier";
 import LoginStaffMember from "./components/login_components/LoginStaffMember";
 import SupplierPendingOrders from "./components/supplier_components/PendingOrders";
+import Invoices from "./components/supplier_components/Invoices";
+import SupplierMyDeliveryLog from "./components/supplier_components/MyDeliveryLog";
 
 function App() {
   return (
@@ -15,6 +17,12 @@ function App() {
         path="/supplierhome/pendingorders"
         exact
         component={SupplierPendingOrders}
+      />
+      <Route path="/supplierhome/invoices" exact component={Invoices} />
+      <Route
+        path="/supplierhome/mydeliverylog"
+        exact
+        component={SupplierMyDeliveryLog}
       />
     </Router>
   );

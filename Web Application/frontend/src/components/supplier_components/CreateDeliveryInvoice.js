@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
 
-export default function PendingOrders() {
+export default function CreateDeliveryInvoice() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
     window.location.replace("/");
   }
@@ -91,7 +91,7 @@ export default function PendingOrders() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>My Delivery Log</b>
+              <b style={{ color: "black" }}>My Delovery Log</b>
             </a>
             <br />
           </div>
@@ -117,7 +117,7 @@ export default function PendingOrders() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Pending Orders</b>
+              <b>Pending Order</b>
             </h2>
           </div>
         </div>

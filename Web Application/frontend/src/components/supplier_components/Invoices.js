@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
 
-export default function PendingOrders() {
+export default function Invoices() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
     window.location.replace("/");
   }
@@ -11,21 +11,10 @@ export default function PendingOrders() {
   const supplierId = sessionStorage.getItem("supplierId");
   const supplierName = sessionStorage.getItem("supplierName");
   const [currTime, setCurrTime] = useState(new Date());
-  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
-
-    axios
-      .get(`http://localhost:8070/supplier/getpendingorders/${supplierId}`)
-      .then((res) => {
-        console.log(res.data);
-        setOrders(res.data);
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
-  }, [supplierId]);
+  });
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
@@ -61,14 +50,6 @@ export default function PendingOrders() {
               href="/supplierhome/pendingorders"
               style={{ textDecoration: "none" }}
             >
-              <BsFillStarFill
-                style={{ marginBottom: "2%", marginRight: "5%" }}
-              />
-              <b style={{ color: "#3a7ae0" }}>Pending Orders</b>
-            </a>
-            <br />
-            <br />
-            <a href="/supplierhome/invoices" style={{ textDecoration: "none" }}>
               <BsMenuButtonWideFill
                 style={{
                   marginBottom: "1%",
@@ -76,7 +57,15 @@ export default function PendingOrders() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Invoices</b>
+              <b style={{ color: "black" }}>Pending Orders</b>
+            </a>
+            <br />
+            <br />
+            <a href="/supplierhome/invoices" style={{ textDecoration: "none" }}>
+              <BsFillStarFill
+                style={{ marginBottom: "2%", marginRight: "5%" }}
+              />
+              <b style={{ color: "#3a7ae0" }}>Invoices</b>
             </a>
             <br />
             <br />
@@ -117,7 +106,7 @@ export default function PendingOrders() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Pending Orders</b>
+              <b>Invoices</b>
             </h2>
           </div>
         </div>
