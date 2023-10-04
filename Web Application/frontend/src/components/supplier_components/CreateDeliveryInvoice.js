@@ -130,12 +130,97 @@ export default function CreateDeliveryInvoice() {
             </h2>
             <div className="row" style={{ marginTop: "2%" }}>
               <div className="col">
-                <b>PO ID - #{pOrderId}</b>
+                <center>
+                  <b>PO ID - #{pOrderId}</b>
+                </center>
+                <div
+                  style={{
+                    marginTop: "10%",
+                    width: "100%",
+                    height: "100%",
+                    border: "3px solid gray",
+                  }}
+                >
+                  <center style={{ marginTop: "4%" }}>
+                    <h5>
+                      <b>Delivery Information</b>
+                    </h5>
+                  </center>
+                  <center>
+                    <table style={{ marginTop: "15%" }}>
+                      <tr>
+                        <th>DO ID</th>
+                        <td>- #D-0001</td>
+                      </tr>
+                      <tr>
+                        <th>Requested Quantity</th>
+                        <td>- #D-0001</td>
+                      </tr>
+                      <tr>
+                        <th>Delivery Quantity</th>
+                        <td>
+                          - <input type="number" /> kg
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Site ID</th>
+                        <td>- #D-0001</td>
+                      </tr>
+                      <tr>
+                        <th>Location</th>
+                        <td>- #D-0001</td>
+                      </tr>
+                    </table>
+                  </center>
+                </div>
               </div>
               <div className="col">
-                <b>Item Name - {order.itemName}</b>
+                <center>
+                  <b>Item Name - {order.itemName}</b>
+                </center>
+                <div
+                  style={{
+                    marginTop: "10%",
+                    width: "100%",
+                    height: "100%",
+                    border: "3px solid gray",
+                  }}
+                >
+                  <center style={{ marginTop: "4%" }}>
+                    <h5>
+                      <b>Invoice Details</b>
+                    </h5>
+                  </center>
+                  <center>
+                    <table style={{ marginTop: "15%" }}>
+                      <tr>
+                        <th>Invoice No</th>
+                        <td>- #IN-0001</td>
+                      </tr>
+                      <tr>
+                        <th>Unit Price</th>
+                        <td>- #D-0001</td>
+                      </tr>
+                      <tr>
+                        <th>Quantity</th>
+                        <td>- 480</td>
+                      </tr>
+                      <tr>
+                        <th>Total Amount</th>
+                        <td>- Rs. 13000</td>
+                      </tr>
+                    </table>
+                  </center>
+                </div>
               </div>
             </div>
+
+            <Button
+              style={{ float: "right", marginTop: "10%" }}
+              variant="btn btn-success"
+            >
+              <b>Proceed</b>
+            </Button>
           </div>
         </div>
         <div style={{ width: "1px" }}>
