@@ -1,6 +1,7 @@
 const router = require("express").Router();
 let Supplier = require("../models/Supplier");
 let PurchaseOrder = require("../models/PurchaseOrder");
+let Item = require("../models/Item");
 
 // Get all suppliers
 router.route("/").get((req, res) => {
@@ -56,6 +57,23 @@ router.route("/getorder/:supplierid/:pOrderId").get(async (req, res) => {
       console.log(err.message);
       res.status(500).send({
         status: "Error with get the purchase order",
+        error: err.message,
+      });
+    });
+});
+
+// Get item details
+router.route("/getitem/:supplierid/:itemname").get(async (req, res) => {
+  let supplierId = req.params.supplierid;
+  let itemName = req.params.itemname;
+  await Item.find({ supplierId: supplierId, itemName: itemName })
+    .then((item) => {
+      res.json(item);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send({
+        status: "Error with get the item",
         error: err.message,
       });
     });
