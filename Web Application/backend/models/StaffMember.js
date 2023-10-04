@@ -38,8 +38,8 @@ const staffMemberSchema = new Schema({
   },
 });
 
-// create a model based on the buyer schema
+// create a model based on the staff member schema
 const StaffMember = mongoose.model("StaffMember", staffMemberSchema);
 
-// export the Buyer model to be used in other parts of the application
+// export the staff member model to be used in other parts of the application
 module.exports = StaffMember;
