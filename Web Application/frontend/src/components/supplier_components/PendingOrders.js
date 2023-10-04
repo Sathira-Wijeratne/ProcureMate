@@ -125,6 +125,52 @@ export default function PendingOrders() {
             <h2>
               <b>Pending Orders</b>
             </h2>
+            <table
+              className="table"
+              style={{
+                width: "98%",
+                textAlign: "center",
+                marginTop: "2%",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th>PO ID</th>
+                  <th>Site ID</th>
+                  <th>Location</th>
+                  <th>Item Name</th>
+                  <th>Quantity</th>
+                  <th>Due Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr>
+                    <td>
+                      <span
+                        style={{ color: "blue" }}
+                        onClick={() => {
+                          window.location.replace(
+                            `/supplierhome/pendingorders/${order.pOrderId.substring(
+                              1
+                            )}`
+                          );
+                        }}
+                      >
+                        {order.pOrderId}
+                      </span>
+                    </td>
+                    <td>{order.siteId}</td>
+                    <td>{order.location}</td>
+                    <td>{order.itemName}</td>
+                    <td>
+                      {order.qty} {order.uom}
+                    </td>
+                    <td>{new Date(order.dueDate).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
         <div style={{ width: "1px" }}>
