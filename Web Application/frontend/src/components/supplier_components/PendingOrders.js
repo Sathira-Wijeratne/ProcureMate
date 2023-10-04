@@ -9,6 +9,7 @@ export default function PendingOrders() {
   }
 
   const supplierId = sessionStorage.getItem("supplierId");
+  const supplierName = sessionStorage.getItem("supplierName");
   const [currTime, setCurrTime] = useState(new Date());
   const [orders, setOrders] = useState([]);
 
@@ -51,7 +52,7 @@ export default function PendingOrders() {
             <b>Pending Orders</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
-            <b>Kamal Perera</b>
+            <b>{supplierName}</b>
             <br />
             Supplier
           </div>
@@ -103,6 +104,7 @@ export default function PendingOrders() {
               sessionStorage.removeItem("prMateReilppus");
               sessionStorage.removeItem("supplierEmail");
               sessionStorage.removeItem("supplierId");
+              sessionStorage.removeItem("supplierName");
             }}
           >
             <Button variant="btn btn-light">

@@ -16,6 +16,7 @@ export default function LoginSupplier() {
           sessionStorage.setItem("prMateReilppus", Math.random().toString());
           sessionStorage.setItem("supplierEmail", email);
           sessionStorage.setItem("supplierId", res.data[0].id);
+          sessionStorage.setItem("supplierName", res.data[0].name);
           window.location.replace(
             `http://localhost:3000/supplierhome/pendingorders`
           );
