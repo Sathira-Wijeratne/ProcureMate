@@ -15,6 +15,7 @@ export default function LoginSupplier() {
         if (res.data[0].password === password) {
           sessionStorage.setItem("prMateReilppus", Math.random().toString());
           sessionStorage.setItem("supplierEmail", email);
+          sessionStorage.setItem("supplierId", res.data[0].id);
           window.location.replace(`http://localhost:3000/supplierhome`);
         } else {
           alert("Invalid Credentials !");
