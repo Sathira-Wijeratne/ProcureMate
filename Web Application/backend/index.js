@@ -28,7 +28,9 @@ connection.once("open", () => {
 const testRouter = require("./routes/test.js");
 app.use("/test", testRouter);
 
+const settlePaymentRouter = require("./routes/settle-payment.js");
+app.use("/settle-payment", settlePaymentRouter);
+
 app.listen(PORT, () => {
-    console.log(`Server is up and running on PORT : ${PORT}`);
-  });
-  
+  console.log(`Server is up and running on PORT : ${PORT}`);
+});
