@@ -81,6 +81,21 @@ export default function CreateDeliveryInvoice() {
         paymentStatus: "Pending",
       };
 
+      const purchaseOrder = {
+        pOrderId: order.pOrderId,
+        itemName: order.itemName,
+        qty: order.qty,
+        uom: order.uom,
+        amount: order.amount,
+        date: order.date,
+        dueDate: order.dueDate,
+        supplierId: order.supplierId,
+        siteMngId: order.siteMngId,
+        siteId: order.siteId,
+        location: order.location,
+        status: "Completed",
+      };
+
       axios
         .post(
           `http://localhost:8070/supplier/createdeliverynote/`,
@@ -90,7 +105,19 @@ export default function CreateDeliveryInvoice() {
           axios
             .post(`http://localhost:8070/supplier/createinvoice/`, invoice)
             .then((res) => {
-              alert("Done");
+              axios
+                .put(
+                  `http://localhost:8070/supplier/updatepurchaseorder/${pOrderId}`,
+                  purchaseOrder
+                )
+                .then(() => {
+                  alert("Purchase Order Completed!");
+                  window.location.replace(`/supplierhome/pendingorders`);
+                })
+                .catch((err) => {
+                  alert("Error in updating purchase order.");
+                  alert(err);
+                });
             })
             .catch((err) => {
               alert("Error in creating invoice.");

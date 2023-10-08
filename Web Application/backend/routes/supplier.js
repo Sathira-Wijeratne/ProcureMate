@@ -157,4 +157,50 @@ router.route("/createinvoice").post((req, res) => {
     });
 });
 
+// Update purchase order
+router.route("/updatepurchaseorder/:pOrderId").put(async (req, res) => {
+  let pOrderId = "#" + req.params.pOrderId;
+  const {
+    itemName,
+    uom,
+    date,
+    dueDate,
+    supplierId,
+    siteMngId,
+    siteId,
+    location,
+    status,
+  } = req.body;
+  const qty = Number(req.body.qty);
+  const amount = Number(req.body.amount);
+  const purchaseOrder = {
+    pOrderId,
+    itemName,
+    qty,
+    uom,
+    amount,
+    date,
+    dueDate,
+    supplierId,
+    siteMngId,
+    siteId,
+    location,
+    status,
+  };
+
+  await PurchaseOrder.findOneAndUpdate({ pOrderId: pOrderId }, purchaseOrder)
+    .then(() => {
+      res.status(200).send({ status: "Purchase Order Updated" });
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(500)
+        .send({
+          status: "Error with updating the purchase order",
+          error: err.message,
+        });
+    });
+});
+
 module.exports = router;
