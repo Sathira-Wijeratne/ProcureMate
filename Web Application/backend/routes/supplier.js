@@ -129,6 +129,22 @@ router.route("/getinvoice/:invoiceId").get(async (req, res) => {
     });
 });
 
+// Get Delivery Note
+router.route("/getdeliverynote/:deliveryId").get(async (req, res) => {
+  let deliveryId = "#" + req.params.deliveryId;
+  await DeliveryNote.find({ deliveryId: deliveryId })
+    .then((deliveryNotes) => {
+      res.json(deliveryNotes);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send({
+        status: "Error with get the delivery note",
+        error: err.message,
+      });
+    });
+});
+
 // Create a delivery note
 router.route("/createdeliverynote").post((req, res) => {
   const deliveryId = req.body.deliveryId;

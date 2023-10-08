@@ -8,6 +8,7 @@ import Invoices from "./components/supplier_components/Invoices";
 import SupplierMyDeliveryLog from "./components/supplier_components/MyDeliveryLog";
 import CreateDeliveryInvoice from "./components/supplier_components/CreateDeliveryInvoice";
 import SupplierSingleInvoice from "./components/supplier_components/SingleInvoice";
+import SupplierSingleDeliveryNote from "./components/supplier_components/SingleDeliveryNote";
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
         path="/supplierhome/mydeliverylog"
         exact
         component={SupplierMyDeliveryLog}
+      />
+      <Route
+        path="/supplierhome/mydeliverylog/:deliveryId"
+        exact
+        component={SupplierSingleDeliveryNote}
       />
     </Router>
   );
