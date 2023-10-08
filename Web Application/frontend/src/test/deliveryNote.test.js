@@ -22,6 +22,13 @@ describe("Testing creating delivery note", () => {
     );
     expect(res1.status).toBe(200);
 
+    const res2 = await axios.get(
+      "http://localhost:8070/supplier/getdeliverynote/D-TEST"
+    );
+    expect(res2.data[0].deliveryId).toBe(deliveryNote.deliveryId);
+    expect(res2.data[0].pOrderId).toBe(deliveryNote.pOrderId);
+    expect(res2.data[0].itemName).toBe(deliveryNote.itemName);
+
     const res3 = await axios.delete(
       `http://localhost:8070/supplier/deletedeliverynote/D-TEST`
     );
