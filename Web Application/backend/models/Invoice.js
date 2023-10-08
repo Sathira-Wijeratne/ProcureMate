@@ -15,6 +15,22 @@ const invoiceSchema = new Schema({
     type: String,
     required: true,
   },
+  itemName: {
+    type: String,
+    required: true,
+  },
+  qty: {
+    type: Number,
+    required: true,
+  },
+  uom: {
+    type: String,
+    required: false,
+  },
+  unitPrice: {
+    type: Number,
+    required: true,
+  },
   cost: {
     type: Number,
     required: true,
