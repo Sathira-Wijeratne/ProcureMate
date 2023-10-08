@@ -47,6 +47,22 @@ router.route("/getpendingorders/:supplierid").get(async (req, res) => {
     });
 });
 
+// Get Invoices
+router.route("/getinvoices/:supplierid").get(async (req, res) => {
+  let supplierId = req.params.supplierid;
+  await Invoice.find({ supplierId: supplierId })
+    .then((invoices) => {
+      res.json(invoices);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send({
+        status: "Error with get the invoices",
+        error: err.message,
+      });
+    });
+});
+
 // Get order
 router.route("/getorder/:supplierid/:pOrderId").get(async (req, res) => {
   let supplierId = req.params.supplierid;
@@ -194,12 +210,10 @@ router.route("/updatepurchaseorder/:pOrderId").put(async (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res
-        .status(500)
-        .send({
-          status: "Error with updating the purchase order",
-          error: err.message,
-        });
+      res.status(500).send({
+        status: "Error with updating the purchase order",
+        error: err.message,
+      });
     });
 });
 

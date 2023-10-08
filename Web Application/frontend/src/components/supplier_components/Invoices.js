@@ -17,10 +17,20 @@ export default function Invoices() {
     day: "numeric",
     year: "numeric",
   };
+  const [invoices, setInvoices] = useState([]);
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
-  });
+    axios
+      .get(`http://localhost:8070/supplier/getinvoices/${supplierId}`)
+      .then((res) => {
+        console.log(res.data);
+        setInvoices(res.data);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  }, [supplierId]);
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
@@ -114,6 +124,48 @@ export default function Invoices() {
             <h2>
               <b>Invoices</b>
             </h2>
+            <table
+              className="table"
+              style={{
+                width: "98%",
+                textAlign: "center",
+                marginTop: "2%",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th>Invoice No</th>
+                  <th>PO ID</th>
+                  <th>DO ID</th>
+                  <th>Amount</th>
+                  <th> Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoices.map((invoice) => (
+                  <tr>
+                    <td>
+                      <span
+                        style={{ color: "blue" }}
+                        onClick={() => {
+                          window.location.replace(
+                            `/supplierhome/pendingorders/${invoice.pOrderId.substring(
+                              1
+                            )}`
+                          );
+                        }}
+                      >
+                        {invoice.invoiceId}
+                      </span>
+                    </td>
+                    <td>{invoice.pOrderId}</td>
+                    <td>{invoice.deliveryId}</td>
+                    <td>Rs. {Number.parseFloat(invoice.cost).toFixed(2)}</td>
+                    <td>{new Date(invoice.date).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
         <div style={{ width: "1px" }}>
