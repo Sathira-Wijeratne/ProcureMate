@@ -16,12 +16,23 @@ export default function MyDeliveryLog() {
     day: "numeric",
     year: "numeric",
   };
+  const [deliveryNotes, setDeliveryNotes] = useState([]);
 
   const [currTime, setCurrTime] = useState(new Date());
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
-  });
+
+    axios
+      .get(`http://localhost:8070/supplier/getdeliverynotes/${supplierId}`)
+      .then((res) => {
+        console.log(res.data);
+        setDeliveryNotes(res.data);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  }, [supplierId]);
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
@@ -115,6 +126,50 @@ export default function MyDeliveryLog() {
             <h2>
               <b>My Delivery Log</b>
             </h2>
+            <table
+              className="table"
+              style={{
+                width: "98%",
+                textAlign: "center",
+                marginTop: "2%",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th>DO ID</th>
+                  <th>PO ID</th>
+                  <th>Site ID</th>
+                  <th>Location</th>
+                  <th>Invoice No</th>
+                  <th>Delivery Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {deliveryNotes.map((deliveryNote) => (
+                  <tr>
+                    <td>
+                      <span
+                        style={{ color: "blue" }}
+                        onClick={() => {
+                          window.location.replace(
+                            `/supplierhome/pendingorders/${deliveryNote.pOrderId.substring(
+                              1
+                            )}`
+                          );
+                        }}
+                      >
+                        {deliveryNote.deliveryId}
+                      </span>
+                    </td>
+                    <td>{deliveryNote.pOrderId}</td>
+                    <td>{deliveryNote.siteId}</td>
+                    <td>{deliveryNote.location}</td>
+                    <td>#IN-{deliveryNote.deliveryId.substring(3)}</td>
+                    <td>{new Date(deliveryNote.date).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
         <div style={{ width: "1px" }}>

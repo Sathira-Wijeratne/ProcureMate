@@ -63,6 +63,22 @@ router.route("/getinvoices/:supplierid").get(async (req, res) => {
     });
 });
 
+// Get Delivery Notes
+router.route("/getdeliverynotes/:supplierid").get(async (req, res) => {
+  let supplierId = req.params.supplierid;
+  await DeliveryNote.find({ supplierId: supplierId })
+    .then((deliveryNotes) => {
+      res.json(deliveryNotes);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send({
+        status: "Error with get the delivery notes",
+        error: err.message,
+      });
+    });
+});
+
 // Get order
 router.route("/getorder/:supplierid/:pOrderId").get(async (req, res) => {
   let supplierId = req.params.supplierid;
