@@ -53,6 +53,54 @@ export default function CreateDeliveryInvoice() {
       "Are you sure you want to proceed?\nThis process will create the invoice and send the delivery note."
     );
     if (response) {
+      const deliveryNote = {
+        deliveryId: "#D" + pOrderId.substring(1),
+        pOrderId: "#" + pOrderId,
+        supplierId: supplierId,
+        date: new Date(),
+        status: "Sent",
+        itemName: order.itemName,
+        qty: deliveredQty,
+        uom: order.uom,
+        siteMngId: order.siteMngId,
+        siteId: order.siteId,
+        location: order.location,
+      };
+
+      const invoice = {
+        invoiceId: "#IN-" + pOrderId.substring(2),
+        deliveryId: "#D" + pOrderId.substring(1),
+        pOrderId: "#" + pOrderId,
+        supplierId: supplierId,
+        itemName: order.itemName,
+        qty: deliveredQty,
+        uom: order.uom,
+        unitPrice: item.unitPrice,
+        cost: deliveredQty * item.unitPrice,
+        date: new Date(),
+        paymentStatus: "Pending",
+      };
+
+      axios
+        .post(
+          `http://localhost:8070/supplier/createdeliverynote/`,
+          deliveryNote
+        )
+        .then((res) => {
+          axios
+            .post(`http://localhost:8070/supplier/createinvoice/`, invoice)
+            .then((res) => {
+              alert("Done");
+            })
+            .catch((err) => {
+              alert("Error in creating invoice.");
+              console.log(err.message);
+            });
+        })
+        .catch((err) => {
+          alert("Error in creating delivery note.");
+          console.log(err.message);
+        });
     }
   }
   return (

@@ -2,6 +2,8 @@ const router = require("express").Router();
 let Supplier = require("../models/Supplier");
 let PurchaseOrder = require("../models/PurchaseOrder");
 let Item = require("../models/Item");
+let DeliveryNote = require("../models/DeliveryNote");
+let Invoice = require("../models/Invoice");
 
 // Get all suppliers
 router.route("/").get((req, res) => {
@@ -76,6 +78,82 @@ router.route("/getitem/:supplierid/:itemname").get(async (req, res) => {
         status: "Error with get the item",
         error: err.message,
       });
+    });
+});
+
+// Create a delivery note
+router.route("/createdeliverynote").post((req, res) => {
+  const deliveryId = req.body.deliveryId;
+  const pOrderId = req.body.pOrderId;
+  const supplierId = req.body.supplierId;
+  const date = req.body.date;
+  const status = req.body.status;
+  const itemName = req.body.itemName;
+  const qty = Number(req.body.qty);
+  const uom = req.body.uom;
+  const siteMngId = req.body.siteMngId;
+  const siteId = req.body.siteId;
+  const location = req.body.location;
+
+  const deliveryNote = new DeliveryNote({
+    deliveryId,
+    pOrderId,
+    supplierId,
+    date,
+    status,
+    itemName,
+    qty,
+    uom,
+    siteMngId,
+    siteId,
+    location,
+  });
+
+  deliveryNote
+    .save()
+    .then(() => {
+      res.json("Delivery Note Added.");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// Create an Invoice
+router.route("/createinvoice").post((req, res) => {
+  const invoiceId = req.body.invoiceId;
+  const deliveryId = req.body.deliveryId;
+  const pOrderId = req.body.pOrderId;
+  const supplierId = req.body.supplierId;
+  const itemName = req.body.itemName;
+  const qty = Number(req.body.qty);
+  const uom = req.body.uom;
+  const unitPrice = Number(req.body.unitPrice);
+  const cost = Number(req.body.cost);
+  const date = req.body.date;
+  const paymentStatus = req.body.paymentStatus;
+
+  const invoice = new Invoice({
+    invoiceId,
+    deliveryId,
+    pOrderId,
+    supplierId,
+    itemName,
+    qty,
+    uom,
+    unitPrice,
+    cost,
+    date,
+    paymentStatus,
+  });
+
+  invoice
+    .save()
+    .then(() => {
+      res.json("Invoice Added.");
+    })
+    .catch((err) => {
+      console.log(err);
     });
 });
 
