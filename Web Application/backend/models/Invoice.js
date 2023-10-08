@@ -11,6 +11,10 @@ const invoiceSchema = new Schema({
     type: String,
     required: true,
   },
+  pOrderId: {
+    type: String,
+    required: true,
+  },
   supplierId: {
     type: String,
     required: true,
