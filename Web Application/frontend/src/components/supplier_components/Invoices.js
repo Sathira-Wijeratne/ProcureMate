@@ -145,8 +145,8 @@ export default function Invoices() {
                 {invoices.map((invoice) => (
                   <tr>
                     <td>
-                      <span
-                        style={{ color: "blue" }}
+                      <a
+                        href="#"
                         onClick={() => {
                           window.location.replace(
                             `/supplierhome/invoices/${invoice.invoiceId.substring(
@@ -156,7 +156,7 @@ export default function Invoices() {
                         }}
                       >
                         {invoice.invoiceId}
-                      </span>
+                      </a>
                     </td>
                     <td>{invoice.pOrderId}</td>
                     <td>{invoice.deliveryId}</td>
