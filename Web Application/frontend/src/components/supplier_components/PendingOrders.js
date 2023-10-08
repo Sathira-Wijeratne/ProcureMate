@@ -125,52 +125,59 @@ export default function PendingOrders() {
             <h2>
               <b>Pending Orders</b>
             </h2>
-            <table
-              className="table"
-              style={{
-                width: "98%",
-                textAlign: "center",
-                marginTop: "2%",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>PO ID</th>
-                  <th>Site ID</th>
-                  <th>Location</th>
-                  <th>Item Name</th>
-                  <th>Quantity</th>
-                  <th>Due Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
+            {orders.length === 0 && (
+              <center style={{ marginTop: "5%" }}>
+                <h2>No Pending Orders</h2>
+              </center>
+            )}
+            {orders.length !== 0 && (
+              <table
+                className="table"
+                style={{
+                  width: "98%",
+                  textAlign: "center",
+                  marginTop: "2%",
+                }}
+              >
+                <thead>
                   <tr>
-                    <td>
-                      <span
-                        style={{ color: "blue" }}
-                        onClick={() => {
-                          window.location.replace(
-                            `/supplierhome/pendingorders/${order.pOrderId.substring(
-                              1
-                            )}`
-                          );
-                        }}
-                      >
-                        {order.pOrderId}
-                      </span>
-                    </td>
-                    <td>{order.siteId}</td>
-                    <td>{order.location}</td>
-                    <td>{order.itemName}</td>
-                    <td>
-                      {order.qty} {order.uom}
-                    </td>
-                    <td>{new Date(order.dueDate).toLocaleDateString()}</td>
+                    <th>PO ID</th>
+                    <th>Site ID</th>
+                    <th>Location</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Due Date</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr>
+                      <td>
+                        <a
+                          href="#"
+                          onClick={() => {
+                            window.location.replace(
+                              `/supplierhome/pendingorders/${order.pOrderId.substring(
+                                1
+                              )}`
+                            );
+                          }}
+                        >
+                          {order.pOrderId}
+                        </a>
+                      </td>
+                      <td>{order.siteId}</td>
+                      <td>{order.location}</td>
+                      <td>{order.itemName}</td>
+                      <td>
+                        {order.qty} {order.uom}
+                      </td>
+                      <td>{new Date(order.dueDate).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
         <div style={{ width: "1px" }}>
