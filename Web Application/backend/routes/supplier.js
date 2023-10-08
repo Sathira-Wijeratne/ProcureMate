@@ -265,4 +265,21 @@ router.route("/updatepurchaseorder/:pOrderId").put(async (req, res) => {
     });
 });
 
+// Delete delivery note
+router.route("/deletedeliverynote/:deliveryId").delete(async (req, res) => {
+  let deliveryId = "#" + req.params.deliveryId;
+
+  await DeliveryNote.findOneAndDelete({ deliveryId: deliveryId })
+    .then(() => {
+      res.status(200).send({ status: "Delivery note deleted" });
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send({
+        status: "Error with delete Delivery Note",
+        error: err.message,
+      });
+    });
+});
+
 module.exports = router;

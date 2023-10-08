@@ -16,10 +16,15 @@ describe("Testing creating delivery note", () => {
       siteId: "#S-TEST",
       location: "TEST-LOCATION",
     };
-    const res = await axios.post(
+    const res1 = await axios.post(
       `http://localhost:8070/supplier/createdeliverynote/`,
       deliveryNote
     );
-    expect(res.status).toBe(200);
+    expect(res1.status).toBe(200);
+
+    const res3 = await axios.delete(
+      `http://localhost:8070/supplier/deletedeliverynote/D-TEST`
+    );
+    expect(res3.status).toBe(200);
   });
 });
