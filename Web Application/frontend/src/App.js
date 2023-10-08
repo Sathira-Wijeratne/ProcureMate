@@ -7,6 +7,7 @@ import SupplierPendingOrders from "./components/supplier_components/PendingOrder
 import Invoices from "./components/supplier_components/Invoices";
 import SupplierMyDeliveryLog from "./components/supplier_components/MyDeliveryLog";
 import CreateDeliveryInvoice from "./components/supplier_components/CreateDeliveryInvoice";
+import SupplierSingleInvoice from "./components/supplier_components/SingleInvoice";
 
 function App() {
   return (
@@ -25,6 +26,11 @@ function App() {
         component={CreateDeliveryInvoice}
       />
       <Route path="/supplierhome/invoices" exact component={Invoices} />
+      <Route
+        path="/supplierhome/invoices/:invoiceId"
+        exact
+        component={SupplierSingleInvoice}
+      />
       <Route
         path="/supplierhome/mydeliverylog"
         exact

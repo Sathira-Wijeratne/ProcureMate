@@ -1,44 +1,42 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
-import axios from "axios";
 
-export default function MyDeliveryLog() {
+export default function SingleInvoice() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
     window.location.replace("/");
   }
+  const { invoiceId } = useParams();
 
   const supplierId = sessionStorage.getItem("supplierId");
   const supplierName = sessionStorage.getItem("supplierName");
+  const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
     month: "long",
     day: "numeric",
     year: "numeric",
   };
-  const [deliveryNotes, setDeliveryNotes] = useState([]);
-
-  const [currTime, setCurrTime] = useState(new Date());
+  const [invoice, setInvoice] = useState({});
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
-
     axios
-      .get(`http://localhost:8070/supplier/getdeliverynotes/${supplierId}`)
+      .get(`http://localhost:8070/supplier/getinvoice/${invoiceId}`)
       .then((res) => {
-        console.log(res.data);
-        setDeliveryNotes(res.data);
-      })
-      .catch((err) => {
-        alert(err.message);
+        setInvoice(res.data[0]);
+        console.log(res.data[0]);
       });
-  }, [supplierId]);
+  }, [invoiceId]);
+
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
         {/* <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
-        </div> */}
+      <p style={{ color: "white" }}>Invisible</p>
+    </div> */}
         <div
           className="col-3"
           style={{ backgroundColor: "#b9bdba", height: "100vh" }}
@@ -56,7 +54,7 @@ export default function MyDeliveryLog() {
               marginTop: "5%",
             }}
           >
-            <b>My Delivery Log</b>
+            <b>Invoices</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
@@ -80,14 +78,10 @@ export default function MyDeliveryLog() {
             <br />
             <br />
             <a href="/supplierhome/invoices" style={{ textDecoration: "none" }}>
-              <BsMenuButtonWideFill
-                style={{
-                  marginBottom: "1%",
-                  marginRight: "5%",
-                  color: "black",
-                }}
+              <BsFillStarFill
+                style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "black" }}>Invoices</b>
+              <b style={{ color: "#3a7ae0" }}>Invoices</b>
             </a>
             <br />
             <br />
@@ -95,10 +89,14 @@ export default function MyDeliveryLog() {
               href="/supplierhome/mydeliverylog"
               style={{ textDecoration: "none" }}
             >
-              <BsFillStarFill
-                style={{ marginBottom: "2%", marginRight: "5%" }}
+              <BsMenuButtonWideFill
+                style={{
+                  marginBottom: "1%",
+                  marginRight: "5%",
+                  color: "black",
+                }}
               />
-              <b style={{ color: "#3a7ae0" }}>My Delivery Log</b>
+              <b style={{ color: "black" }}>My Delovery Log</b>
             </a>
             <br />
           </div>
@@ -124,52 +122,66 @@ export default function MyDeliveryLog() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>My Delivery Log</b>
+              <b>Invoice</b>
             </h2>
-            <table
-              className="table"
-              style={{
-                width: "98%",
-                textAlign: "center",
-                marginTop: "2%",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>DO ID</th>
-                  <th>PO ID</th>
-                  <th>Site ID</th>
-                  <th>Location</th>
-                  <th>Invoice No</th>
-                  <th>Delivery Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {deliveryNotes.map((deliveryNote) => (
-                  <tr>
-                    <td>
-                      <span
-                        style={{ color: "blue" }}
-                        onClick={() => {
-                          window.location.replace(
-                            `/supplierhome/pendingorders/${deliveryNote.pOrderId.substring(
-                              1
-                            )}`
-                          );
-                        }}
-                      >
-                        {deliveryNote.deliveryId}
-                      </span>
-                    </td>
-                    <td>{deliveryNote.pOrderId}</td>
-                    <td>{deliveryNote.siteId}</td>
-                    <td>{deliveryNote.location}</td>
-                    <td>#IN-{deliveryNote.deliveryId.substring(3)}</td>
-                    <td>{new Date(deliveryNote.date).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <form>
+              <div className="row" style={{ marginTop: "2%" }}>
+                <div className="col">
+                  <center>
+                    <b>PO ID - {invoice.pOrderId}</b>
+                  </center>
+                </div>
+                <div className="col">
+                  <center>
+                    <b>Item Name - {invoice.itemName}</b>
+                  </center>
+                </div>
+              </div>
+              <center>
+                <div
+                  style={{
+                    marginTop: "10%",
+                    width: "50%",
+                    height: "100%",
+                    border: "3px solid gray",
+                  }}
+                >
+                  <center style={{ marginTop: "4%" }}>
+                    <h5>
+                      <b>Invoice Details</b>
+                    </h5>
+                  </center>
+                  <center>
+                    <table style={{ marginTop: "15%", marginBottom: "10%" }}>
+                      <tr>
+                        <th>Invoice No</th>
+                        <td>- #{invoiceId}</td>
+                      </tr>
+                      <tr>
+                        <th>Unit Price</th>
+                        <td>
+                          - Rs.{" "}
+                          {Number.parseFloat(invoice.unitPrice).toFixed(2)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Quantity</th>
+                        <td>
+                          - {invoice.qty} {invoice.uom}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <th>Total Amount</th>
+                        <td>
+                          - Rs. {Number.parseFloat(invoice.cost).toFixed(2)}
+                        </td>
+                      </tr>
+                    </table>
+                  </center>
+                </div>
+              </center>
+            </form>
           </div>
         </div>
         <div style={{ width: "1px" }}>

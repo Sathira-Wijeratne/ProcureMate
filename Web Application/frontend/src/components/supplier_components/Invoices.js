@@ -54,7 +54,7 @@ export default function Invoices() {
               marginTop: "5%",
             }}
           >
-            <b>Pending Orders</b>
+            <b>Invoices</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
@@ -149,7 +149,7 @@ export default function Invoices() {
                         style={{ color: "blue" }}
                         onClick={() => {
                           window.location.replace(
-                            `/supplierhome/pendingorders/${invoice.pOrderId.substring(
+                            `/supplierhome/invoices/${invoice.invoiceId.substring(
                               1
                             )}`
                           );
