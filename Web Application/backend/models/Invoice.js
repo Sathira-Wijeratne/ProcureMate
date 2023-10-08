@@ -19,6 +19,14 @@ const invoiceSchema = new Schema({
     type: Number,
     required: true,
   },
+  date: {
+    type: Date,
+    required: true,
+  },
+  paymentStatus: {
+    type: String,
+    required: true,
+  },
 });
 
 // create a model based on the invoice schema
