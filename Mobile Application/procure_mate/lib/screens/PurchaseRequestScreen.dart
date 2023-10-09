@@ -13,6 +13,17 @@ class PurchaseRequestScreen extends StatefulWidget {
 class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   final emailController = TextEditingController();
   final Random _random = Random();
+  // Initial Selected Value
+  String dropdownvalue = 'Item 1';
+
+  // List of items in our dropdown menu
+  var items = [
+    'Item 1',
+    'Item 2',
+    'Item 3',
+    'Item 4',
+    'Item 5',
+  ];
 
   String _randomPO = '';
   DateTime? _selectedDate; // Store the selected date.
@@ -53,6 +64,14 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
             padding: const EdgeInsets.only(bottom: 8),
             child: SiteManagerName(),
           ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Items(),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Quantity(),
+          ),
           buildEmail(),
           ElevatedButton(
             child: Text('Submit'),
@@ -60,6 +79,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
               _generateRandomPONumber();
             },
           ),
+
           const SizedBox(height: 24),
           const SizedBox(height: 24),
         ],
@@ -122,6 +142,38 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
       border: OutlineInputBorder(),
     ),
     readOnly: true,
+  );
+
+  Widget Items()=>DropdownButton(
+
+  // Initial Value
+  value: dropdownvalue,
+
+  // Down Arrow Icon
+  icon: const Icon(Icons.keyboard_arrow_down),
+
+  // Array list of items
+  items: items.map((String items) {
+  return DropdownMenuItem(
+  value: items,
+  child: Text(items),
+  );
+  }).toList(),
+  // After selecting the desired option,it will
+  // change button value to selected value
+  onChanged: (String? newValue) {
+  setState(() {
+  dropdownvalue = newValue!;
+  });
+  },
+
+  );
+  Widget Quantity() => TextField(
+    decoration: InputDecoration(
+      labelText: 'Quantity',
+      border: OutlineInputBorder(),
+    ),
+    readOnly: true
   );
 
   Widget buildEmail() => TextField(
