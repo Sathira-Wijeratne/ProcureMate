@@ -142,3 +142,61 @@ describe("Testing invoice creation", () => {
     expect(res3.status).toBe(200);
   });
 });
+
+// Testing existing invoice - Positive
+describe("Testing existing invoice", () => {
+  it("Positive test case", async () => {
+    // existing invoice
+    const invoice = {
+      invoiceId: "#IN-TEST",
+      deliveryId: "#D-TEST",
+      pOrderId: "#P-TEST",
+      supplierId: "S-TEST",
+      itemName: "TEST-ITEM",
+      qty: 20,
+      uom: "",
+      unitPrice: 10000,
+      cost: 200000,
+      date: new Date(),
+      paymentStatus: "TEST_STATUS",
+    };
+
+    const res = await axios.get(
+      `http://localhost:8070/supplier/getinvoice/${invoice.invoiceId.substring(
+        1
+      )}`
+    );
+    expect(res.data[0].invoiceId).toBe(invoice.invoiceId);
+    expect(res.data[0].deliveryId).toBe(invoice.deliveryId);
+    expect(res.data[0].pOrderId).toBe(invoice.pOrderId);
+  });
+});
+
+// Testing existing invoice - Negative
+describe("Testing existing invoice", () => {
+  it("Negative test case", async () => {
+    // existing invoice
+    const invoice = {
+      invoiceId: "#IN-TEST",
+      deliveryId: "#D-TEST",
+      pOrderId: "#P-TEST",
+      supplierId: "S-TEST",
+      itemName: "TEST-ITEM",
+      qty: 20,
+      uom: "",
+      unitPrice: 10000,
+      cost: 200000,
+      date: new Date(),
+      paymentStatus: "TEST_STATUS",
+    };
+
+    const res = await axios.get(
+      `http://localhost:8070/supplier/getinvoice/${invoice.invoiceId.substring(
+        1
+      )}`
+    );
+    expect(res.data[0].qty).not.toBe(invoice.qty + 100);
+    expect(res.data[0].uom).not.toBe(invoice.uom + "S");
+    expect(res.data[0].cost).not.toBe(invoice.qty * invoice.unitPrice + 1000);
+  });
+});
