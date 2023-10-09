@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Test creating delivery note
 describe("Testing delivery note creation", () => {
-  it("Should get a valid status", async () => {
+  it("Create, check and delete", async () => {
     const deliveryNote = {
       deliveryId: "#D-TEST-TEMP",
       pOrderId: "#P-TEST-TEMP",
@@ -103,7 +103,7 @@ describe("Testing existing delivery note", () => {
 
 // Test creating invoice
 describe("Testing invoice creation", () => {
-  it("Should get a valid status", async () => {
+  it("Create, check and delete", async () => {
     const invoice = {
       invoiceId: "#IN-TEST-TEMP",
       deliveryId: "#D-TEST-TEMP",
