@@ -282,4 +282,21 @@ router.route("/deletedeliverynote/:deliveryId").delete(async (req, res) => {
     });
 });
 
+// Delete invoice
+router.route("/deleteinvoice/:invoiceId").delete(async (req, res) => {
+  let invoiceId = "#" + req.params.invoiceId;
+
+  await Invoice.findOneAndDelete({ invoiceId: invoiceId })
+    .then(() => {
+      res.status(200).send({ status: "Invoice deleted" });
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send({
+        status: "Error with delete invoice",
+        error: err.message,
+      });
+    });
+});
+
 module.exports = router;
