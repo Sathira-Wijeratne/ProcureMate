@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:procure_mate/models/site_manager.dart';
 import 'package:procure_mate/screens/PurchaseRequestScreen.dart';
 
 class SiteManagerHomePage extends StatefulWidget {
-  const SiteManagerHomePage(this._width, this._height, {super.key});
+  const SiteManagerHomePage(this._width, this._height, this.user, {super.key});
 
   final double _width;
   final double _height;
+  final SiteManager user;
 
   @override
   State<SiteManagerHomePage> createState() => _SiteManagerHomePageState();
@@ -14,14 +16,10 @@ class SiteManagerHomePage extends StatefulWidget {
 class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
   @override
   Widget build(BuildContext context)=> Scaffold(
-    body: Center(
-      child: ListView(
-        padding: EdgeInsets.all(32),
-          children:[
-            leftNavBar()
-          ]
-      ),
+    appBar: AppBar(
     ),
+    drawer: leftNavBar(),
+    body: Container()
   );
 
   Widget leftNavBar () =>Drawer(
@@ -29,8 +27,8 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('Head of department'),
-            accountEmail: Text('Approver@gmail.com'),
+            accountName: Text(widget.user.name),
+            accountEmail: Text(widget.user.email),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.asset(
@@ -43,10 +41,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
             ),
             decoration: BoxDecoration(
               color: Colors.blueAccent,
-              image: new DecorationImage(
-                image:new AssetImage('assets/useravatarimage.jpg'),
-                fit: BoxFit.cover,
-              ),
+
             ),
           ),
           ListTile(
@@ -55,9 +50,9 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
             onTap: (){
               // Navigate to the my claims page when the item is tapped
               Navigator.of(context).pop(); // Close the drawer
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => PurchaseRequestScreen(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
+                  builder: (context) => PurchaseRequestScreen(widget._width, widget._height, widget.user),
                 ),
               );
             },
