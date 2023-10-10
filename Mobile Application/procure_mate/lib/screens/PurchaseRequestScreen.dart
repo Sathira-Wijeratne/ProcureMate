@@ -74,12 +74,17 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
             child: Quantity(),
           ),
           displaySupplier(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Total(),
+          ),
           ElevatedButton(
             child: Text('Submit'),
             onPressed: () {
               _generateRandomPONumber();
             },
           ),
+
 
 
           const SizedBox(height: 24),
@@ -247,4 +252,12 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
       ),
     ],
   );
+  Widget Total() => TextField(
+      decoration: InputDecoration(
+        labelText: 'Quantity',
+        border: OutlineInputBorder(),
+      ),
+      readOnly: true
+  );
+
 }
