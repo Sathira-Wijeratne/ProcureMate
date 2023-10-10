@@ -255,17 +255,20 @@ export default function CreateDeliveryInvoice() {
                     <center>
                       <table style={{ marginTop: "15%" }}>
                         <tr>
-                          <th>DO ID</th>
-                          <td>- #D-{pOrderId.substring(2)}</td>
+                          <th>{SupplierCommonConstants.DO_ID}</th>
+                          <td>
+                            {SupplierCommonConstants.DASH_HASH_D_DASH}
+                            {pOrderId.substring(2)}
+                          </td>
                         </tr>
                         <tr>
-                          <th>Requested Quantity</th>
+                          <th>{SupplierCommonConstants.REQUESTED_QUANTITY}</th>
                           <td>
                             - {order.qty} {order.uom}
                           </td>
                         </tr>
                         <tr>
-                          <th>Delivered Quantity</th>
+                          <th>{SupplierCommonConstants.DELIVERED_QUANTITY}</th>
                           <td>
                             -{" "}
                             {order.uom !== "" && (
@@ -295,11 +298,11 @@ export default function CreateDeliveryInvoice() {
                           </td>
                         </tr>
                         <tr>
-                          <th>Site ID</th>
+                          <th>{SupplierCommonConstants.SITE_ID}</th>
                           <td>- {order.siteId}</td>
                         </tr>
                         <tr>
-                          <th>Location</th>
+                          <th>{SupplierCommonConstants.LOCATION}</th>
                           <td>- {order.location}</td>
                         </tr>
                       </table>
@@ -308,7 +311,9 @@ export default function CreateDeliveryInvoice() {
                 </div>
                 <div className="col">
                   <center>
-                    <b>Item Name - {order.itemName}</b>
+                    <b>
+                      {SupplierCommonConstants.ITEM_NAME} - {order.itemName}
+                    </b>
                   </center>
                   <div
                     style={{
@@ -320,32 +325,36 @@ export default function CreateDeliveryInvoice() {
                   >
                     <center style={{ marginTop: "4%" }}>
                       <h5>
-                        <b>Invoice Details</b>
+                        <b>{SupplierCommonConstants.INVOICE_DETAILS}</b>
                       </h5>
                     </center>
                     <center>
                       <table style={{ marginTop: "15%" }}>
                         <tr>
-                          <th>Invoice No</th>
-                          <td>- #IN-{pOrderId.substring(2)}</td>
-                        </tr>
-                        <tr>
-                          <th>Unit Price</th>
+                          <th>{SupplierCommonConstants.INVOICE_NO}</th>
                           <td>
-                            - Rs. {Number.parseFloat(item.unitPrice).toFixed(2)}
+                            {SupplierCommonConstants.DASH_HASH_IN_DASH}
+                            {pOrderId.substring(2)}
                           </td>
                         </tr>
                         <tr>
-                          <th>Quantity</th>
+                          <th>{SupplierCommonConstants.UNIT_PRICE}</th>
+                          <td>
+                            - {SupplierCommonConstants.RS_DOT}{" "}
+                            {Number.parseFloat(item.unitPrice).toFixed(2)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>{SupplierCommonConstants.QUANTITY}</th>
                           <td>
                             - {deliveredQty} {order.uom}
                           </td>
                         </tr>
 
                         <tr>
-                          <th>Total Amount</th>
+                          <th>{SupplierCommonConstants.TOTAL_AMOUNT}</th>
                           <td>
-                            - Rs.{" "}
+                            - {SupplierCommonConstants.RS_DOT}{" "}
                             {Number.parseFloat(
                               deliveredQty * item.unitPrice
                             ).toFixed(2)}
@@ -362,13 +371,13 @@ export default function CreateDeliveryInvoice() {
                 style={{ float: "right", marginTop: "10%" }}
                 variant="btn btn-success"
               >
-                <b>Proceed</b>
+                <b>{SupplierCommonConstants.PROCEED}</b>
               </Button>
             </form>
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{SupplierCommonConstants.INVISIBLE}</p>
         </div>
       </div>
     </div>
