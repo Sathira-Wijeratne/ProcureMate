@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:procure_mate/models/site_manager.dart';
 import 'package:procure_mate/screens/PurchaseRequestScreen.dart';
+import 'package:procure_mate/screens/SiteManagerHomePage.dart';
 
 import '../services/db_service.dart';
 
@@ -44,7 +46,15 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _validateLogin(BuildContext context) async {
     var siteManager =
         await DBService.login(_emailController.text, _passwordController.text);
-    if (siteManager.length == 0) {
+    if (siteManager.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Invalid Credentials!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     } else {
       SiteManager user = SiteManager(
           siteManager[0]["_id"],
@@ -57,10 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
           siteManager[0]["siteID"],
           siteManager[0]["location"]);
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => PurchaseRequestScreen(
-                widget._width,
-                widget._height,
-              )));
+          builder: (BuildContext context) =>
+              SiteManagerHomePage(widget._width, widget._height, user)));
     }
   }
 
