@@ -85,7 +85,6 @@ class _LoginScreenState extends State<LoginScreen> {
           '", "location" : "' +
           siteManager[0]["location"] +
           '"}';
-      print(userData);
       final directory = await getApplicationDocumentsDirectory();
       final path = directory.path;
       File file = File('$path/userdata.txt');
