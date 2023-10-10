@@ -21,6 +21,20 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
+  String? _validateEmail(String text){
+    if(text == ""){
+      return "Email / Username is required!";
+    }
+    return null;
+  }
+
+  String? _validatePassword(String text){
+    if(text == ""){
+      return "Password is required!";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,37 +42,54 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              "assets/logo_test.png",
-              scale: 3,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Image.asset(
+                "assets/logo_test.png",
+                scale: 3,
+              ),
             ),
             Form(
                 key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(hintText: "Email / Username"),
-                      validator: (text) {
-                        return null;
-                      },
-                      onSaved: (text) {},
-                      textInputAction: TextInputAction.next,
-                    ),
-                    TextFormField(
-                      controller: _passwordController,
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      decoration: InputDecoration(hintText: "Password"),
-                      validator: (text) {
-                        return null;
-                      },
-                      onSaved: (text) {},
-                      textInputAction: TextInputAction.done,
-                    ),
-                    ElevatedButton(onPressed: (){}, child: Text("Login"))
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration:
+                            InputDecoration(hintText: "Email / Username"),
+                        validator: (text) {
+                          return _validateEmail(text!);
+                        },
+                        onSaved: (text) {},
+                        textInputAction: TextInputAction.next,
+                      ),
+                      TextFormField(
+                        controller: _passwordController,
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        decoration: InputDecoration(hintText: "Password"),
+                        validator: (text) {
+                          return _validatePassword(text!);
+                        },
+                        onSaved: (text) {},
+                        textInputAction: TextInputAction.done,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if(_formKey.currentState!.validate()){
+                              _formKey.currentState?.save();
+                            }
+                          },
+                          child: Text("Login"),
+                        ),
+                      )
+                    ],
+                  ),
                 ))
           ],
         ),
