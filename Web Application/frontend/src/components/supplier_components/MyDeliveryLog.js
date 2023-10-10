@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function MyDeliveryLog() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
@@ -56,12 +57,12 @@ export default function MyDeliveryLog() {
               marginTop: "5%",
             }}
           >
-            <b>My Delivery Log</b>
+            <b>{constants.MY_DELIVERY_LOG}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -75,7 +76,7 @@ export default function MyDeliveryLog() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Pending Orders</b>
+              <b style={{ color: "black" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -87,7 +88,7 @@ export default function MyDeliveryLog() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Invoices</b>
+              <b style={{ color: "black" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -98,7 +99,7 @@ export default function MyDeliveryLog() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>My Delivery Log</b>
+              <b style={{ color: "#3a7ae0" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -115,7 +116,7 @@ export default function MyDeliveryLog() {
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -124,7 +125,7 @@ export default function MyDeliveryLog() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>My Delivery Log</b>
+              <b>{constants.MY_DELIVERY_LOG}</b>
             </h2>
             <table
               className="table"
@@ -136,12 +137,12 @@ export default function MyDeliveryLog() {
             >
               <thead>
                 <tr>
-                  <th>DO ID</th>
-                  <th>PO ID</th>
-                  <th>Site ID</th>
-                  <th>Location</th>
-                  <th>Invoice No</th>
-                  <th>Delivery Date</th>
+                  <th>{constants.DO_ID}</th>
+                  <th>{constants.PO_ID}</th>
+                  <th>{constants.SITE_ID}</th>
+                  <th>{constants.LOCATION}</th>
+                  <th>{constants.INVOICE_NO}</th>
+                  <th>{constants.DELIVERY_DATE}</th>
                 </tr>
               </thead>
               <tbody>
@@ -164,7 +165,10 @@ export default function MyDeliveryLog() {
                     <td>{deliveryNote.pOrderId}</td>
                     <td>{deliveryNote.siteId}</td>
                     <td>{deliveryNote.location}</td>
-                    <td>#IN-{deliveryNote.deliveryId.substring(3)}</td>
+                    <td>
+                      {constants.HASH_IN_DASH}
+                      {deliveryNote.deliveryId.substring(3)}
+                    </td>
                     <td>{new Date(deliveryNote.date).toLocaleDateString()}</td>
                   </tr>
                 ))}
@@ -173,7 +177,7 @@ export default function MyDeliveryLog() {
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>

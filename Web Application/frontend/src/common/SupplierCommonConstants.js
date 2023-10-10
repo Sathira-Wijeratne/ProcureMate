@@ -26,6 +26,8 @@ const constants = {
   PO_ID: "PO ID",
   AMOUNT: "Amount",
   DATE: "Date",
+  DELIVERY_DATE: "Delivery Date",
+  HASH_IN_DASH: "#IN-",
 };
 
 export default constants;
