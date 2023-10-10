@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:procure_mate/models/site_manager.dart';
+import 'package:procure_mate/screens/PurchaseRequestScreen.dart';
+
+import '../services/db_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen(this._width, this._height, {super.key});
@@ -24,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _validateEmail(String text) {
     if (text == "") {
       return "Email / Username is required!";
-    }else if(!text.contains("@")){
+    } else if (!text.contains("@")) {
       return "Invalid email / username";
     }
     return null;
@@ -35,6 +39,29 @@ class _LoginScreenState extends State<LoginScreen> {
       return "Password is required!";
     }
     return null;
+  }
+
+  Future<void> _validateLogin(BuildContext context) async {
+    var siteManager =
+        await DBService.login(_emailController.text, _passwordController.text);
+    if (siteManager.length == 0) {
+    } else {
+      SiteManager user = SiteManager(
+          siteManager[0]["_id"],
+          siteManager[0]["empId"],
+          siteManager[0]["name"],
+          siteManager[0]["phoneNumber"],
+          siteManager[0]["email"],
+          siteManager[0]["password"],
+          siteManager[0]["userRole"],
+          siteManager[0]["siteID"],
+          siteManager[0]["location"]);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) => PurchaseRequestScreen(
+                widget._width,
+                widget._height,
+              )));
+    }
   }
 
   @override
@@ -90,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState?.save();
+                              _validateLogin(context);
                             }
                           },
                           child: const Text("Login"),
