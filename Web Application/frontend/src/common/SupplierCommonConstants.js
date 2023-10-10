@@ -31,6 +31,7 @@ const constants = {
   NO_PENDING_ORDERS: "No Pending Orders",
   DUE_DATE: "Due Date",
   DELIVERY_NOTE: "Delivery Note",
+  INVOICE: "Invoice",
 };
 
 export default constants;
