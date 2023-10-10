@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:procure_mate/screens/PurchaseRequestScreen.dart';
 import 'package:procure_mate/screens/SiteManagerHomePage.dart';
+import 'package:procure_mate/screens/login_screen.dart';
 import 'package:procure_mate/screens/test_screen.dart';
 
 void main(){
@@ -17,6 +18,6 @@ class ProcureMate extends StatelessWidget {
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width;
     _height = MediaQuery.of(context).size.height;
-    return MaterialApp(home: SiteManagerHomePage(_width, _height),);
+    return MaterialApp(home: LoginScreen(_width, _height),);
   }
 }
