@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function SingleDeliveryNote() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
@@ -67,12 +68,12 @@ export default function SingleDeliveryNote() {
               marginTop: "5%",
             }}
           >
-            <b>My Delivery Log</b>
+            <b>{constants.MY_DELIVERY_LOG}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -86,7 +87,7 @@ export default function SingleDeliveryNote() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Pending Orders</b>
+              <b style={{ color: "black" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -98,7 +99,7 @@ export default function SingleDeliveryNote() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Invoices</b>
+              <b style={{ color: "black" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -109,7 +110,7 @@ export default function SingleDeliveryNote() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>My Delivery Log</b>
+              <b style={{ color: "#3a7ae0" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -126,7 +127,7 @@ export default function SingleDeliveryNote() {
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -135,18 +136,22 @@ export default function SingleDeliveryNote() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Delivery Note</b>
+              <b>{constants.DELIVERY_NOTE}</b>
             </h2>
             <form>
               <div className="row" style={{ marginTop: "2%" }}>
                 <div className="col">
                   <center>
-                    <b>PO ID - {deliveryNote.pOrderId}</b>
+                    <b>
+                      {constants.PO_ID} - {deliveryNote.pOrderId}
+                    </b>
                   </center>
                 </div>
                 <div className="col">
                   <center>
-                    <b>Item Name - {deliveryNote.itemName}</b>
+                    <b>
+                      {constants.ITEM_NAME} - {deliveryNote.itemName}
+                    </b>
                   </center>
                 </div>
               </div>
@@ -161,33 +166,33 @@ export default function SingleDeliveryNote() {
                 >
                   <center style={{ marginTop: "4%" }}>
                     <h5>
-                      <b>Delivery Information</b>
+                      <b>{constants.DELIVERY_INFORMATION}</b>
                     </h5>
                   </center>
                   <center>
                     <table style={{ marginTop: "15%", marginBottom: "10%" }}>
                       <tr>
-                        <th>DO ID</th>
+                        <th>{constants.DO_ID}</th>
                         <td>- {deliveryNote.deliveryId}</td>
                       </tr>
                       <tr>
-                        <th>Requested Quantity</th>
+                        <th>{constants.REQUESTED_QUANTITY}</th>
                         <td>
                           - {order.qty} {deliveryNote.uom}
                         </td>
                       </tr>
                       <tr>
-                        <th>Delivered Quantity</th>
+                        <th>{constants.DELIVERED_QUANTITY}</th>
                         <td>
                           -{deliveryNote.qty} {deliveryNote.uom}
                         </td>
                       </tr>
                       <tr>
-                        <th>Site ID</th>
+                        <th>{constants.SITE_ID}</th>
                         <td>- {deliveryNote.siteId}</td>
                       </tr>
                       <tr>
-                        <th>Location</th>
+                        <th>{constants.LOCATION}</th>
                         <td>- {deliveryNote.location}</td>
                       </tr>
                     </table>
@@ -198,7 +203,7 @@ export default function SingleDeliveryNote() {
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>
