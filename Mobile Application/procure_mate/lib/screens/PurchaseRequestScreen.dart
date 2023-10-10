@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:procure_mate/models/site_manager.dart';
+
 class PurchaseRequestScreen extends StatefulWidget {
-  const PurchaseRequestScreen(this._width, this._height, {super.key});
+  const PurchaseRequestScreen(this._width, this._height, this.user, {super.key});
   final double _width;
   final double _height;
+  final SiteManager user;
 
   @override
   State<PurchaseRequestScreen> createState() => _PurchaseRequestScreenState();
