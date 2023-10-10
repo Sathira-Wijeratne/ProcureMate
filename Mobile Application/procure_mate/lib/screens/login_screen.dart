@@ -24,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _validateEmail(String text) {
     if (text == "") {
       return "Email / Username is required!";
+    }else if(!text.contains("@")){
+      return "Invalid email / username";
     }
     return null;
   }
