@@ -28,6 +28,8 @@ const constants = {
   DATE: "Date",
   DELIVERY_DATE: "Delivery Date",
   HASH_IN_DASH: "#IN-",
+  NO_PENDING_ORDERS: "No Pending Orders",
+  DUE_DATE: "Due Date",
 };
 
 export default constants;
