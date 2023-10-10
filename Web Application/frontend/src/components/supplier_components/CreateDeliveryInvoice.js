@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import * as SupplierCommonConstants from "../../common/SupplierCommonConstants";
 
 export default function CreateDeliveryInvoice() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
@@ -153,12 +154,12 @@ export default function CreateDeliveryInvoice() {
               marginTop: "5%",
             }}
           >
-            <b>Pending Orders</b>
+            <b>{SupplierCommonConstants.PENDING_ORDERS}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {SupplierCommonConstants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -168,7 +169,9 @@ export default function CreateDeliveryInvoice() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>Pending Orders</b>
+              <b style={{ color: "#3a7ae0" }}>
+                {SupplierCommonConstants.PENDING_ORDERS}
+              </b>
             </a>
             <br />
             <br />
@@ -180,7 +183,9 @@ export default function CreateDeliveryInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Invoices</b>
+              <b style={{ color: "black" }}>
+                {SupplierCommonConstants.INVOICES}
+              </b>
             </a>
             <br />
             <br />
@@ -195,7 +200,9 @@ export default function CreateDeliveryInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>My Delivery Log</b>
+              <b style={{ color: "black" }}>
+                {SupplierCommonConstants.MY_DELIVERY_LOG}
+              </b>
             </a>
             <br />
           </div>
@@ -212,7 +219,7 @@ export default function CreateDeliveryInvoice() {
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{SupplierCommonConstants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -221,13 +228,16 @@ export default function CreateDeliveryInvoice() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Pending Order</b>
+              <b>{SupplierCommonConstants.PENDING_ORDER}</b>
             </h2>
             <form onSubmit={proceed}>
               <div className="row" style={{ marginTop: "2%" }}>
                 <div className="col">
                   <center>
-                    <b>PO ID - #{pOrderId}</b>
+                    <b>
+                      {SupplierCommonConstants.PO_ID_DASH_HASH}
+                      {pOrderId}
+                    </b>
                   </center>
                   <div
                     style={{
@@ -239,7 +249,7 @@ export default function CreateDeliveryInvoice() {
                   >
                     <center style={{ marginTop: "4%" }}>
                       <h5>
-                        <b>Delivery Information</b>
+                        <b>{SupplierCommonConstants.DELIVERY_INFORMATION}</b>
                       </h5>
                     </center>
                     <center>
