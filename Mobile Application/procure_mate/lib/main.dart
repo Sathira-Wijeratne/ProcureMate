@@ -20,6 +20,6 @@ class ProcureMate extends StatelessWidget {
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width;
     _height = MediaQuery.of(context).size.height;
-    return MaterialApp(home: TestScreen(_width, _height),);
+    return MaterialApp(home: LoginExchangeScreen(_width, _height),);
   }
 }

@@ -7,17 +7,17 @@ import 'package:procure_mate/models/site_manager.dart';
 import 'package:procure_mate/screens/login_screen.dart';
 import 'package:procure_mate/screens/site_manager_home_screen.dart';
 
-class TestScreen extends StatefulWidget {
-  const TestScreen(this._width, this._height, {super.key});
+class LoginExchangeScreen extends StatefulWidget {
+  const LoginExchangeScreen(this._width, this._height, {super.key});
 
   final double _width;
   final double _height;
 
   @override
-  State<TestScreen> createState() => _TestScreenState();
+  State<LoginExchangeScreen> createState() => _LoginExchangeScreenState();
 }
 
-class _TestScreenState extends State<TestScreen> {
+class _LoginExchangeScreenState extends State<LoginExchangeScreen> {
   Future<void> _checkLoginStatus() async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
