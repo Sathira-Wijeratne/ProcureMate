@@ -1,7 +1,6 @@
 import 'package:mongo_dart/mongo_dart.dart';
 
 class SiteManager{
-  final ObjectId id;
   final String empId;
   final String name;
   final String phoneNumber;
@@ -11,6 +10,6 @@ class SiteManager{
   final String siteId;
   final String location;
 
-  SiteManager(this.id, this.empId, this.name, this.phoneNumber, this.email,
+  SiteManager(this.empId, this.name, this.phoneNumber, this.email,
       this.password, this.userRole, this.siteId, this.location);
 }

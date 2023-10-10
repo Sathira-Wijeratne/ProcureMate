@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:procure_mate/models/site_manager.dart';
 import 'package:procure_mate/screens/purchase_request_screen.dart';
+
+import 'login_screen.dart';
 
 class SiteManagerHomePage extends StatefulWidget {
   const SiteManagerHomePage(this._width, this._height, this.user, {super.key});
@@ -14,16 +19,32 @@ class SiteManagerHomePage extends StatefulWidget {
 }
 
 class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
-  @override
-  Widget build(BuildContext context)=> Scaffold(
-    appBar: AppBar(
-    ),
-    drawer: leftNavBar(),
-    body: Container()
-  );
+  Future<void> _onTapLogoutBtn(BuildContext context) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    File file = File('$path/userdata.txt');
+    file.delete();
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) =>
+            LoginScreen(widget._width, widget._height)));
+  }
 
-  Widget leftNavBar () =>Drawer(
-      child: ListView(
+  @override
+  Widget build(BuildContext context) => Scaffold(
+      drawer: leftNavBar(),
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          ElevatedButton(
+              onPressed: () {
+                _onTapLogoutBtn(context);
+              },
+              child: Text("Logout"))
+        ],
+      ));
+
+  Widget leftNavBar() => Drawer(
+          child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
@@ -41,18 +62,18 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
             ),
             decoration: BoxDecoration(
               color: Colors.blueAccent,
-
             ),
           ),
           ListTile(
             leading: Icon(Icons.home),
             title: Text("Purchase Request"),
-            onTap: (){
+            onTap: () {
               // Navigate to the my claims page when the item is tapped
               Navigator.of(context).pop(); // Close the drawer
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => PurchaseRequestScreen(widget._width, widget._height, widget.user),
+                  builder: (context) => PurchaseRequestScreen(
+                      widget._width, widget._height, widget.user),
                 ),
               );
             },
@@ -62,7 +83,13 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                 width: 20,
                 height: 20,
                 child: Center(
-                  child: Text('8',style: TextStyle(color: Colors.grey,fontSize: 12,),),
+                  child: Text(
+                    '8',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -71,14 +98,12 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
           ListTile(
               leading: Icon(Icons.analytics_outlined),
               title: Text("View Reports"),
-              onTap: null
-          ),
+              onTap: null),
           Divider(),
           ListTile(
               leading: Icon(Icons.monetization_on),
               title: Text("My Claims"),
-              onTap: null
-          ),
+              onTap: null),
           Divider(),
         ],
       ));

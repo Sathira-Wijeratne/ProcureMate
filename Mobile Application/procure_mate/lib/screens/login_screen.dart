@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:procure_mate/models/site_manager.dart';
 import 'package:procure_mate/screens/site_manager_home_screen.dart';
 
@@ -56,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
           fontSize: 16.0);
     } else {
       SiteManager user = SiteManager(
-          siteManager[0]["_id"],
           siteManager[0]["empId"],
           siteManager[0]["name"],
           siteManager[0]["phoneNumber"],
@@ -65,7 +67,31 @@ class _LoginScreenState extends State<LoginScreen> {
           siteManager[0]["userRole"],
           siteManager[0]["siteID"],
           siteManager[0]["location"]);
-      Navigator.of(context).push(MaterialPageRoute(
+
+      String userData = '{"empId" : "' +
+          siteManager[0]["empId"] +
+          '", "name" : "' +
+          siteManager[0]["name"] +
+          '", "phoneNumber" : "' +
+          siteManager[0]["phoneNumber"] +
+          '", "email" : "' +
+          siteManager[0]["email"] +
+          '", "password" : "' +
+          siteManager[0]["password"] +
+          '", "userRole" : "' +
+          siteManager[0]["userRole"] +
+          '", "siteID" : "' +
+          siteManager[0]["siteID"] +
+          '", "location" : "' +
+          siteManager[0]["location"] +
+          '"}';
+      print(userData);
+      final directory = await getApplicationDocumentsDirectory();
+      final path = directory.path;
+      File file = File('$path/userdata.txt');
+      file.writeAsString(userData);
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) =>
               SiteManagerHomePage(widget._width, widget._height, user)));
     }
