@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:procure_mate/screens/PurchaseRequestScreen.dart';
-import 'package:procure_mate/screens/SiteManagerHomePage.dart';
+import 'package:procure_mate/screens/purchase_request_screen.dart';
+import 'package:procure_mate/screens/site_manager_home_screen.dart';
 import 'package:procure_mate/screens/login_screen.dart';
 import 'package:procure_mate/screens/test_screen.dart';
 import 'package:procure_mate/services/db_service.dart';

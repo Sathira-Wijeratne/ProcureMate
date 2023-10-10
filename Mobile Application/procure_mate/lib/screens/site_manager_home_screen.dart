@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:procure_mate/models/site_manager.dart';
-import 'package:procure_mate/screens/PurchaseRequestScreen.dart';
+import 'package:procure_mate/screens/purchase_request_screen.dart';
 
 class SiteManagerHomePage extends StatefulWidget {
   const SiteManagerHomePage(this._width, this._height, this.user, {super.key});
