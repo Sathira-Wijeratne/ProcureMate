@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:procure_mate/models/site_manager.dart';
-import 'package:procure_mate/screens/PurchaseRequestScreen.dart';
 import 'package:procure_mate/screens/SiteManagerHomePage.dart';
 
 import '../services/db_service.dart';
