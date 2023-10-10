@@ -21,15 +21,15 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  String? _validateEmail(String text){
-    if(text == ""){
+  String? _validateEmail(String text) {
+    if (text == "") {
       return "Email / Username is required!";
     }
     return null;
   }
 
-  String? _validatePassword(String text){
-    if(text == ""){
+  String? _validatePassword(String text) {
+    if (text == "") {
       return "Password is required!";
     }
     return null;
@@ -43,23 +43,27 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 30.0),
+              padding: EdgeInsets.only(
+                  bottom: widget._height / 26.76363636363636,
+                  left: widget._width / 6.545454545454545,
+                  right: widget._width / 6.545454545454545),
               child: Image.asset(
                 "assets/logo_test.png",
-                scale: 3,
+                // scale: 3,
               ),
             ),
             Form(
                 key: _formKey,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: widget._width / 7.854545454545454),
                   child: Column(
                     children: [
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration:
-                            InputDecoration(hintText: "Email / Username"),
+                            const InputDecoration(hintText: "Email / Username"),
                         validator: (text) {
                           return _validateEmail(text!);
                         },
@@ -70,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: _passwordController,
                         keyboardType: TextInputType.text,
                         obscureText: true,
-                        decoration: InputDecoration(hintText: "Password"),
+                        decoration: const InputDecoration(hintText: "Password"),
                         validator: (text) {
                           return _validatePassword(text!);
                         },
@@ -78,14 +82,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         textInputAction: TextInputAction.done,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
+                        padding: EdgeInsets.only(
+                            top: widget._height / 26.76363636363636),
                         child: ElevatedButton(
                           onPressed: () {
-                            if(_formKey.currentState!.validate()){
+                            if (_formKey.currentState!.validate()) {
                               _formKey.currentState?.save();
                             }
                           },
-                          child: Text("Login"),
+                          child: const Text("Login"),
                         ),
                       )
                     ],
