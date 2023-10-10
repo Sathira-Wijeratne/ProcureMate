@@ -96,7 +96,7 @@ export default function SingleInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>My Delovery Log</b>
+              <b style={{ color: "black" }}>My Delivery Log</b>
             </a>
             <br />
           </div>
