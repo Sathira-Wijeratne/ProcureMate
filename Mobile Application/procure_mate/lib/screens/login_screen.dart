@@ -58,41 +58,52 @@ class _LoginScreenState extends State<LoginScreen> {
           textColor: Colors.white,
           fontSize: 16.0);
     } else {
-      SiteManager user = SiteManager(
-          siteManager[0]["empId"],
-          siteManager[0]["name"],
-          siteManager[0]["phoneNumber"],
-          siteManager[0]["email"],
-          siteManager[0]["password"],
-          siteManager[0]["userRole"],
-          siteManager[0]["siteID"],
-          siteManager[0]["location"]);
+      if (siteManager[0]["userRole"] == "site manager") {
+        SiteManager user = SiteManager(
+            siteManager[0]["empId"],
+            siteManager[0]["name"],
+            siteManager[0]["phoneNumber"],
+            siteManager[0]["email"],
+            siteManager[0]["password"],
+            siteManager[0]["userRole"],
+            siteManager[0]["siteID"],
+            siteManager[0]["location"]);
 
-      String userData = '{"empId" : "' +
-          siteManager[0]["empId"] +
-          '", "name" : "' +
-          siteManager[0]["name"] +
-          '", "phoneNumber" : "' +
-          siteManager[0]["phoneNumber"] +
-          '", "email" : "' +
-          siteManager[0]["email"] +
-          '", "password" : "' +
-          siteManager[0]["password"] +
-          '", "userRole" : "' +
-          siteManager[0]["userRole"] +
-          '", "siteID" : "' +
-          siteManager[0]["siteID"] +
-          '", "location" : "' +
-          siteManager[0]["location"] +
-          '"}';
-      final directory = await getApplicationDocumentsDirectory();
-      final path = directory.path;
-      File file = File('$path/userdata.txt');
-      file.writeAsString(userData);
+        String userData = '{"empId" : "' +
+            siteManager[0]["empId"] +
+            '", "name" : "' +
+            siteManager[0]["name"] +
+            '", "phoneNumber" : "' +
+            siteManager[0]["phoneNumber"] +
+            '", "email" : "' +
+            siteManager[0]["email"] +
+            '", "password" : "' +
+            siteManager[0]["password"] +
+            '", "userRole" : "' +
+            siteManager[0]["userRole"] +
+            '", "siteID" : "' +
+            siteManager[0]["siteID"] +
+            '", "location" : "' +
+            siteManager[0]["location"] +
+            '"}';
+        final directory = await getApplicationDocumentsDirectory();
+        final path = directory.path;
+        File file = File('$path/userdata.txt');
+        file.writeAsString(userData);
 
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) =>
-              SiteManagerHomePage(widget._width, widget._height, user)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                SiteManagerHomePage(widget._width, widget._height, user)));
+      }else{
+        Fluttertoast.showToast(
+            msg: "Unauthorized!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
     }
   }
 
