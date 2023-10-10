@@ -13,6 +13,7 @@ class PurchaseRequestScreen extends StatefulWidget {
 class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   final emailController = TextEditingController();
   final Random _random = Random();
+
   // Initial Selected Value
   String dropdownvalue = 'Item 1';
 
@@ -72,13 +73,14 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Quantity(),
           ),
-          buildEmail(),
+          displaySupplier(),
           ElevatedButton(
             child: Text('Submit'),
             onPressed: () {
               _generateRandomPONumber();
             },
           ),
+
 
           const SizedBox(height: 24),
           const SizedBox(height: 24),
@@ -146,34 +148,34 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
 
   Widget Items()=>DropdownButton(
 
-  // Initial Value
-  value: dropdownvalue,
+    // Initial Value
+    value: dropdownvalue,
 
-  // Down Arrow Icon
-  icon: const Icon(Icons.keyboard_arrow_down),
+    // Down Arrow Icon
+    icon: const Icon(Icons.keyboard_arrow_down),
 
-  // Array list of items
-  items: items.map((String items) {
-  return DropdownMenuItem(
-  value: items,
-  child: Text(items),
-  );
-  }).toList(),
-  // After selecting the desired option,it will
-  // change button value to selected value
-  onChanged: (String? newValue) {
-  setState(() {
-  dropdownvalue = newValue!;
-  });
-  },
+    // Array list of items
+    items: items.map((String items) {
+      return DropdownMenuItem(
+        value: items,
+        child: Text(items),
+      );
+    }).toList(),
+    // After selecting the desired option,it will
+    // change button value to selected value
+    onChanged: (String? newValue) {
+      setState(() {
+        dropdownvalue = newValue!;
+      });
+    },
 
   );
   Widget Quantity() => TextField(
-    decoration: InputDecoration(
-      labelText: 'Quantity',
-      border: OutlineInputBorder(),
-    ),
-    readOnly: true
+      decoration: InputDecoration(
+        labelText: 'Quantity',
+        border: OutlineInputBorder(),
+      ),
+      readOnly: true
   );
 
   Widget buildEmail() => TextField(
@@ -191,5 +193,58 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
     ),
     keyboardType: TextInputType.emailAddress,
     textInputAction: TextInputAction.next,
+  );
+
+  Widget displaySupplier()=>DataTable(
+    columns: const <DataColumn>[
+
+      DataColumn(
+        label: Expanded(
+          child: Text(
+            'Name',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Expanded(
+          child: Text(
+            'Age',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Expanded(
+          child: Text(
+            'Role',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+      ),
+    ],
+    rows: const <DataRow>[
+      DataRow(
+        cells: <DataCell>[
+          DataCell(Text('Sarah')),
+          DataCell(Text('19')),
+          DataCell(Text('Student')),
+        ],
+      ),
+      DataRow(
+        cells: <DataCell>[
+          DataCell(Text('Janine')),
+          DataCell(Text('43')),
+          DataCell(Text('Professor')),
+        ],
+      ),
+      DataRow(
+        cells: <DataCell>[
+          DataCell(Text('William')),
+          DataCell(Text('27')),
+          DataCell(Text('Associate Professor')),
+        ],
+      ),
+    ],
   );
 }
