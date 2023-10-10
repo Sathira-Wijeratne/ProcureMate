@@ -23,6 +23,9 @@ const constants = {
   TOTAL_AMOUNT: "Total Amount",
   PROCEED: "Proceed",
   INVISIBLE: "Invisible",
+  PO_ID: "PO ID",
+  AMOUNT: "Amount",
+  DATE: "Date",
 };
 
 export default constants;

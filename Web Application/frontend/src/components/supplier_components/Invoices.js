@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function Invoices() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
@@ -54,12 +55,12 @@ export default function Invoices() {
               marginTop: "5%",
             }}
           >
-            <b>Invoices</b>
+            <b>{constants.INVOICES}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -73,7 +74,7 @@ export default function Invoices() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Pending Orders</b>
+              <b style={{ color: "black" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -81,7 +82,7 @@ export default function Invoices() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>Invoices</b>
+              <b style={{ color: "#3a7ae0" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -96,7 +97,7 @@ export default function Invoices() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>My Delivery Log</b>
+              <b style={{ color: "black" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -113,7 +114,7 @@ export default function Invoices() {
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -122,7 +123,7 @@ export default function Invoices() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Invoices</b>
+              <b>{constants.INVOICES}</b>
             </h2>
             <table
               className="table"
@@ -134,11 +135,11 @@ export default function Invoices() {
             >
               <thead>
                 <tr>
-                  <th>Invoice No</th>
-                  <th>PO ID</th>
-                  <th>DO ID</th>
-                  <th>Amount</th>
-                  <th> Date</th>
+                  <th>{constants.INVOICE_NO}</th>
+                  <th>{constants.PO_ID}</th>
+                  <th>{constants.DO_ID}</th>
+                  <th>{constants.AMOUNT}</th>
+                  <th> {constants.DATE}</th>
                 </tr>
               </thead>
               <tbody>
@@ -160,7 +161,10 @@ export default function Invoices() {
                     </td>
                     <td>{invoice.pOrderId}</td>
                     <td>{invoice.deliveryId}</td>
-                    <td>Rs. {Number.parseFloat(invoice.cost).toFixed(2)}</td>
+                    <td>
+                      {constants.RS_DOT}{" "}
+                      {Number.parseFloat(invoice.cost).toFixed(2)}
+                    </td>
                     <td>{new Date(invoice.date).toLocaleDateString()}</td>
                   </tr>
                 ))}
@@ -169,7 +173,7 @@ export default function Invoices() {
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>
