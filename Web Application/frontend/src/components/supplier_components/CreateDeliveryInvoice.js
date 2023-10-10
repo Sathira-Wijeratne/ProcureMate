@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import * as SupplierCommonConstants from "../../common/SupplierCommonConstants";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function CreateDeliveryInvoice() {
   if (sessionStorage.getItem("prMateReilppus") === null) {
@@ -154,12 +154,12 @@ export default function CreateDeliveryInvoice() {
               marginTop: "5%",
             }}
           >
-            <b>{SupplierCommonConstants.PENDING_ORDERS}</b>
+            <b>{constants.PENDING_ORDERS}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            {SupplierCommonConstants.SUPPLIER}
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -169,9 +169,7 @@ export default function CreateDeliveryInvoice() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>
-                {SupplierCommonConstants.PENDING_ORDERS}
-              </b>
+              <b style={{ color: "#3a7ae0" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -183,9 +181,7 @@ export default function CreateDeliveryInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>
-                {SupplierCommonConstants.INVOICES}
-              </b>
+              <b style={{ color: "black" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -200,9 +196,7 @@ export default function CreateDeliveryInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>
-                {SupplierCommonConstants.MY_DELIVERY_LOG}
-              </b>
+              <b style={{ color: "black" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -219,7 +213,7 @@ export default function CreateDeliveryInvoice() {
             }}
           >
             <Button variant="btn btn-light">
-              <b>{SupplierCommonConstants.LOG_OUT}</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -228,14 +222,14 @@ export default function CreateDeliveryInvoice() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>{SupplierCommonConstants.PENDING_ORDER}</b>
+              <b>{constants.PENDING_ORDER}</b>
             </h2>
             <form onSubmit={proceed}>
               <div className="row" style={{ marginTop: "2%" }}>
                 <div className="col">
                   <center>
                     <b>
-                      {SupplierCommonConstants.PO_ID_DASH_HASH}
+                      {constants.PO_ID_DASH_HASH}
                       {pOrderId}
                     </b>
                   </center>
@@ -249,26 +243,26 @@ export default function CreateDeliveryInvoice() {
                   >
                     <center style={{ marginTop: "4%" }}>
                       <h5>
-                        <b>{SupplierCommonConstants.DELIVERY_INFORMATION}</b>
+                        <b>{constants.DELIVERY_INFORMATION}</b>
                       </h5>
                     </center>
                     <center>
                       <table style={{ marginTop: "15%" }}>
                         <tr>
-                          <th>{SupplierCommonConstants.DO_ID}</th>
+                          <th>{constants.DO_ID}</th>
                           <td>
-                            {SupplierCommonConstants.DASH_HASH_D_DASH}
+                            {constants.DASH_HASH_D_DASH}
                             {pOrderId.substring(2)}
                           </td>
                         </tr>
                         <tr>
-                          <th>{SupplierCommonConstants.REQUESTED_QUANTITY}</th>
+                          <th>{constants.REQUESTED_QUANTITY}</th>
                           <td>
                             - {order.qty} {order.uom}
                           </td>
                         </tr>
                         <tr>
-                          <th>{SupplierCommonConstants.DELIVERED_QUANTITY}</th>
+                          <th>{constants.DELIVERED_QUANTITY}</th>
                           <td>
                             -{" "}
                             {order.uom !== "" && (
@@ -298,11 +292,11 @@ export default function CreateDeliveryInvoice() {
                           </td>
                         </tr>
                         <tr>
-                          <th>{SupplierCommonConstants.SITE_ID}</th>
+                          <th>{constants.SITE_ID}</th>
                           <td>- {order.siteId}</td>
                         </tr>
                         <tr>
-                          <th>{SupplierCommonConstants.LOCATION}</th>
+                          <th>{constants.LOCATION}</th>
                           <td>- {order.location}</td>
                         </tr>
                       </table>
@@ -312,7 +306,7 @@ export default function CreateDeliveryInvoice() {
                 <div className="col">
                   <center>
                     <b>
-                      {SupplierCommonConstants.ITEM_NAME} - {order.itemName}
+                      {constants.ITEM_NAME} - {order.itemName}
                     </b>
                   </center>
                   <div
@@ -325,36 +319,36 @@ export default function CreateDeliveryInvoice() {
                   >
                     <center style={{ marginTop: "4%" }}>
                       <h5>
-                        <b>{SupplierCommonConstants.INVOICE_DETAILS}</b>
+                        <b>{constants.INVOICE_DETAILS}</b>
                       </h5>
                     </center>
                     <center>
                       <table style={{ marginTop: "15%" }}>
                         <tr>
-                          <th>{SupplierCommonConstants.INVOICE_NO}</th>
+                          <th>{constants.INVOICE_NO}</th>
                           <td>
-                            {SupplierCommonConstants.DASH_HASH_IN_DASH}
+                            {constants.DASH_HASH_IN_DASH}
                             {pOrderId.substring(2)}
                           </td>
                         </tr>
                         <tr>
-                          <th>{SupplierCommonConstants.UNIT_PRICE}</th>
+                          <th>{constants.UNIT_PRICE}</th>
                           <td>
-                            - {SupplierCommonConstants.RS_DOT}{" "}
+                            - {constants.RS_DOT}{" "}
                             {Number.parseFloat(item.unitPrice).toFixed(2)}
                           </td>
                         </tr>
                         <tr>
-                          <th>{SupplierCommonConstants.QUANTITY}</th>
+                          <th>{constants.QUANTITY}</th>
                           <td>
                             - {deliveredQty} {order.uom}
                           </td>
                         </tr>
 
                         <tr>
-                          <th>{SupplierCommonConstants.TOTAL_AMOUNT}</th>
+                          <th>{constants.TOTAL_AMOUNT}</th>
                           <td>
-                            - {SupplierCommonConstants.RS_DOT}{" "}
+                            - {constants.RS_DOT}{" "}
                             {Number.parseFloat(
                               deliveredQty * item.unitPrice
                             ).toFixed(2)}
@@ -371,13 +365,13 @@ export default function CreateDeliveryInvoice() {
                 style={{ float: "right", marginTop: "10%" }}
                 variant="btn btn-success"
               >
-                <b>{SupplierCommonConstants.PROCEED}</b>
+                <b>{constants.PROCEED}</b>
               </Button>
             </form>
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>{SupplierCommonConstants.INVISIBLE}</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>
