@@ -6,14 +6,16 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function CreateDeliveryInvoice() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
   const { pOrderId } = useParams();
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -29,14 +31,16 @@ export default function CreateDeliveryInvoice() {
     setInterval(() => setCurrTime(new Date()), 1000);
 
     axios
-      .get(`http://localhost:8070/supplier/getorder/${supplierId}/${pOrderId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_ORDER_URL}/${supplierId}/${pOrderId}`
+      )
       .then((res) => {
         console.log(res.data[0]);
         setOrder(res.data[0]);
         setDeliveredQty(res.data[0].qty);
         axios
           .get(
-            `http://localhost:8070/supplier/getitem/${supplierId}/${res.data[0].itemName}`
+            `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_ITEM_URL}/${supplierId}/${res.data[0].itemName}`
           )
           .then((res) => {
             setItem(res.data[0]);
@@ -51,15 +55,15 @@ export default function CreateDeliveryInvoice() {
   function proceed(e) {
     e.preventDefault();
     var response = window.confirm(
-      "Are you sure you want to proceed?\nThis process will create the invoice and send the delivery note."
+      constants.CONFIRM_MESSAGE_CREATING_DELIVERY_NOTE_AND_INVOICE
     );
     if (response) {
       const deliveryNote = {
-        deliveryId: "#D" + pOrderId.substring(1),
-        pOrderId: "#" + pOrderId,
+        deliveryId: constants.HASH_D + pOrderId.substring(1),
+        pOrderId: constants.HASH + pOrderId,
         supplierId: supplierId,
         date: new Date(),
-        status: "Sent",
+        status: constants.SENT,
         itemName: order.itemName,
         qty: deliveredQty,
         uom: order.uom,
