@@ -23,10 +23,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _emailController.addListener(() => setState(() {}));
   }
 
   String? _validateEmail(String text) {
@@ -131,27 +133,60 @@ class _LoginScreenState extends State<LoginScreen> {
                       horizontal: widget._width / 7.854545454545454),
                   child: Column(
                     children: [
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration:
-                            const InputDecoration(hintText: "Email / Username"),
-                        validator: (text) {
-                          return _validateEmail(text!);
-                        },
-                        onSaved: (text) {},
-                        textInputAction: TextInputAction.next,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    controller: _emailController,
+                    validator: (text) {
+                        return _validateEmail(text!);
+                    },
+                    onSaved: (text) {},
+                    decoration: InputDecoration(
+                        hintText: 'name@gmail.com',
+                        prefixIcon: Icon(Icons.mail),
+                        suffixIcon: _emailController.text.isEmpty
+                            ? Container(width: 0)
+                            : IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () => _emailController.clear(),
+                        ),
+                        border: OutlineInputBorder(),
+
+                    ),
+
+
+                  ),
                       ),
-                      TextFormField(
-                        controller: _passwordController,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        decoration: const InputDecoration(hintText: "Password"),
-                        validator: (text) {
-                          return _validatePassword(text!);
-                        },
-                        onSaved: (text) {},
-                        textInputAction: TextInputAction.done,
+
+
+
+              //         TextFormField(
+              //           controller: _emailController,
+              //           keyboardType: TextInputType.emailAddress,
+              //           decoration:
+              //               const InputDecoration(hintText: "Email / Username"),
+              //           validator: (text) {
+              //             return _validateEmail(text!);
+              //           },
+              //           onSaved: (text) {},
+              //           textInputAction: TextInputAction.next,
+              //         )
+              // ,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          decoration: const InputDecoration(hintText: "Password",border: OutlineInputBorder()),
+                          validator: (text) {
+                            return _validatePassword(text!);
+                          },
+                          onSaved: (text) {},
+                          textInputAction: TextInputAction.done,
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
