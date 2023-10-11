@@ -9,6 +9,7 @@ import SupplierMyDeliveryLog from "./components/supplier_components/MyDeliveryLo
 import CreateDeliveryInvoice from "./components/supplier_components/CreateDeliveryInvoice";
 import SupplierSingleInvoice from "./components/supplier_components/SingleInvoice";
 import SupplierSingleDeliveryNote from "./components/supplier_components/SingleDeliveryNote";
+import RaisedOrders from "./components/procurement_staff_components/RaisedOrders";
 
 function App() {
   return (
@@ -42,6 +43,11 @@ function App() {
         exact
         component={SupplierSingleDeliveryNote}
       />
+      <Route
+        path="/procurementstaffhome/raisedorders/"
+        exact
+        component={RaisedOrders}
+        />
     </Router>
   );
 }
