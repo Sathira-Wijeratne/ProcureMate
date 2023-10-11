@@ -23,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -96,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) =>
                 SiteManagerHomePage(widget._width, widget._height, user)));
-      }else{
+      } else {
         Fluttertoast.showToast(
             msg: "Unauthorized!",
             toastLength: Toast.LENGTH_SHORT,
@@ -136,51 +135,50 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    controller: _emailController,
-                    validator: (text) {
-                        return _validateEmail(text!);
-                    },
-                    onSaved: (text) {},
-                    decoration: InputDecoration(
-                        hintText: 'name@gmail.com',
-                        prefixIcon: Icon(Icons.mail),
-                        suffixIcon: _emailController.text.isEmpty
-                            ? Container(width: 0)
-                            : IconButton(
-                          icon: Icon(Icons.close),
-                          onPressed: () => _emailController.clear(),
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          controller: _emailController,
+                          validator: (text) {
+                            return _validateEmail(text!);
+                          },
+                          onSaved: (text) {},
+                          decoration: InputDecoration(
+                            hintText: 'name@gmail.com',
+                            prefixIcon: Icon(Icons.mail),
+                            suffixIcon: _emailController.text.isEmpty
+                                ? Container(width: 0)
+                                : IconButton(
+                                    icon: Icon(Icons.close),
+                                    onPressed: () => _emailController.clear(),
+                                  ),
+                            border: OutlineInputBorder(),
+                          ),
                         ),
-                        border: OutlineInputBorder(),
-
-                    ),
-
-
-                  ),
                       ),
 
-
-
-              //         TextFormField(
-              //           controller: _emailController,
-              //           keyboardType: TextInputType.emailAddress,
-              //           decoration:
-              //               const InputDecoration(hintText: "Email / Username"),
-              //           validator: (text) {
-              //             return _validateEmail(text!);
-              //           },
-              //           onSaved: (text) {},
-              //           textInputAction: TextInputAction.next,
-              //         )
-              // ,
+                      //         TextFormField(
+                      //           controller: _emailController,
+                      //           keyboardType: TextInputType.emailAddress,
+                      //           decoration:
+                      //               const InputDecoration(hintText: "Email / Username"),
+                      //           validator: (text) {
+                      //             return _validateEmail(text!);
+                      //           },
+                      //           onSaved: (text) {},
+                      //           textInputAction: TextInputAction.next,
+                      //         )
+                      // ,
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: _passwordController,
                           keyboardType: TextInputType.text,
                           obscureText: true,
-                          decoration: const InputDecoration(hintText: "Password",border: OutlineInputBorder()),
+                          decoration: const InputDecoration(
+                            hintText: "Password",
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.password),
+                          ),
                           validator: (text) {
                             return _validatePassword(text!);
                           },
