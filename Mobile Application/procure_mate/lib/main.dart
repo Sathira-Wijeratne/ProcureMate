@@ -5,8 +5,9 @@ import 'package:procure_mate/screens/login_screen.dart';
 import 'package:procure_mate/screens/login_exchange_screen.dart';
 import 'package:procure_mate/services/db_service.dart';
 
-void main(){
-  DBService.connect();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DBService.connect();
   runApp(ProcureMate());
 }
 
