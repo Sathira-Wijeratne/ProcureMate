@@ -99,10 +99,7 @@ class _ViewDeliveryNoteState extends State<ViewDeliveryNote> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Total(),
-          ),
+
 
           const SizedBox(height: 24),
           const SizedBox(height: 24),
@@ -270,7 +267,7 @@ class _ViewDeliveryNoteState extends State<ViewDeliveryNote> {
 
   Widget Total() => TextField(
       decoration: InputDecoration(
-        labelText: 'Quantity',
+        labelText: 'Total',
         border: OutlineInputBorder(),
       ),
       readOnly: true);
