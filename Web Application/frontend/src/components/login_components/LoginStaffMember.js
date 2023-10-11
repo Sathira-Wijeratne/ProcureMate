@@ -18,7 +18,7 @@ export default function LoginStaffMember() {
               Math.random().toString()
             );
             sessionStorage.setItem("staffEmail", email);
-            window.location.replace(`http://localhost:3000/procurementhome`);
+            window.location.replace(`/procurementstaffhome/raisedorders/`);
           } else if (res.data[0].userRole === "accounting") {
             sessionStorage.setItem(
               "prMateGnitnuocca",
