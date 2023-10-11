@@ -48,4 +48,23 @@ router.route("/").get((req, res) => {
     });
 });
 
+//FETCHING DETAILS BASED ON PURCHASE ORDER ID
+router.route("/getMatchingInvoice/:pOrderId").get(async (req, res) => {
+  let pOrderId = '#'+ req.params.pOrderId;
+
+  await Invoice.findOne({ "pOrderId": `${pOrderId}` })
+    .then((invoice) => {
+      res.status(200).send({ status: "Invoice  Details fetched", invoice });
+    })
+    .catch((err) => {
+      console.log(err.message);
+
+      res.status(500).send({
+        status: "Error In Fetching Invoice Details",
+        error: err.message,
+      });
+    });
+});
+
+
 module.exports = router;
