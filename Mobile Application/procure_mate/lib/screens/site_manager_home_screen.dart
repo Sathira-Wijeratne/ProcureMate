@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:procure_mate/models/site_manager.dart';
+import 'package:procure_mate/screens/ViewDeliveryNoteScreen.dart';
 import 'package:procure_mate/screens/purchase_request_screen.dart';
 
 import 'login_screen.dart';
@@ -97,8 +97,16 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
           Divider(),
           ListTile(
               leading: Icon(Icons.analytics_outlined),
-              title: Text("View Reports"),
-              onTap: null),
+              title: Text("View Delivery Notes"),
+              onTap: (){
+                Navigator.of(context).pop(); // Close the drawer
+                Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ViewDeliveryNoteScreen(
+                          widget._width, widget._height, widget.user)
+                    ),
+                    );
+              }),
           Divider(),
           ListTile(
               leading: Icon(Icons.monetization_on),
