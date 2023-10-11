@@ -52,7 +52,7 @@ class _ViewDeliveryNoteScreenState extends State<ViewDeliveryNoteScreen> {
             color: Colors.greenAccent[100],
             child: SizedBox(
               width: 400,
-              height: 200,
+              height: 160,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -63,7 +63,7 @@ class _ViewDeliveryNoteScreenState extends State<ViewDeliveryNoteScreen> {
                     Text(
                       'PO Number : 123',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 15,
                         color: Colors.green[900],
                         fontWeight: FontWeight.w500,
                       ),
@@ -114,27 +114,6 @@ class _ViewDeliveryNoteScreenState extends State<ViewDeliveryNoteScreen> {
                     ),
                     const SizedBox(
                       height: 10,
-                    ),
-                    SizedBox(
-                      width: 100,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Handle the button click event here
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Colors.green),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Row(
-                            children: const [
-                              Icon(Icons.touch_app),
-                              Text('Click')
-                            ],
-                          ),
-                        ),
-                      ),
                     ),
                   ],
                 ),
