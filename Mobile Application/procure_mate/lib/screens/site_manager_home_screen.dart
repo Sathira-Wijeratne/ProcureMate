@@ -5,6 +5,7 @@ import 'package:procure_mate/models/site_manager.dart';
 import 'package:procure_mate/screens/ViewDeliveryNotesScreen.dart';
 import 'package:procure_mate/screens/purchase_request_screen.dart';
 
+import 'DeliveryNoteHistoryScreen.dart';
 import 'login_screen.dart';
 
 class SiteManagerHomePage extends StatefulWidget {
@@ -77,6 +78,20 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                 ),
               );
             },
+          ),
+          Divider(),
+          ListTile(
+              leading: Icon(Icons.analytics_outlined),
+              title: Text("View Delivery Notes"),
+              onTap: (){
+                Navigator.of(context).pop(); // Close the drawer
+                Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ViewDeliveryNoteScreen(
+                          widget._width, widget._height, widget.user)
+                    ),
+                    );
+              },
             trailing: ClipOval(
               child: Container(
                 color: Colors.red,
@@ -93,26 +108,23 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                 ),
               ),
             ),
-          ),
-          Divider(),
-          ListTile(
-              leading: Icon(Icons.analytics_outlined),
-              title: Text("View Delivery Notes"),
-              onTap: (){
-                Navigator.of(context).pop(); // Close the drawer
-                Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ViewDeliveryNoteScreen(
-                          widget._width, widget._height, widget.user)
-                    ),
-                    );
-              }),
+              ),
           Divider(),
           ListTile(
               leading: Icon(Icons.monetization_on),
-              title: Text("My Claims"),
-              onTap: null),
+              title: Text("Delivery Note History"),
+          onTap: (){
+                    Navigator.of(context).pop(); // Close the drawer
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DeliveryNoteHistoryScreen(
+                        widget._width, widget._height, widget.user)
+                      ),
+                    );
+          },
+          ),
           Divider(),
+
         ],
       ));
 }
