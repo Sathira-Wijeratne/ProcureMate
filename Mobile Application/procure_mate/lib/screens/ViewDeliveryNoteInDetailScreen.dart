@@ -82,12 +82,28 @@ class _ViewDeliveryNoteState extends State<ViewDeliveryNote> {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Total(),
           ),
-          ElevatedButton(
-            child: Text('Submit'),
-            onPressed: () {
-              _generateRandomPONumber();
-            },
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                child: Text('Confirm'),
+                onPressed: () {
+                  _generateRandomPONumber();
+                },
+              ),
+              ElevatedButton(
+                child: Text('Reject'),
+                onPressed: () {
+                  _generateRandomPONumber();
+                },
+              ),
+            ],
           ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Total(),
+          ),
+
           const SizedBox(height: 24),
           const SizedBox(height: 24),
         ],

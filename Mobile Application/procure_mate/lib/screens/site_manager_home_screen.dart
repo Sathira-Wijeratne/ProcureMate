@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:procure_mate/models/site_manager.dart';
-import 'package:procure_mate/screens/ViewDeliveryNoteScreen.dart';
+import 'package:procure_mate/screens/ViewDeliveryNotesScreen.dart';
 import 'package:procure_mate/screens/purchase_request_screen.dart';
 
 import 'login_screen.dart';

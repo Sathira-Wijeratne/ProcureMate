@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/site_manager.dart';
 import '../services/db_service.dart';
-import 'ViewDeliveryNote.dart';
+import 'ViewDeliveryNoteInDetailScreen.dart';
 
 class ViewDeliveryNoteScreen extends StatefulWidget {
   const ViewDeliveryNoteScreen(this._width,this._height,this.user,{super.key});
