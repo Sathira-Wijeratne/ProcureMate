@@ -20,28 +20,31 @@ class SiteManagerHomePage extends StatefulWidget {
 }
 
 class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
-  Future<void> _onTapLogoutBtn(BuildContext context) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = directory.path;
-    File file = File('$path/userdata.txt');
-    file.delete();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) =>
-            LoginScreen(widget._width, widget._height)));
-  }
+
+  // Future<void> _onTapLogoutBtn(BuildContext context) async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final path = directory.path;
+  //   File file = File('$path/userdata.txt');
+  //   file.delete();
+  //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+  //       builder: (BuildContext context) =>
+  //           LoginScreen(widget._width, widget._height)));
+  // }
 
   @override
   Widget build(BuildContext context) => Scaffold(
       drawer: leftNavBar(),
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          ElevatedButton(
-              onPressed: () {
-                _onTapLogoutBtn(context);
-              },
-              child: Text("Logout"))
-        ],
+      appBar: AppBar(
+        title: Align(alignment: Alignment.bottomRight, child : Text('Welcome to Procumate')),
+      ),
+      body: Text( "Purchase Order History"
+        // children: [
+        //   // ElevatedButton(
+        //   //     onPressed: () {
+        //   //       // _onTapLogoutBtn(context);
+        //   //     },
+        //   //     child: Text("Logout"))
+        // ],
       ));
 
   Widget leftNavBar() => Drawer(
@@ -124,6 +127,25 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
           },
           ),
           Divider(),
+
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text("LOG OUT"),
+            onTap: () async {
+              final directory = await getApplicationDocumentsDirectory();
+              final path = directory.path;
+              File file = File('$path/userdata.txt');
+              await file.delete();
+
+              Navigator.of(context).pop(); // Close the drawer
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => LoginScreen(widget._width, widget._height),
+                ),
+              );
+            },
+          )
+
 
         ],
       ));
