@@ -52,6 +52,7 @@ router.route("/").get((req, res) => {
 router.route("/getMatchingInvoice/:pOrderId").get(async (req, res) => {
   let pOrderId = '#'+ req.params.pOrderId;
 
+  //The attribute name in the model passed as first parameter.
   await Invoice.findOne({ "pOrderId": `${pOrderId}` })
     .then((invoice) => {
       res.status(200).send({ status: "Invoice  Details fetched", invoice });
