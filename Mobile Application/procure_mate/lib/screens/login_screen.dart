@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   left: widget._width / 6.545454545454545,
                   right: widget._width / 6.545454545454545),
               child: Image.asset(
-                "assets/logo_test.png",
+                "assets/procumatelogo.png",
                 // scale: 3,
               ),
             ),
