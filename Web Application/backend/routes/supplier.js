@@ -152,6 +152,7 @@ router.route("/createdeliverynote").post((req, res) => {
   const supplierId = req.body.supplierId;
   const date = req.body.date;
   const status = req.body.status;
+  const itemCode = req.body.itemCode;
   const itemName = req.body.itemName;
   const qty = Number(req.body.qty);
   const uom = req.body.uom;
@@ -165,6 +166,7 @@ router.route("/createdeliverynote").post((req, res) => {
     supplierId,
     date,
     status,
+    itemCode,
     itemName,
     qty,
     uom,
@@ -189,6 +191,7 @@ router.route("/createinvoice").post((req, res) => {
   const deliveryId = req.body.deliveryId;
   const pOrderId = req.body.pOrderId;
   const supplierId = req.body.supplierId;
+  const itemCode = req.body.itemCode;
   const itemName = req.body.itemName;
   const qty = Number(req.body.qty);
   const uom = req.body.uom;
@@ -202,6 +205,7 @@ router.route("/createinvoice").post((req, res) => {
     deliveryId,
     pOrderId,
     supplierId,
+    itemCode,
     itemName,
     qty,
     uom,
@@ -225,6 +229,7 @@ router.route("/createinvoice").post((req, res) => {
 router.route("/updatepurchaseorder/:pOrderId").put(async (req, res) => {
   let pOrderId = "#" + req.params.pOrderId;
   const {
+    itemCode,
     itemName,
     uom,
     date,
@@ -239,6 +244,7 @@ router.route("/updatepurchaseorder/:pOrderId").put(async (req, res) => {
   const amount = Number(req.body.amount);
   const purchaseOrder = {
     pOrderId,
+    itemCode,
     itemName,
     qty,
     uom,

@@ -7,6 +7,10 @@ const purchaseOrderSchema = new Schema({
     type: String,
     required: true,
   },
+  itemCode: {
+    type: String,
+    required: true,
+  },
   itemName: {
     type: String,
     required: true,

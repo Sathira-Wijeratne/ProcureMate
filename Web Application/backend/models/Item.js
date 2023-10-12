@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 // define a new schema for item
 const itemSchema = new Schema({
+  itemCode: {
+    type: String,
+    required: true,
+  },
   itemName: {
     type: String,
     required: true,

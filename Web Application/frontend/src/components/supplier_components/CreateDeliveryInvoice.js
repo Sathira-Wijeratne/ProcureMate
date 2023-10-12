@@ -64,6 +64,7 @@ export default function CreateDeliveryInvoice() {
         supplierId: supplierId,
         date: new Date(),
         status: constants.SENT,
+        itemCode: order.itemCode,
         itemName: order.itemName,
         qty: deliveredQty,
         uom: order.uom,
@@ -77,6 +78,7 @@ export default function CreateDeliveryInvoice() {
         deliveryId: "#D" + pOrderId.substring(1),
         pOrderId: "#" + pOrderId,
         supplierId: supplierId,
+        itemCode: order.itemCode,
         itemName: order.itemName,
         qty: deliveredQty,
         uom: order.uom,
@@ -88,6 +90,7 @@ export default function CreateDeliveryInvoice() {
 
       const purchaseOrder = {
         pOrderId: order.pOrderId,
+        itemCode: order.itemCode,
         itemName: order.itemName,
         qty: order.qty,
         uom: order.uom,
