@@ -63,4 +63,14 @@ class DBService {
       return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
     }
   }
+
+  static Future<List<Map<String, dynamic>>> getItemPrices(
+      String itemName) async {
+    try {
+      final items = await itemCollection.find(where.eq("itemName", itemName).sortBy("supplierId")).toList();
+      return items;
+    } catch (e) {
+      return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
+    }
+  }
 }

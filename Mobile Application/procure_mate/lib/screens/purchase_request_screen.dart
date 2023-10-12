@@ -19,11 +19,14 @@ class PurchaseRequestScreen extends StatefulWidget {
 class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   final emailController = TextEditingController();
   final _totalController = TextEditingController();
+  final _quantityController = TextEditingController();
   final Random _random = Random();
   late List<Map<String, dynamic>> _allPurchaseOrders;
   late List<Map<String, dynamic>> _allItems;
+  List<Map<String, dynamic>> _itemPrices = List.empty();
   List<String> _distinctItems = [""];
   List<String> _distinctSuppliers = [""];
+  Map<String, dynamic>? _selectedItemDetails;
 
   // Initial Selected Value
   String _itemDropDownValue = '';
@@ -72,63 +75,31 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text("Purchase Request"),
-        ),
-        body: Center(
-          child: ListView(
-            padding: EdgeInsets.all(32),
-            children: [
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: pONumber(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: claimDate(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: location(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: siteManagerName(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: dueDate(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: items(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: quantity(),
-              ),
-              displaySupplier(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: suppliers(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: total(),
-              ),
-              ElevatedButton(
-                child: const Text('Submit'),
-                onPressed: () {},
-              ),
-              const SizedBox(height: 24),
-              const SizedBox(height: 24),
-            ],
-          ),
-        ),
+  Future<void> _getItemPrices(String itemName) async {
+    List<Map<String, dynamic>> itemPrices =
+        await DBService.getItemPrices(itemName);
+    setState(() {
+      _itemPrices = itemPrices;
+    });
+    _calculateTotal();
+  }
+
+  void _calculateTotal() {
+    if (_itemDropDownValue != '' &&
+        _supplierDropDownValue != '' &&
+        _quantityController.text != '') {
+      _selectedItemDetails = _allItems.firstWhere(
+        (item) =>
+            item["itemName"] == _itemDropDownValue &&
+            item["supplierId"] == _supplierDropDownValue,
+        orElse: () => {}, // Handle the case where no matching item is found
       );
+      print(_selectedItemDetails.toString());
+      _totalController.text = (_selectedItemDetails?["unitPrice"].toDouble() *
+              int.parse(_quantityController.text))
+          .toStringAsFixed(2);
+    }
+  }
 
   Widget pONumber() => TextField(
         decoration: InputDecoration(
@@ -218,6 +189,8 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         // After selecting the desired option,it will
         // change button value to selected value
         onChanged: (String? newValue) {
+          _getItemPrices(newValue!);
+
           setState(() {
             _itemDropDownValue = newValue!;
           });
@@ -243,16 +216,20 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
           setState(() {
             _supplierDropDownValue = newValue!;
           });
+          _calculateTotal();
         },
       );
 
   Widget quantity() => TextField(
-        keyboardType: TextInputType.number,
+        controller: _quantityController,
+        keyboardType: TextInputType.numberWithOptions(),
         decoration: InputDecoration(
           labelText: 'Quantity',
           border: OutlineInputBorder(),
         ),
-        // readOnly: true,
+        onChanged: (text) {
+          _calculateTotal();
+        },
       );
 
   Widget buildEmail() => TextField(
@@ -291,33 +268,78 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
             ),
           ),
         ],
-        rows: const <DataRow>[
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text('19')),
-              DataCell(Text('Student')),
-            ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text('43')),
-              DataCell(Text('Professor')),
-            ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text('27')),
-              DataCell(Text('Associate Professor')),
-            ],
-          ),
-        ],
+        rows: _itemPrices
+            .map((e) => DataRow(cells: [
+                  DataCell(Text(e["supplierId"])),
+                  DataCell(Text("Rs." + e["unitPrice"].toString()))
+                ]))
+            .toList(),
       );
 
   Widget total() => TextField(
-    controller: _totalController,
+      controller: _totalController,
       decoration: InputDecoration(
         labelText: 'Total',
         border: OutlineInputBorder(),
       ),
       readOnly: true);
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text("Purchase Request"),
+        ),
+        body: Center(
+          child: ListView(
+            padding: EdgeInsets.all(32),
+            children: [
+              const SizedBox(height: 24),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: pONumber(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: claimDate(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: location(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: siteManagerName(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: dueDate(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: items(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: quantity(),
+              ),
+              _itemPrices.isNotEmpty ? displaySupplier() : Container(),
+              // displaySupplier(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: suppliers(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: total(),
+              ),
+              ElevatedButton(
+                child: const Text('Submit'),
+                onPressed: () {},
+              ),
+              const SizedBox(height: 24),
+              const SizedBox(height: 24),
+            ],
+          ),
+        ),
+      );
 }
