@@ -152,9 +152,18 @@ export default function PendingOrders() {
                 </thead>
                 <tbody>
                   {orders.map((order) => (
-                    <tr>
+                    <tr
+                      className="raised-orders-table-row-hover"
+                      onClick={() => {
+                        window.location.replace(
+                          `/supplierhome/pendingorders/${order.pOrderId.substring(
+                            1
+                          )}`
+                        );
+                      }}
+                    >
                       <td>
-                        <a
+                        {/* <a
                           href="#"
                           onClick={() => {
                             window.location.replace(
@@ -163,9 +172,9 @@ export default function PendingOrders() {
                               )}`
                             );
                           }}
-                        >
-                          {order.pOrderId}
-                        </a>
+                        > */}
+                        {order.pOrderId}
+                        {/* </a> */}
                       </td>
                       <td>{order.siteId}</td>
                       <td>{order.location}</td>

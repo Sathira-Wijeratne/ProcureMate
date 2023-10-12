@@ -147,9 +147,18 @@ export default function MyDeliveryLog() {
               </thead>
               <tbody>
                 {deliveryNotes.map((deliveryNote) => (
-                  <tr>
+                  <tr
+                    className="raised-orders-table-row-hover"
+                    onClick={() => {
+                      window.location.replace(
+                        `/supplierhome/mydeliverylog/${deliveryNote.deliveryId.substring(
+                          1
+                        )}`
+                      );
+                    }}
+                  >
                     <td>
-                      <a
+                      {/* <a
                         href="#"
                         onClick={() => {
                           window.location.replace(
@@ -158,9 +167,9 @@ export default function MyDeliveryLog() {
                             )}`
                           );
                         }}
-                      >
-                        {deliveryNote.deliveryId}
-                      </a>
+                      > */}
+                      {deliveryNote.deliveryId}
+                      {/* </a> */}
                     </td>
                     <td>{deliveryNote.pOrderId}</td>
                     <td>{deliveryNote.siteId}</td>

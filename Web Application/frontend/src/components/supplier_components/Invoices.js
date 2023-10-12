@@ -144,9 +144,18 @@ export default function Invoices() {
               </thead>
               <tbody>
                 {invoices.map((invoice) => (
-                  <tr>
+                  <tr
+                    className="raised-orders-table-row-hover"
+                    onClick={() => {
+                      window.location.replace(
+                        `/supplierhome/invoices/${invoice.invoiceId.substring(
+                          1
+                        )}`
+                      );
+                    }}
+                  >
                     <td>
-                      <a
+                      {/* <a
                         href="#"
                         onClick={() => {
                           window.location.replace(
@@ -155,9 +164,9 @@ export default function Invoices() {
                             )}`
                           );
                         }}
-                      >
-                        {invoice.invoiceId}
-                      </a>
+                      > */}
+                      {invoice.invoiceId}
+                      {/* </a> */}
                     </td>
                     <td>{invoice.pOrderId}</td>
                     <td>{invoice.deliveryId}</td>
