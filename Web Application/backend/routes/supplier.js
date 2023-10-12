@@ -154,6 +154,7 @@ router.route("/createdeliverynote").post((req, res) => {
   const status = req.body.status;
   const itemCode = req.body.itemCode;
   const itemName = req.body.itemName;
+  const unitPrice = Number(req.body.unitPrice);
   const qty = Number(req.body.qty);
   const uom = req.body.uom;
   const siteMngId = req.body.siteMngId;
@@ -168,6 +169,7 @@ router.route("/createdeliverynote").post((req, res) => {
     status,
     itemCode,
     itemName,
+    unitPrice,
     qty,
     uom,
     siteMngId,
@@ -240,12 +242,14 @@ router.route("/updatepurchaseorder/:pOrderId").put(async (req, res) => {
     location,
     status,
   } = req.body;
+  const unitPrice = Number(req.body.unitPrice);
   const qty = Number(req.body.qty);
   const amount = Number(req.body.amount);
   const purchaseOrder = {
     pOrderId,
     itemCode,
     itemName,
+    unitPrice,
     qty,
     uom,
     amount,

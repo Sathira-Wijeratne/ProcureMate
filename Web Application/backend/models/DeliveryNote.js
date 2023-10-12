@@ -31,6 +31,10 @@ const deliveryNoteSchema = new Schema({
     type: String,
     required: true,
   },
+  unitPrice: {
+    type: Number,
+    required: true,
+  },
   qty: {
     type: Number,
     required: true,

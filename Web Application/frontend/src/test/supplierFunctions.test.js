@@ -11,6 +11,7 @@ describe("Testing delivery note creation", () => {
       status: "Sent",
       itemCode: "#IT-TEST-TEMP",
       itemName: "TEST-ITEM-TEMP",
+      unitPrice: 12,
       qty: 10,
       uom: "kg",
       siteMngId: "E-TEST-TEMP",
