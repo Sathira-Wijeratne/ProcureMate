@@ -35,6 +35,7 @@ router.route("/get/email/:email").get(async (req, res) => {
 router.route("/getpendingorders/:supplierid").get(async (req, res) => {
   let supplierId = req.params.supplierid;
   await PurchaseOrder.find({ supplierId: supplierId, status: "Approved" })
+    .sort({ pOrderId: 1 })
     .then((purchaseOrders) => {
       res.json(purchaseOrders);
     })
@@ -51,6 +52,7 @@ router.route("/getpendingorders/:supplierid").get(async (req, res) => {
 router.route("/getinvoices/:supplierid").get(async (req, res) => {
   let supplierId = req.params.supplierid;
   await Invoice.find({ supplierId: supplierId })
+    .sort({ invoiceId: 1 })
     .then((invoices) => {
       res.json(invoices);
     })
@@ -67,6 +69,7 @@ router.route("/getinvoices/:supplierid").get(async (req, res) => {
 router.route("/getdeliverynotes/:supplierid").get(async (req, res) => {
   let supplierId = req.params.supplierid;
   await DeliveryNote.find({ supplierId: supplierId })
+    .sort({ deliveryId: 1 })
     .then((deliveryNotes) => {
       res.json(deliveryNotes);
     })
