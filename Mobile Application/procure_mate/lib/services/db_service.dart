@@ -9,6 +9,7 @@ class DBService {
   static var staffMemberCollection;
   static var deliveryNoteCollection;
   static var purchaseOrderCollection;
+  static var itemCollection;
 
   static connect() async {
     db = await Db.create(mongoConnUrl);
@@ -16,6 +17,7 @@ class DBService {
     staffMemberCollection = db.collection("staffmembers");
     deliveryNoteCollection = db.collection("deliverynotes");
     purchaseOrderCollection = db.collection("purchaseorders");
+    itemCollection = db.collection("items");
   }
 
   static Future<List<Map<String, dynamic>>> login(
@@ -44,9 +46,18 @@ class DBService {
 
   static Future<List<Map<String, dynamic>>> getAllPurchaseOrders() async {
     try {
-      // final purchaseOrders = await purchaseOrderCollection.find().sort({'pOrderId': -1}).toList();
       final purchaseOrders = await purchaseOrderCollection.find(where.sortBy('pOrderId', descending: true)).toList();
       return purchaseOrders;
+    } catch (e) {
+      print(e);
+      return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getAllItems() async {
+    try {
+      final items = await itemCollection.find().toList();
+      return items;
     } catch (e) {
       print(e);
       return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);

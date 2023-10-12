@@ -20,52 +20,53 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   final emailController = TextEditingController();
   final Random _random = Random();
   late List<Map<String, dynamic>> _allPurchaseOrders;
+  late List<Map<String, dynamic>> _allItems;
+  List<String> _distinctItems = [""];
 
   // Initial Selected Value
-  String dropdownvalue = 'Item 1';
+  String _itemDropDownValue = '';
 
-  // List of items in our dropdown menu
-  var items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
+  final String _currDate = DateTime.now().toString().substring(0, 10);
 
-  String _randomPO = '';
+  String _nextPO = '';
   DateTime? _selectedDate; // Store the selected date.
 
   @override
   void initState() {
     super.initState();
     emailController.addListener(() => setState(() {}));
-    // _generateRandomPONumber();
     _generateNextPONumber();
-  }
-
-  void _generateRandomPONumber() {
-    setState(() {
-      _randomPO = '#P-${_random.nextInt(1000).toString().padLeft(4, '0')}';
-    });
+    _getItems();
   }
 
   Future<void> _generateNextPONumber() async {
     _allPurchaseOrders = await DBService.getAllPurchaseOrders();
-    print(_allPurchaseOrders[0]['pOrderId']);
-    int nextNumber = int.parse(_allPurchaseOrders[0]['pOrderId'].substring(3)) + 1;
-    String nextNumber2 = nextNumber.toString().padLeft(4, '0');
-    print(nextNumber2);
+    int nextNumberInInt =
+        int.parse(_allPurchaseOrders[0]['pOrderId'].substring(3)) + 1;
+    String nextNumberInString = nextNumberInInt.toString().padLeft(4, '0');
     setState(() {
-      _randomPO = '#P-${nextNumber2}';
+      _nextPO = '#P-${nextNumberInString}';
+    });
+  }
+
+  Future<void> _getItems() async {
+    _allItems = await DBService.getAllItems();
+    Set<String> distinctItemNames = <String>{};
+    for (var item in _allItems) {
+      if (item.containsKey("itemName")) {
+        distinctItemNames.add(item["itemName"]);
+      }
+    }
+    setState(() {
+      _distinctItems = distinctItemNames.toList();
     });
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text("Purchase Request"),
-    ),
+        appBar: AppBar(
+          title: const Text("Purchase Request"),
+        ),
         body: Center(
           child: ListView(
             padding: EdgeInsets.all(32),
@@ -73,38 +74,40 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
               const SizedBox(height: 24),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: PONumber(),
+                child: pONumber(),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: ClaimDate(),
+                child: claimDate(),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: Location(),
+                child: location(),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: SiteManagerName(),
+                child: siteManagerName(),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: Items(),
+                child: dueDate(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: items(),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Quantity(),
+                child: quantity(),
               ),
               displaySupplier(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Total(),
+                child: total(),
               ),
               ElevatedButton(
-                child: Text('Submit'),
-                onPressed: () {
-                  _generateRandomPONumber();
-                },
+                child: const Text('Submit'),
+                onPressed: () {},
               ),
               const SizedBox(height: 24),
               const SizedBox(height: 24),
@@ -113,20 +116,33 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         ),
       );
 
-  Widget PONumber() => TextField(
+  Widget pONumber() => TextField(
         decoration: InputDecoration(
           labelText: 'PO Number',
           border: OutlineInputBorder(),
         ),
         readOnly: true,
-        controller: TextEditingController(text: _randomPO),
+        controller: TextEditingController(text: _nextPO),
       );
 
-  Widget ClaimDate() {
+  Widget claimDate() {
     return TextFormField(
       readOnly: true,
       decoration: InputDecoration(
-        labelText: 'Claim Date',
+        labelText: 'Current Date',
+        border: OutlineInputBorder(),
+      ),
+      controller: TextEditingController(
+        text: _currDate, // Display selected date in the format yyyy-MM-dd.
+      ),
+    );
+  }
+
+  Widget dueDate() {
+    return TextFormField(
+      readOnly: true,
+      decoration: InputDecoration(
+        labelText: 'Due Date',
         border: OutlineInputBorder(),
         suffixIcon: GestureDetector(
           onTap: () async {
@@ -154,32 +170,32 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
     );
   }
 
-  Widget Location() => TextField(
+  Widget location() => TextField(
         decoration: InputDecoration(
           labelText: 'Location',
           border: OutlineInputBorder(),
         ),
         readOnly: true,
-        controller: TextEditingController(),
+        controller: TextEditingController(text: widget.user.location),
       );
 
-  Widget SiteManagerName() => TextField(
+  Widget siteManagerName() => TextField(
         decoration: InputDecoration(
           labelText: 'Site Manager Name',
           border: OutlineInputBorder(),
         ),
         readOnly: true,
+        controller: TextEditingController(text: widget.user.name),
       );
 
-  Widget Items() => DropdownButton(
+  Widget items() => DropdownButton(
         // Initial Value
-        value: dropdownvalue,
-
+        value: _itemDropDownValue.isNotEmpty ? _itemDropDownValue : null,
+        hint: Text("Select an item"),
         // Down Arrow Icon
         icon: const Icon(Icons.keyboard_arrow_down),
-
         // Array list of items
-        items: items.map((String items) {
+        items: _distinctItems.map((String items) {
           return DropdownMenuItem(
             value: items,
             child: Text(items),
@@ -189,17 +205,19 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         // change button value to selected value
         onChanged: (String? newValue) {
           setState(() {
-            dropdownvalue = newValue!;
+            _itemDropDownValue = newValue!;
           });
         },
       );
 
-  Widget Quantity() => TextField(
-      decoration: InputDecoration(
-        labelText: 'Quantity',
-        border: OutlineInputBorder(),
-      ),
-      readOnly: true);
+  Widget quantity() => TextField(
+    keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          labelText: 'Quantity',
+          border: OutlineInputBorder(),
+        ),
+        // readOnly: true,
+      );
 
   Widget buildEmail() => TextField(
         controller: emailController,
@@ -270,9 +288,9 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         ],
       );
 
-  Widget Total() => TextField(
+  Widget total() => TextField(
       decoration: InputDecoration(
-        labelText: 'Quantity',
+        labelText: 'Total',
         border: OutlineInputBorder(),
       ),
       readOnly: true);
