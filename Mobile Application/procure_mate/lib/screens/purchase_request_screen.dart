@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:procure_mate/models/site_manager.dart';
+import 'package:procure_mate/services/db_service.dart';
 
 class PurchaseRequestScreen extends StatefulWidget {
   const PurchaseRequestScreen(this._width, this._height, this.user,
@@ -18,6 +19,7 @@ class PurchaseRequestScreen extends StatefulWidget {
 class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   final emailController = TextEditingController();
   final Random _random = Random();
+  late List<Map<String, dynamic>> _allPurchaseOrders;
 
   // Initial Selected Value
   String dropdownvalue = 'Item 1';
@@ -38,7 +40,8 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   void initState() {
     super.initState();
     emailController.addListener(() => setState(() {}));
-    _generateRandomPONumber();
+    // _generateRandomPONumber();
+    _generateNextPONumber();
   }
 
   void _generateRandomPONumber() {
@@ -47,8 +50,22 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
     });
   }
 
+  Future<void> _generateNextPONumber() async {
+    _allPurchaseOrders = await DBService.getAllPurchaseOrders();
+    print(_allPurchaseOrders[0]['pOrderId']);
+    int nextNumber = int.parse(_allPurchaseOrders[0]['pOrderId'].substring(3)) + 1;
+    String nextNumber2 = nextNumber.toString().padLeft(4, '0');
+    print(nextNumber2);
+    setState(() {
+      _randomPO = '#P-${nextNumber2}';
+    });
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text("Purchase Request"),
+    ),
         body: Center(
           child: ListView(
             padding: EdgeInsets.all(32),

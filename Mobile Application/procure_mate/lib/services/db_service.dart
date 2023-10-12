@@ -8,12 +8,14 @@ class DBService {
   static var db;
   static var staffMemberCollection;
   static var deliveryNoteCollection;
+  static var purchaseOrderCollection;
 
   static connect() async {
     db = await Db.create(mongoConnUrl);
     await db.open();
     staffMemberCollection = db.collection("staffmembers");
     deliveryNoteCollection = db.collection("deliverynotes");
+    purchaseOrderCollection = db.collection("purchaseorders");
   }
 
   static Future<List<Map<String, dynamic>>> login(
@@ -29,15 +31,24 @@ class DBService {
   }
 
   //fetch the delivery note
-static Future <List<Map<String, dynamic>>> getAllApprovalPendingDeliveryNotes(String siteMngId
-
-    )
-  async{
-    try{
+  static Future<List<Map<String, dynamic>>> getAllApprovalPendingDeliveryNotes(
+      String siteMngId) async {
+    try {
       final query = {"siteMngId": siteMngId};
       final deliveryNotes = await deliveryNoteCollection.find(query).toList();
       return deliveryNotes;
-    }catch(e){
+    } catch (e) {
+      return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getAllPurchaseOrders() async {
+    try {
+      // final purchaseOrders = await purchaseOrderCollection.find().sort({'pOrderId': -1}).toList();
+      final purchaseOrders = await purchaseOrderCollection.find(where.sortBy('pOrderId', descending: true)).toList();
+      return purchaseOrders;
+    } catch (e) {
+      print(e);
       return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
     }
   }
