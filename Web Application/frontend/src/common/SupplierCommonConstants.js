@@ -59,6 +59,8 @@ const constants = {
   PENDING_ORDERS_PATH: "pendingorders",
 
   // Messages
+  WARNING_MESSAGE_QUANTITY_EXCEED:
+    "You have been added goods more than requested quantity!",
   CONFIRM_MESSAGE_CREATING_DELIVERY_NOTE_AND_INVOICE:
     "Are you sure you want to proceed?\nThis process will create the invoice and send the delivery note.",
   PURCHASE_ORDER_COMPLETED: "Purchase Order Completed!",

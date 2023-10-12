@@ -54,95 +54,99 @@ export default function CreateDeliveryInvoice() {
 
   function proceed(e) {
     e.preventDefault();
-    var response = window.confirm(
-      constants.CONFIRM_MESSAGE_CREATING_DELIVERY_NOTE_AND_INVOICE
-    );
-    if (response) {
-      const deliveryNote = {
-        deliveryId: constants.HASH_D + pOrderId.substring(1),
-        pOrderId: constants.HASH + pOrderId,
-        supplierId: supplierId,
-        date: new Date(),
-        status: constants.SENT,
-        itemCode: order.itemCode,
-        itemName: order.itemName,
-        unitPrice: item.unitPrice,
-        qty: deliveredQty,
-        uom: order.uom,
-        siteMngId: order.siteMngId,
-        siteId: order.siteId,
-        location: order.location,
-      };
+    if (deliveredQty > order.qty) {
+      alert(constants.WARNING_MESSAGE_QUANTITY_EXCEED);
+    } else {
+      var response = window.confirm(
+        constants.CONFIRM_MESSAGE_CREATING_DELIVERY_NOTE_AND_INVOICE
+      );
+      if (response) {
+        const deliveryNote = {
+          deliveryId: constants.HASH_D + pOrderId.substring(1),
+          pOrderId: constants.HASH + pOrderId,
+          supplierId: supplierId,
+          date: new Date(),
+          status: constants.SENT,
+          itemCode: order.itemCode,
+          itemName: order.itemName,
+          unitPrice: item.unitPrice,
+          qty: deliveredQty,
+          uom: order.uom,
+          siteMngId: order.siteMngId,
+          siteId: order.siteId,
+          location: order.location,
+        };
 
-      const invoice = {
-        invoiceId: constants.HASH_IN_DASH + pOrderId.substring(2),
-        deliveryId: constants.HASH_D + pOrderId.substring(1),
-        pOrderId: constants.HASH + pOrderId,
-        supplierId: supplierId,
-        itemCode: order.itemCode,
-        itemName: order.itemName,
-        qty: deliveredQty,
-        uom: order.uom,
-        unitPrice: item.unitPrice,
-        cost: deliveredQty * item.unitPrice,
-        date: new Date(),
-        paymentStatus: constants.PENDING,
-      };
+        const invoice = {
+          invoiceId: constants.HASH_IN_DASH + pOrderId.substring(2),
+          deliveryId: constants.HASH_D + pOrderId.substring(1),
+          pOrderId: constants.HASH + pOrderId,
+          supplierId: supplierId,
+          itemCode: order.itemCode,
+          itemName: order.itemName,
+          qty: deliveredQty,
+          uom: order.uom,
+          unitPrice: item.unitPrice,
+          cost: deliveredQty * item.unitPrice,
+          date: new Date(),
+          paymentStatus: constants.PENDING,
+        };
 
-      const purchaseOrder = {
-        pOrderId: order.pOrderId,
-        itemCode: order.itemCode,
-        itemName: order.itemName,
-        unitPrice: item.unitPrice,
-        qty: order.qty,
-        uom: order.uom,
-        amount: order.amount,
-        date: order.date,
-        dueDate: order.dueDate,
-        supplierId: order.supplierId,
-        siteMngId: order.siteMngId,
-        siteId: order.siteId,
-        location: order.location,
-        status: constants.COMPLETED,
-      };
+        const purchaseOrder = {
+          pOrderId: order.pOrderId,
+          itemCode: order.itemCode,
+          itemName: order.itemName,
+          unitPrice: item.unitPrice,
+          qty: order.qty,
+          uom: order.uom,
+          amount: order.amount,
+          date: order.date,
+          dueDate: order.dueDate,
+          supplierId: order.supplierId,
+          siteMngId: order.siteMngId,
+          siteId: order.siteId,
+          location: order.location,
+          status: constants.COMPLETED,
+        };
 
-      axios
-        .post(
-          `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_DELIVERY_NOTE_URL}/`,
-          deliveryNote
-        )
-        .then((res) => {
-          axios
-            .post(
-              `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_INVOICE_URL}/`,
-              invoice
-            )
-            .then((res) => {
-              axios
-                .put(
-                  `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.UPDATE_PURCHASE_ORDER_URL}/${pOrderId}`,
-                  purchaseOrder
-                )
-                .then(() => {
-                  alert(constants.PURCHASE_ORDER_COMPLETED);
-                  window.location.replace(
-                    `/${constants.SUPPLIER_HOME_PATH}/${constants.PENDING_ORDERS_PATH}`
-                  );
-                })
-                .catch((err) => {
-                  alert(constants.ERROR_UPDATING_PURCHASE_ORDER);
-                  console.log(err);
-                });
-            })
-            .catch((err) => {
-              alert(constants.ERROR_CREATING_INVOICE);
-              console.log(err.message);
-            });
-        })
-        .catch((err) => {
-          alert(constants.ERROR_CREATING_DELIVERY_NOTE);
-          console.log(err.message);
-        });
+        axios
+          .post(
+            `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_DELIVERY_NOTE_URL}/`,
+            deliveryNote
+          )
+          .then((res) => {
+            axios
+              .post(
+                `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_INVOICE_URL}/`,
+                invoice
+              )
+              .then((res) => {
+                axios
+                  .put(
+                    `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.UPDATE_PURCHASE_ORDER_URL}/${pOrderId}`,
+                    purchaseOrder
+                  )
+                  .then(() => {
+                    alert(constants.PURCHASE_ORDER_COMPLETED);
+                    window.location.replace(
+                      `/${constants.SUPPLIER_HOME_PATH}/${constants.PENDING_ORDERS_PATH}`
+                    );
+                  })
+                  .catch((err) => {
+                    alert(constants.ERROR_UPDATING_PURCHASE_ORDER);
+                    console.log(err);
+                  });
+              })
+              .catch((err) => {
+                alert(constants.ERROR_CREATING_INVOICE);
+                console.log(err.message);
+              });
+          })
+          .catch((err) => {
+            alert(constants.ERROR_CREATING_DELIVERY_NOTE);
+            console.log(err.message);
+          });
+      }
     }
   }
   return (
@@ -279,11 +283,12 @@ export default function CreateDeliveryInvoice() {
                           <th>{constants.DELIVERED_QUANTITY}</th>
                           <td>
                             -{" "}
-                            {order.uom !== "" && (
+                            {order.uom !== "" && order.uom !== "Units" && (
                               <input
                                 type="number"
                                 value={deliveredQty}
                                 min="0"
+                                max={order.qty}
                                 step="0.001"
                                 onChange={(e) => {
                                   setDeliveredQty(e.target.value);
@@ -291,11 +296,12 @@ export default function CreateDeliveryInvoice() {
                                 required
                               />
                             )}
-                            {order.uom === "" && (
+                            {(order.uom === "" || order.uom === "Units") && (
                               <input
                                 type="number"
                                 value={deliveredQty}
                                 min="0"
+                                max={order.qty}
                                 onChange={(e) => {
                                   setDeliveredQty(e.target.value);
                                 }}
