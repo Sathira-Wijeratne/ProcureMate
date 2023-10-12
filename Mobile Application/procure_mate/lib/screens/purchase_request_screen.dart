@@ -18,13 +18,16 @@ class PurchaseRequestScreen extends StatefulWidget {
 
 class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   final emailController = TextEditingController();
+  final _totalController = TextEditingController();
   final Random _random = Random();
   late List<Map<String, dynamic>> _allPurchaseOrders;
   late List<Map<String, dynamic>> _allItems;
   List<String> _distinctItems = [""];
+  List<String> _distinctSuppliers = [""];
 
   // Initial Selected Value
   String _itemDropDownValue = '';
+  String _supplierDropDownValue = '';
 
   final String _currDate = DateTime.now().toString().substring(0, 10);
 
@@ -52,13 +55,20 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   Future<void> _getItems() async {
     _allItems = await DBService.getAllItems();
     Set<String> distinctItemNames = <String>{};
+    Set<String> distinctSuppliersId = <String>{};
     for (var item in _allItems) {
       if (item.containsKey("itemName")) {
         distinctItemNames.add(item["itemName"]);
       }
     }
+    for (var supplier in _allItems) {
+      if (supplier.containsKey("supplierId")) {
+        distinctSuppliersId.add(supplier["supplierId"]);
+      }
+    }
     setState(() {
       _distinctItems = distinctItemNames.toList();
+      _distinctSuppliers = distinctSuppliersId.toList();
     });
   }
 
@@ -101,6 +111,10 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
                 child: quantity(),
               ),
               displaySupplier(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: suppliers(),
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: total(),
@@ -210,8 +224,30 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         },
       );
 
+  Widget suppliers() => DropdownButton(
+        // Initial Value
+        value:
+            _supplierDropDownValue.isNotEmpty ? _supplierDropDownValue : null,
+        hint: Text("Select a supplier"),
+        // Down Arrow Icon
+        icon: const Icon(Icons.keyboard_arrow_down),
+        items: _distinctSuppliers.map((String supplier) {
+          return DropdownMenuItem(
+            value: supplier,
+            child: Text(supplier),
+          );
+        }).toList(),
+        // After selecting the desired option,it will
+        // change button value to selected value
+        onChanged: (String? newValue) {
+          setState(() {
+            _supplierDropDownValue = newValue!;
+          });
+        },
+      );
+
   Widget quantity() => TextField(
-    keyboardType: TextInputType.number,
+        keyboardType: TextInputType.number,
         decoration: InputDecoration(
           labelText: 'Quantity',
           border: OutlineInputBorder(),
@@ -241,7 +277,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
           DataColumn(
             label: Expanded(
               child: Text(
-                'Name',
+                'Supplier',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
@@ -249,15 +285,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
           DataColumn(
             label: Expanded(
               child: Text(
-                'Age',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ),
-          ),
-          DataColumn(
-            label: Expanded(
-              child: Text(
-                'Role',
+                'Unit Price',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
@@ -266,21 +294,18 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         rows: const <DataRow>[
           DataRow(
             cells: <DataCell>[
-              DataCell(Text('Sarah')),
               DataCell(Text('19')),
               DataCell(Text('Student')),
             ],
           ),
           DataRow(
             cells: <DataCell>[
-              DataCell(Text('Janine')),
               DataCell(Text('43')),
               DataCell(Text('Professor')),
             ],
           ),
           DataRow(
             cells: <DataCell>[
-              DataCell(Text('William')),
               DataCell(Text('27')),
               DataCell(Text('Associate Professor')),
             ],
@@ -289,6 +314,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
       );
 
   Widget total() => TextField(
+    controller: _totalController,
       decoration: InputDecoration(
         labelText: 'Total',
         border: OutlineInputBorder(),
