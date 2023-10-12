@@ -1,4 +1,5 @@
 const constants = {
+  // Strings
   PENDING_ORDERS: "Pending Orders",
   PENDING_ORDER: "Pending Order",
   SUPPLIER: "Supplier",
@@ -32,18 +33,38 @@ const constants = {
   DUE_DATE: "Due Date",
   DELIVERY_NOTE: "Delivery Note",
   INVOICE: "Invoice",
+  HASH_D: "#D",
+  HASH: "#",
+  SENT: "Sent",
+  PENDING: "Pending",
+  COMPLETED: "Completed",
+
+  // Keys
   SESSION_KEY_SUPPLIER: "prMateReilppus",
   SESSION_KEY_SUPPLIER_ID: "supplierId",
   SESSION_KEY_SUPPLIER_NAME: "supplierName",
+  SESSION_KEY_SUPPLIER_EMAIL: "supplierEmail",
+
+  // URL
   BASE_URL: "http://localhost:8070",
   SUPPLIER_URL: "supplier",
   GET_ORDER_URL: "getorder",
   GET_ITEM_URL: "getitem",
+  CREATE_DELIVERY_NOTE_URL: "createdeliverynote",
+  CREATE_INVOICE_URL: "createinvoice",
+  UPDATE_PURCHASE_ORDER_URL: "updatepurchaseorder",
+
+  // Paths
+  SUPPLIER_HOME_PATH: "supplierhome",
+  PENDING_ORDERS_PATH: "pendingorders",
+
+  // Messages
   CONFIRM_MESSAGE_CREATING_DELIVERY_NOTE_AND_INVOICE:
     "Are you sure you want to proceed?\nThis process will create the invoice and send the delivery note.",
-  HASH_D: "#D",
-  HASH: "#",
-  SENT: "Sent",
+  PURCHASE_ORDER_COMPLETED: "Purchase Order Completed!",
+  ERROR_UPDATING_PURCHASE_ORDER: "Error in updating purchase order.",
+  ERROR_CREATING_INVOICE: "Error in creating invoice.",
+  ERROR_CREATING_DELIVERY_NOTE: "Error in creating delivery note.",
 };
 
 export default constants;

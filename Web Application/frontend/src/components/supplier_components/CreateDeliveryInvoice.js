@@ -75,9 +75,9 @@ export default function CreateDeliveryInvoice() {
       };
 
       const invoice = {
-        invoiceId: "#IN-" + pOrderId.substring(2),
-        deliveryId: "#D" + pOrderId.substring(1),
-        pOrderId: "#" + pOrderId,
+        invoiceId: constants.HASH_IN_DASH + pOrderId.substring(2),
+        deliveryId: constants.HASH_D + pOrderId.substring(1),
+        pOrderId: constants.HASH + pOrderId,
         supplierId: supplierId,
         itemCode: order.itemCode,
         itemName: order.itemName,
@@ -86,7 +86,7 @@ export default function CreateDeliveryInvoice() {
         unitPrice: item.unitPrice,
         cost: deliveredQty * item.unitPrice,
         date: new Date(),
-        paymentStatus: "Pending",
+        paymentStatus: constants.PENDING,
       };
 
       const purchaseOrder = {
@@ -103,39 +103,44 @@ export default function CreateDeliveryInvoice() {
         siteMngId: order.siteMngId,
         siteId: order.siteId,
         location: order.location,
-        status: "Completed",
+        status: constants.COMPLETED,
       };
 
       axios
         .post(
-          `http://localhost:8070/supplier/createdeliverynote/`,
+          `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_DELIVERY_NOTE_URL}/`,
           deliveryNote
         )
         .then((res) => {
           axios
-            .post(`http://localhost:8070/supplier/createinvoice/`, invoice)
+            .post(
+              `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_INVOICE_URL}/`,
+              invoice
+            )
             .then((res) => {
               axios
                 .put(
-                  `http://localhost:8070/supplier/updatepurchaseorder/${pOrderId}`,
+                  `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.UPDATE_PURCHASE_ORDER_URL}/${pOrderId}`,
                   purchaseOrder
                 )
                 .then(() => {
-                  alert("Purchase Order Completed!");
-                  window.location.replace(`/supplierhome/pendingorders`);
+                  alert(constants.PURCHASE_ORDER_COMPLETED);
+                  window.location.replace(
+                    `/${constants.SUPPLIER_HOME_PATH}/${constants.PENDING_ORDERS_PATH}`
+                  );
                 })
                 .catch((err) => {
-                  alert("Error in updating purchase order.");
-                  alert(err);
+                  alert(constants.ERROR_UPDATING_PURCHASE_ORDER);
+                  console.log(err);
                 });
             })
             .catch((err) => {
-              alert("Error in creating invoice.");
+              alert(constants.ERROR_CREATING_INVOICE);
               console.log(err.message);
             });
         })
         .catch((err) => {
-          alert("Error in creating delivery note.");
+          alert(constants.ERROR_CREATING_DELIVERY_NOTE);
           console.log(err.message);
         });
     }
@@ -215,10 +220,10 @@ export default function CreateDeliveryInvoice() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
