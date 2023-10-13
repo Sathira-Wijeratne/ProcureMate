@@ -40,6 +40,7 @@ const constants = {
   SENT: "Sent",
   PENDING: "Pending",
   COMPLETED: "Completed",
+  PAYMENT_STATUS: "Payment Status",
 
   // Keys
   SESSION_KEY_SUPPLIER: "prMateReilppus",

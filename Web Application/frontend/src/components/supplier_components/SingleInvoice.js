@@ -191,6 +191,10 @@ export default function SingleInvoice() {
                           {Number.parseFloat(invoice.cost).toFixed(2)}
                         </td>
                       </tr>
+                      <tr>
+                        <th>{constants.PAYMENT_STATUS}</th>
+                        <td>- {invoice.paymentStatus}</td>
+                      </tr>
                     </table>
                   </center>
                 </div>
