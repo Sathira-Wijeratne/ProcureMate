@@ -100,4 +100,19 @@ class DBService {
       return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
     }
   }
+
+  static Future<Response> updateDeliveryNoteStatus(Map<String, dynamic> updatedDeliveryNote)async{
+    Response response = Response();
+    var deliveryNote = await deliveryNoteCollection.findOne({"deliveryId" : updatedDeliveryNote["deliveryId"]});
+    deliveryNote = updatedDeliveryNote;
+    await deliveryNoteCollection.save(deliveryNote).whenComplete((){
+      response.code = 200;
+      response.message = "Delivery Note updated";
+    }).catchError((e){
+      response.code = 500;
+      response.message = e;
+    });
+
+    return response;
+  }
 }
