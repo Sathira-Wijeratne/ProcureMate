@@ -31,6 +31,7 @@ const constants = {
   HASH_IN_DASH: "#IN-",
   NO_PENDING_ORDERS: "No Pending Orders",
   NO_INVOICES: "No Invoices...",
+  NO_DELIVERY_NOTES: "No Delivery Notes...",
   DUE_DATE: "Due Date",
   DELIVERY_NOTE: "Delivery Note",
   INVOICE: "Invoice",
@@ -52,6 +53,7 @@ const constants = {
   GET_ORDER_URL: "getorder",
   GET_ITEM_URL: "getitem",
   GET_INVOICES_URL: "getinvoices",
+  GET_DELIVERY_NOTES_URL: "getdeliverynotes",
   CREATE_DELIVERY_NOTE_URL: "createdeliverynote",
   CREATE_INVOICE_URL: "createinvoice",
   UPDATE_PURCHASE_ORDER_URL: "updatepurchaseorder",
@@ -59,6 +61,8 @@ const constants = {
   // Paths
   SUPPLIER_HOME_PATH: "supplierhome",
   PENDING_ORDERS_PATH: "pendingorders",
+  INVOICES_PATH: "invoices",
+  MY_DELIVERY_LOG_PATH: "mydeliverylog",
 
   // Messages
   WARNING_MESSAGE_QUANTITY_EXCEED:

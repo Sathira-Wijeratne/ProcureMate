@@ -5,12 +5,14 @@ import axios from "axios";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function MyDeliveryLog() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const dateFormatOptions = {
     weekday: "long",
     month: "long",
@@ -25,7 +27,9 @@ export default function MyDeliveryLog() {
     setInterval(() => setCurrTime(new Date()), 1000);
 
     axios
-      .get(`http://localhost:8070/supplier/getdeliverynotes/${supplierId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_DELIVERY_NOTES_URL}/${supplierId}`
+      )
       .then((res) => {
         console.log(res.data);
         setDeliveryNotes(res.data);
@@ -109,10 +113,10 @@ export default function MyDeliveryLog() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
@@ -129,7 +133,7 @@ export default function MyDeliveryLog() {
             </h2>
             {deliveryNotes.length === 0 && (
               <center style={{ marginTop: "5%" }}>
-                <h3>No Delivery Notes...</h3>
+                <h3>{constants.NO_DELIVERY_NOTES}</h3>
               </center>
             )}
             {deliveryNotes.length !== 0 && (
@@ -157,9 +161,9 @@ export default function MyDeliveryLog() {
                       className="raised-orders-table-row-hover"
                       onClick={() => {
                         window.location.replace(
-                          `/supplierhome/mydeliverylog/${deliveryNote.deliveryId.substring(
-                            1
-                          )}`
+                          `/${constants.SUPPLIER_HOME_PATH}/${
+                            constants.MY_DELIVERY_LOG_PATH
+                          }/${deliveryNote.deliveryId.substring(1)}`
                         );
                       }}
                     >

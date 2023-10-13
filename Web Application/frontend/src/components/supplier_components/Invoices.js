@@ -111,10 +111,10 @@ export default function Invoices() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
@@ -158,9 +158,9 @@ export default function Invoices() {
                       className="raised-orders-table-row-hover"
                       onClick={() => {
                         window.location.replace(
-                          `/supplierhome/invoices/${invoice.invoiceId.substring(
-                            1
-                          )}`
+                          `/${constants.SUPPLIER_HOME_PATH}/${
+                            constants.INVOICES_PATH
+                          }/${invoice.invoiceId.substring(1)}`
                         );
                       }}
                     >
