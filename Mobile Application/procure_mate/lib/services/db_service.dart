@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:procure_mate/models/purchase_order.dart';
+import 'package:procure_mate/models/response.dart';
 
 class DBService {
   static const String mongoConnUrl =
@@ -72,5 +74,18 @@ class DBService {
     } catch (e) {
       return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
     }
+  }
+
+  static Future<Response> createPO(Map<String, dynamic> purchaseOrder) async {
+    Response response = Response();
+    await purchaseOrderCollection.insertOne(purchaseOrder).whenComplete((){
+      response.code = 200;
+      response.message = "Purchase Order Created!";
+    }).catchError((e){
+      response.code = 500;
+      response.message = e;
+    });
+
+    return response;
   }
 }

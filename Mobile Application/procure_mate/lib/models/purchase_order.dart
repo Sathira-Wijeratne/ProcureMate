@@ -3,7 +3,9 @@ import 'package:mongo_dart/mongo_dart.dart';
 class PurchaseOrder{
   final ObjectId id;
   final String pOrderId;
+  final String itemCode;
   final String itemName;
+  final double unitPrice;
   final double qty;
   final String uom;
   final double amount;
@@ -18,7 +20,9 @@ class PurchaseOrder{
   PurchaseOrder(
       this.id,
       this.pOrderId,
+      this.itemCode,
       this.itemName,
+      this.unitPrice,
       this.qty,
       this.uom,
       this.amount,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:procure_mate/models/purchase_order.dart';
+import 'package:procure_mate/models/response.dart';
 import 'dart:math';
 
 import 'package:procure_mate/models/site_manager.dart';
@@ -32,10 +34,11 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   String _itemDropDownValue = '';
   String _supplierDropDownValue = '';
 
-  final String _currDate = DateTime.now().toString().substring(0, 10);
+  // final String _currDate = DateTime.now().toString().substring(0, 10);
+  final DateTime _currDate = DateTime.now();
 
   String _nextPO = '';
-  DateTime? _selectedDate; // Store the selected date.
+  DateTime? _dueDate; // Store the selected date.
 
   @override
   void initState() {
@@ -51,7 +54,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         int.parse(_allPurchaseOrders[0]['pOrderId'].substring(3)) + 1;
     String nextNumberInString = nextNumberInInt.toString().padLeft(4, '0');
     setState(() {
-      _nextPO = '#P-${nextNumberInString}';
+      _nextPO = '#P-$nextNumberInString';
     });
   }
 
@@ -77,7 +80,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
 
   Future<void> _getItemPrices(String itemName) async {
     List<Map<String, dynamic>> itemPrices =
-        await DBService.getItemPrices(itemName);
+    await DBService.getItemPrices(itemName);
     setState(() {
       _itemPrices = itemPrices;
     });
@@ -89,19 +92,54 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         _supplierDropDownValue != '' &&
         _quantityController.text != '') {
       _selectedItemDetails = _allItems.firstWhere(
-        (item) =>
-            item["itemName"] == _itemDropDownValue &&
+            (item) =>
+        item["itemName"] == _itemDropDownValue &&
             item["supplierId"] == _supplierDropDownValue,
         orElse: () => {}, // Handle the case where no matching item is found
       );
       print(_selectedItemDetails.toString());
       _totalController.text = (_selectedItemDetails?["unitPrice"].toDouble() *
-              int.parse(_quantityController.text))
+          int.parse(_quantityController.text))
           .toStringAsFixed(2);
     }
   }
 
-  Widget pONumber() => TextField(
+  Future<void> _onTapSubmitBtn() async {
+    String status = "";
+    double amount = double.parse(_quantityController.text) * _selectedItemDetails?["unitPrice"];
+    if(amount > 100000){
+      status = "Pending";
+    } else{
+      status = "Approved";
+    }
+
+    Map<String, dynamic> purchaseOrder = {
+      "pOrderId": _nextPO,
+      "itemCode": _selectedItemDetails?["itemCode"],
+      "itemName": _selectedItemDetails?["itemName"],
+      "unitPrice": _selectedItemDetails?["unitPrice"],
+      "qty": double.parse(_quantityController.text),
+      "uom": _selectedItemDetails?["uom"],
+      "amount": amount,
+      "date": _currDate,
+      "dueDate": _dueDate,
+      "supplierId": _supplierDropDownValue,
+      "siteMngId": widget.user.empId,
+      "siteId": widget.user.siteId,
+      "location": widget.user.location,
+      "status": status
+    };
+    print(purchaseOrder.toString());
+    Response response = await DBService.createPO(purchaseOrder);
+    if(response.code == 200){
+      print("Done");
+    }else{
+      print(response.message);
+    }
+  }
+
+  Widget pONumber() =>
+      TextField(
         decoration: InputDecoration(
           labelText: 'PO Number',
           border: OutlineInputBorder(),
@@ -118,7 +156,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         border: OutlineInputBorder(),
       ),
       controller: TextEditingController(
-        text: _currDate, // Display selected date in the format yyyy-MM-dd.
+        text: _currDate.toString().substring(0, 10), // Display selected date in the format yyyy-MM-dd.
       ),
     );
   }
@@ -139,7 +177,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
             );
             if (selectedDate != null) {
               setState(() {
-                _selectedDate = selectedDate;
+                _dueDate = selectedDate;
               });
             }
           },
@@ -147,15 +185,16 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         ),
       ),
       controller: TextEditingController(
-        text: _selectedDate == null
+        text: _dueDate == null
             ? ''
-            : '${_selectedDate!.toLocal()}'.split(
-                ' ')[0], // Display selected date in the format yyyy-MM-dd.
+            : '${_dueDate!.toLocal()}'.split(
+            ' ')[0], // Display selected date in the format yyyy-MM-dd.
       ),
     );
   }
 
-  Widget location() => TextField(
+  Widget location() =>
+      TextField(
         decoration: InputDecoration(
           labelText: 'Location',
           border: OutlineInputBorder(),
@@ -164,7 +203,8 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         controller: TextEditingController(text: widget.user.location),
       );
 
-  Widget siteManagerName() => TextField(
+  Widget siteManagerName() =>
+      TextField(
         decoration: InputDecoration(
           labelText: 'Site Manager Name',
           border: OutlineInputBorder(),
@@ -173,7 +213,8 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         controller: TextEditingController(text: widget.user.name),
       );
 
-  Widget items() => DropdownButton(
+  Widget items() =>
+      DropdownButton(
         // Initial Value
         value: _itemDropDownValue.isNotEmpty ? _itemDropDownValue : null,
         hint: Text("Select an item"),
@@ -197,10 +238,11 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         },
       );
 
-  Widget suppliers() => DropdownButton(
+  Widget suppliers() =>
+      DropdownButton(
         // Initial Value
         value:
-            _supplierDropDownValue.isNotEmpty ? _supplierDropDownValue : null,
+        _supplierDropDownValue.isNotEmpty ? _supplierDropDownValue : null,
         hint: Text("Select a supplier"),
         // Down Arrow Icon
         icon: const Icon(Icons.keyboard_arrow_down),
@@ -220,7 +262,8 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         },
       );
 
-  Widget quantity() => TextField(
+  Widget quantity() =>
+      TextField(
         controller: _quantityController,
         keyboardType: TextInputType.numberWithOptions(),
         decoration: InputDecoration(
@@ -232,7 +275,8 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         },
       );
 
-  Widget buildEmail() => TextField(
+  Widget buildEmail() =>
+      TextField(
         controller: emailController,
         decoration: InputDecoration(
           hintText: 'name@gmail.com',
@@ -240,16 +284,17 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
           suffixIcon: emailController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () => emailController.clear(),
-                ),
+            icon: Icon(Icons.close),
+            onPressed: () => emailController.clear(),
+          ),
           border: OutlineInputBorder(),
         ),
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
       );
 
-  Widget displaySupplier() => DataTable(
+  Widget displaySupplier() =>
+      DataTable(
         columns: const <DataColumn>[
           DataColumn(
             label: Expanded(
@@ -269,23 +314,26 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
           ),
         ],
         rows: _itemPrices
-            .map((e) => DataRow(cells: [
-                  DataCell(Text(e["supplierId"])),
-                  DataCell(Text("Rs." + e["unitPrice"].toString()))
-                ]))
+            .map((e) =>
+            DataRow(cells: [
+              DataCell(Text(e["supplierId"])),
+              DataCell(Text("Rs." + e["unitPrice"].toString()))
+            ]))
             .toList(),
       );
 
-  Widget total() => TextField(
-      controller: _totalController,
-      decoration: InputDecoration(
-        labelText: 'Total',
-        border: OutlineInputBorder(),
-      ),
-      readOnly: true);
+  Widget total() =>
+      TextField(
+          controller: _totalController,
+          decoration: InputDecoration(
+            labelText: 'Total',
+            border: OutlineInputBorder(),
+          ),
+          readOnly: true);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) =>
+      Scaffold(
         appBar: AppBar(
           title: const Text("Purchase Request"),
         ),
@@ -334,7 +382,9 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
               ),
               ElevatedButton(
                 child: const Text('Submit'),
-                onPressed: () {},
+                onPressed: () {
+                  _onTapSubmitBtn();
+                },
               ),
               const SizedBox(height: 24),
               const SizedBox(height: 24),

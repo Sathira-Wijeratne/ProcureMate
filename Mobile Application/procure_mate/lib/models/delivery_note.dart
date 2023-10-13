@@ -7,7 +7,9 @@ class DeliveryNote {
   final String supplierId;
   final String date;
   final String status;
+  final String itemCode;
   final String itemName;
+  final double unitPrice;
   final double qty;
   final String uom;
   final String siteMngId;
@@ -21,7 +23,9 @@ class DeliveryNote {
       this.supplierId,
       this.date,
       this.status,
+      this.itemCode,
       this.itemName,
+      this.unitPrice,
       this.qty,
       this.uom,
       this.siteMngId,
