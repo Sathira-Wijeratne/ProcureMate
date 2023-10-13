@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:procure_mate/models/response.dart';
 import 'package:procure_mate/services/db_service.dart';
 
 import '../models/site_manager.dart';
@@ -58,9 +60,31 @@ class _ViewDeliveryNoteInDetailScreenState
     });
   }
 
-  void _onTapConfirmationBtns(BuildContext context, String newStatus) {
+  Future<void> _onTapConfirmationBtns(BuildContext context, String newStatus) async {
     widget._deliveryNote["status"] = newStatus;
     print(widget._deliveryNote.toString());
+    Response response = await DBService.updateDeliveryNoteStatus(widget._deliveryNote);
+    if(response.code == 200){
+      Fluttertoast.showToast(
+          msg: 'Delivery Note $newStatus!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.pop(context);
+    }else{
+      print(response.message);
+      Fluttertoast.showToast(
+          msg: 'Something went wrong!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
   void _generateRandomPONumber() {

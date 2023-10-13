@@ -104,8 +104,8 @@ class DBService {
   static Future<Response> updateDeliveryNoteStatus(Map<String, dynamic> updatedDeliveryNote)async{
     Response response = Response();
     var deliveryNote = await deliveryNoteCollection.findOne({"deliveryId" : updatedDeliveryNote["deliveryId"]});
-    deliveryNote = updatedDeliveryNote;
-    await deliveryNoteCollection.save(deliveryNote).whenComplete((){
+    deliveryNote["status"] = updatedDeliveryNote["status"];
+    await deliveryNoteCollection.replaceOne({"deliveryId": updatedDeliveryNote["deliveryId"]}, deliveryNote).whenComplete((){
       response.code = 200;
       response.message = "Delivery Note updated";
     }).catchError((e){
