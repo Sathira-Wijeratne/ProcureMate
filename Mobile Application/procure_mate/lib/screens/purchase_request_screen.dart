@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:procure_mate/models/purchase_order.dart';
 import 'package:procure_mate/models/response.dart';
 import 'dart:math';
@@ -104,38 +105,112 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
     }
   }
 
-  Future<void> _onTapSubmitBtn() async {
-    String status = "";
-    double amount = double.parse(_quantityController.text) * _selectedItemDetails?["unitPrice"];
-    if(amount > 100000){
-      status = "Pending";
-    } else{
-      status = "Approved";
+  bool _validateFields(){
+    if(_nextPO == ''){
+        Fluttertoast.showToast(
+            msg: "Network Error! Please restart app.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      return false;
+    } else if(_dueDate == null){
+      Fluttertoast.showToast(
+          msg: "Select due date!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return false;
+    } else if(_itemDropDownValue == ''){
+      Fluttertoast.showToast(
+          msg: "Select an item!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return false;
+    }else if(_quantityController.text == ''){
+      Fluttertoast.showToast(
+          msg: "Enter the quantity!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return false;
+    }else if(_supplierDropDownValue == ''){
+      Fluttertoast.showToast(
+          msg: "Select a supplier!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _onTapSubmitBtn(BuildContext context) async {
+    if(_validateFields() == true){
+      String status = "";
+      double amount = double.parse(_quantityController.text) * _selectedItemDetails?["unitPrice"];
+      if(amount > 100000){
+        status = "Pending";
+      } else{
+        status = "Approved";
+      }
+
+      Map<String, dynamic> purchaseOrder = {
+        "pOrderId": _nextPO,
+        "itemCode": _selectedItemDetails?["itemCode"],
+        "itemName": _selectedItemDetails?["itemName"],
+        "unitPrice": _selectedItemDetails?["unitPrice"],
+        "qty": double.parse(_quantityController.text),
+        "uom": _selectedItemDetails?["uom"],
+        "amount": amount,
+        "date": _currDate,
+        "dueDate": _dueDate,
+        "supplierId": _supplierDropDownValue,
+        "siteMngId": widget.user.empId,
+        "siteId": widget.user.siteId,
+        "location": widget.user.location,
+        "status": status
+      };
+      print(purchaseOrder.toString());
+      Response response = await DBService.createPO(purchaseOrder);
+      if(response.code == 200){
+        Fluttertoast.showToast(
+            msg: "Purchase Order created successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pop(context);
+      }else{
+        print(response.message);
+        Fluttertoast.showToast(
+            msg: "Error!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
     }
 
-    Map<String, dynamic> purchaseOrder = {
-      "pOrderId": _nextPO,
-      "itemCode": _selectedItemDetails?["itemCode"],
-      "itemName": _selectedItemDetails?["itemName"],
-      "unitPrice": _selectedItemDetails?["unitPrice"],
-      "qty": double.parse(_quantityController.text),
-      "uom": _selectedItemDetails?["uom"],
-      "amount": amount,
-      "date": _currDate,
-      "dueDate": _dueDate,
-      "supplierId": _supplierDropDownValue,
-      "siteMngId": widget.user.empId,
-      "siteId": widget.user.siteId,
-      "location": widget.user.location,
-      "status": status
-    };
-    print(purchaseOrder.toString());
-    Response response = await DBService.createPO(purchaseOrder);
-    if(response.code == 200){
-      print("Done");
-    }else{
-      print(response.message);
-    }
   }
 
   Widget pONumber() =>
@@ -317,7 +392,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
             .map((e) =>
             DataRow(cells: [
               DataCell(Text(e["supplierId"])),
-              DataCell(Text("Rs." + e["unitPrice"].toString()))
+              DataCell(Text("Rs." + e["unitPrice"].toStringAsFixed(2)))
             ]))
             .toList(),
       );
@@ -383,7 +458,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
               ElevatedButton(
                 child: const Text('Submit'),
                 onPressed: () {
-                  _onTapSubmitBtn();
+                  _onTapSubmitBtn(context);
                 },
               ),
               const SizedBox(height: 24),
