@@ -6,13 +6,15 @@ import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function SingleInvoice() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
   const { invoiceId } = useParams();
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -25,7 +27,9 @@ export default function SingleInvoice() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
     axios
-      .get(`http://localhost:8070/supplier/getinvoice/${invoiceId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_INVOICE_URL}/${invoiceId}`
+      )
       .then((res) => {
         setInvoice(res.data[0]);
         console.log(res.data[0]);
@@ -107,10 +111,10 @@ export default function SingleInvoice() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
