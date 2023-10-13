@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function CreateDeliveryInvoice() {
+  // Check whether the session is open
   if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
@@ -30,6 +31,7 @@ export default function CreateDeliveryInvoice() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
 
+    // Requesting the order details from backend.
     axios
       .get(
         `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_ORDER_URL}/${supplierId}/${pOrderId}`
@@ -38,6 +40,8 @@ export default function CreateDeliveryInvoice() {
         console.log(res.data[0]);
         setOrder(res.data[0]);
         setDeliveredQty(res.data[0].qty);
+
+        // Requesting item details from backend.
         axios
           .get(
             `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_ITEM_URL}/${supplierId}/${res.data[0].itemName}`
@@ -52,15 +56,20 @@ export default function CreateDeliveryInvoice() {
       });
   }, [supplierId, pOrderId]);
 
+  // Function which triggers delivery note creation and invoice generation actions.
   function proceed(e) {
     e.preventDefault();
+
+    // Check the delivered and requested quantity.
     if (deliveredQty > order.qty) {
       alert(constants.WARNING_MESSAGE_QUANTITY_EXCEED);
     } else {
+      // Ask for confirmation before creating delivery note and invoice.
       var response = window.confirm(
         constants.CONFIRM_MESSAGE_CREATING_DELIVERY_NOTE_AND_INVOICE
       );
       if (response) {
+        // Delivery note object
         const deliveryNote = {
           deliveryId: constants.HASH_D + pOrderId.substring(1),
           pOrderId: constants.HASH + pOrderId,
@@ -77,6 +86,7 @@ export default function CreateDeliveryInvoice() {
           location: order.location,
         };
 
+        // Invoice object
         const invoice = {
           invoiceId: constants.HASH_IN_DASH + pOrderId.substring(2),
           deliveryId: constants.HASH_D + pOrderId.substring(1),
@@ -92,6 +102,7 @@ export default function CreateDeliveryInvoice() {
           paymentStatus: constants.PENDING,
         };
 
+        // Updated purchase order object
         const purchaseOrder = {
           pOrderId: order.pOrderId,
           itemCode: order.itemCode,
@@ -109,18 +120,21 @@ export default function CreateDeliveryInvoice() {
           status: constants.COMPLETED,
         };
 
+        // Send the delivery note to the databse through backend.
         axios
           .post(
             `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_DELIVERY_NOTE_URL}/`,
             deliveryNote
           )
           .then((res) => {
+            // Send the invoice to the database through backend.
             axios
               .post(
                 `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_INVOICE_URL}/`,
                 invoice
               )
               .then((res) => {
+                // Update the purchase order status to completed.
                 axios
                   .put(
                     `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.UPDATE_PURCHASE_ORDER_URL}/${pOrderId}`,
@@ -128,6 +142,7 @@ export default function CreateDeliveryInvoice() {
                   )
                   .then(() => {
                     alert(constants.PURCHASE_ORDER_COMPLETED);
+                    // Redirect user to pending orders page.
                     window.location.replace(
                       `/${constants.SUPPLIER_HOME_PATH}/${constants.PENDING_ORDERS_PATH}`
                     );
@@ -224,6 +239,7 @@ export default function CreateDeliveryInvoice() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
+              // Closing the session.
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
