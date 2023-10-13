@@ -52,7 +52,7 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ViewDeliveryNoteInDetailScreen(
-                              widget._width, widget._height, widget.user),
+                              widget._width, widget._height, widget.user, e["deliveryId"]),
                         ),
                       );
                     },
@@ -72,6 +72,14 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                               ),
                               Text(
                                 'PO Number : ${e["pOrderId"]}',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.green[900],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                'DO Number : ${e["deliveryId"]}',
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.green[900],
