@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function SingleDeliveryNote() {
+  // Check whether the session is open
   if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
@@ -29,6 +30,7 @@ export default function SingleDeliveryNote() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
 
+    // Requesting the delivery note details from backend.
     axios
       .get(
         `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_DELIVERY_NOTE_URL}/${deliveryId}`
@@ -36,6 +38,8 @@ export default function SingleDeliveryNote() {
       .then((res) => {
         setDeliveryNote(res.data[0]);
         console.log(res.data[0]);
+
+        // Requesting relavant purchase order details from backend.
         axios
           .get(
             `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${
@@ -124,6 +128,7 @@ export default function SingleDeliveryNote() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
+              // Closing the session.
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
