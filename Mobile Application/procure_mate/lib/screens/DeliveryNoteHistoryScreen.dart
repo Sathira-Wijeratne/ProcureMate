@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/site_manager.dart';
-import 'ViewDeliveryNoteInDetailScreen.dart';
+import 'view_delivery_note_in_detail_screen.dart';
 
 class DeliveryNoteHistoryScreen extends StatefulWidget {
   const DeliveryNoteHistoryScreen(this._width, this._height, this.user, {super.key});
@@ -27,7 +27,7 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
             Navigator.of(context).pop(); // Close the drawer
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ViewDeliveryNote(
+                builder: (context) => ViewDeliveryNoteInDetailScreen(
                     widget._width, widget._height, widget.user),
               ),
             );

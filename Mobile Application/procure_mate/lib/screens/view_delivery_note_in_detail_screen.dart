@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 
 import '../models/site_manager.dart';
 
-class ViewDeliveryNote extends StatefulWidget {
-  const ViewDeliveryNote(this._width,this._height,this.user,{super.key});
+class ViewDeliveryNoteInDetailScreen extends StatefulWidget {
+  const ViewDeliveryNoteInDetailScreen(this._width,this._height,this.user,{super.key});
   final double _width;
   final double _height;
   final SiteManager user;
 
   @override
-  State<ViewDeliveryNote> createState() => _ViewDeliveryNoteState();
+  State<ViewDeliveryNoteInDetailScreen> createState() => _ViewDeliveryNoteInDetailScreenState();
 }
 
-class _ViewDeliveryNoteState extends State<ViewDeliveryNote> {
+class _ViewDeliveryNoteInDetailScreenState extends State<ViewDeliveryNoteInDetailScreen> {
   final emailController = TextEditingController();
   final Random _random = Random();
 

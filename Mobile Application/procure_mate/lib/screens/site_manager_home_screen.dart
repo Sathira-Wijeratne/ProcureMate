@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:procure_mate/models/site_manager.dart';
-import 'package:procure_mate/screens/ViewDeliveryNotesScreen.dart';
+import 'package:procure_mate/screens/view_delivery_notes_screen.dart';
 import 'package:procure_mate/screens/purchase_request_screen.dart';
 
 import 'DeliveryNoteHistoryScreen.dart';
@@ -90,7 +90,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                 Navigator.of(context).pop(); // Close the drawer
                 Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ViewDeliveryNoteScreen(
+                      builder: (context) => ViewDeliveryNotesScreen(
                           widget._width, widget._height, widget.user)
                     ),
                     );

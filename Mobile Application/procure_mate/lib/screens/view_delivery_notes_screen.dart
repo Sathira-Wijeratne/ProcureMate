@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../models/site_manager.dart';
 import '../services/db_service.dart';
-import 'ViewDeliveryNoteInDetailScreen.dart';
+import 'view_delivery_note_in_detail_screen.dart';
 
-class ViewDeliveryNoteScreen extends StatefulWidget {
-  const ViewDeliveryNoteScreen(this._width, this._height, this.user,
+class ViewDeliveryNotesScreen extends StatefulWidget {
+  const ViewDeliveryNotesScreen(this._width, this._height, this.user,
       {super.key});
 
   final double _width;
@@ -13,10 +13,10 @@ class ViewDeliveryNoteScreen extends StatefulWidget {
   final SiteManager user;
 
   @override
-  State<ViewDeliveryNoteScreen> createState() => _ViewDeliveryNoteScreenState();
+  State<ViewDeliveryNotesScreen> createState() => _ViewDeliveryNotesScreenState();
 }
 
-class _ViewDeliveryNoteScreenState extends State<ViewDeliveryNoteScreen> {
+class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
   late List<Map<String, dynamic>> deliveryNotes1;
   late List<Map<String, dynamic>> deliveryNotes2;
 
@@ -41,7 +41,7 @@ class _ViewDeliveryNoteScreenState extends State<ViewDeliveryNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Delivery Notes"),
+        title: const Text("Delivery Notes"),
       ),
       body: ListView(
           children: deliveryNotes2
@@ -51,7 +51,7 @@ class _ViewDeliveryNoteScreenState extends State<ViewDeliveryNoteScreen> {
                       Navigator.of(context).pop(); // Close the drawer
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ViewDeliveryNote(
+                          builder: (context) => ViewDeliveryNoteInDetailScreen(
                               widget._width, widget._height, widget.user),
                         ),
                       );
