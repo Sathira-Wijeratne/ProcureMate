@@ -28,7 +28,7 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => ViewDeliveryNoteInDetailScreen(
-                    widget._width, widget._height, widget.user, ""),
+                    widget._width, widget._height, widget.user, {}),
               ),
             );
           },

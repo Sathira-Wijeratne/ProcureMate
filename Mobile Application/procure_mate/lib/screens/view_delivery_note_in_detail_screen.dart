@@ -12,7 +12,7 @@ class ViewDeliveryNoteInDetailScreen extends StatefulWidget {
   final double _width;
   final double _height;
   final SiteManager _user;
-  final String _deliveryId;
+  final Map<String, dynamic> _deliveryId;
 
   @override
   State<ViewDeliveryNoteInDetailScreen> createState() =>
