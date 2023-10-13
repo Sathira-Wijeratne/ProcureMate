@@ -5,7 +5,7 @@ import axios from "axios";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function Invoices() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
@@ -125,37 +125,43 @@ export default function Invoices() {
             <h2>
               <b>{constants.INVOICES}</b>
             </h2>
-            <table
-              className="table"
-              style={{
-                width: "98%",
-                textAlign: "center",
-                marginTop: "2%",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>{constants.INVOICE_NO}</th>
-                  <th>{constants.PO_ID}</th>
-                  <th>{constants.DO_ID}</th>
-                  <th>{constants.AMOUNT}</th>
-                  <th> {constants.DATE}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {invoices.map((invoice) => (
-                  <tr
-                    className="raised-orders-table-row-hover"
-                    onClick={() => {
-                      window.location.replace(
-                        `/supplierhome/invoices/${invoice.invoiceId.substring(
-                          1
-                        )}`
-                      );
-                    }}
-                  >
-                    <td>
-                      {/* <a
+            {invoices.length === 0 && (
+              <center style={{ marginTop: "5%" }}>
+                <h3>No Invoices...</h3>
+              </center>
+            )}
+            {invoices.length !== 0 && (
+              <table
+                className="table"
+                style={{
+                  width: "98%",
+                  textAlign: "center",
+                  marginTop: "2%",
+                }}
+              >
+                <thead>
+                  <tr>
+                    <th>{constants.INVOICE_NO}</th>
+                    <th>{constants.PO_ID}</th>
+                    <th>{constants.DO_ID}</th>
+                    <th>{constants.AMOUNT}</th>
+                    <th> {constants.DATE}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invoices.map((invoice) => (
+                    <tr
+                      className="raised-orders-table-row-hover"
+                      onClick={() => {
+                        window.location.replace(
+                          `/supplierhome/invoices/${invoice.invoiceId.substring(
+                            1
+                          )}`
+                        );
+                      }}
+                    >
+                      <td>
+                        {/* <a
                         href="#"
                         onClick={() => {
                           window.location.replace(
@@ -165,20 +171,21 @@ export default function Invoices() {
                           );
                         }}
                       > */}
-                      {invoice.invoiceId}
-                      {/* </a> */}
-                    </td>
-                    <td>{invoice.pOrderId}</td>
-                    <td>{invoice.deliveryId}</td>
-                    <td>
-                      {constants.RS_DOT}{" "}
-                      {Number.parseFloat(invoice.cost).toFixed(2)}
-                    </td>
-                    <td>{new Date(invoice.date).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        {invoice.invoiceId}
+                        {/* </a> */}
+                      </td>
+                      <td>{invoice.pOrderId}</td>
+                      <td>{invoice.deliveryId}</td>
+                      <td>
+                        {constants.RS_DOT}{" "}
+                        {Number.parseFloat(invoice.cost).toFixed(2)}
+                      </td>
+                      <td>{new Date(invoice.date).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
         <div style={{ width: "1px" }}>

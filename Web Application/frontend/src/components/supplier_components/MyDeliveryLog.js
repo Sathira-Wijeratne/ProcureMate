@@ -127,38 +127,44 @@ export default function MyDeliveryLog() {
             <h2>
               <b>{constants.MY_DELIVERY_LOG}</b>
             </h2>
-            <table
-              className="table"
-              style={{
-                width: "98%",
-                textAlign: "center",
-                marginTop: "2%",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>{constants.DO_ID}</th>
-                  <th>{constants.PO_ID}</th>
-                  <th>{constants.SITE_ID}</th>
-                  <th>{constants.LOCATION}</th>
-                  <th>{constants.INVOICE_NO}</th>
-                  <th>{constants.DELIVERY_DATE}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {deliveryNotes.map((deliveryNote) => (
-                  <tr
-                    className="raised-orders-table-row-hover"
-                    onClick={() => {
-                      window.location.replace(
-                        `/supplierhome/mydeliverylog/${deliveryNote.deliveryId.substring(
-                          1
-                        )}`
-                      );
-                    }}
-                  >
-                    <td>
-                      {/* <a
+            {deliveryNotes.length === 0 && (
+              <center style={{ marginTop: "5%" }}>
+                <h3>No Delivery Notes...</h3>
+              </center>
+            )}
+            {deliveryNotes.length !== 0 && (
+              <table
+                className="table"
+                style={{
+                  width: "98%",
+                  textAlign: "center",
+                  marginTop: "2%",
+                }}
+              >
+                <thead>
+                  <tr>
+                    <th>{constants.DO_ID}</th>
+                    <th>{constants.PO_ID}</th>
+                    <th>{constants.SITE_ID}</th>
+                    <th>{constants.LOCATION}</th>
+                    <th>{constants.INVOICE_NO}</th>
+                    <th>{constants.DELIVERY_DATE}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {deliveryNotes.map((deliveryNote) => (
+                    <tr
+                      className="raised-orders-table-row-hover"
+                      onClick={() => {
+                        window.location.replace(
+                          `/supplierhome/mydeliverylog/${deliveryNote.deliveryId.substring(
+                            1
+                          )}`
+                        );
+                      }}
+                    >
+                      <td>
+                        {/* <a
                         href="#"
                         onClick={() => {
                           window.location.replace(
@@ -168,21 +174,24 @@ export default function MyDeliveryLog() {
                           );
                         }}
                       > */}
-                      {deliveryNote.deliveryId}
-                      {/* </a> */}
-                    </td>
-                    <td>{deliveryNote.pOrderId}</td>
-                    <td>{deliveryNote.siteId}</td>
-                    <td>{deliveryNote.location}</td>
-                    <td>
-                      {constants.HASH_IN_DASH}
-                      {deliveryNote.deliveryId.substring(3)}
-                    </td>
-                    <td>{new Date(deliveryNote.date).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        {deliveryNote.deliveryId}
+                        {/* </a> */}
+                      </td>
+                      <td>{deliveryNote.pOrderId}</td>
+                      <td>{deliveryNote.siteId}</td>
+                      <td>{deliveryNote.location}</td>
+                      <td>
+                        {constants.HASH_IN_DASH}
+                        {deliveryNote.deliveryId.substring(3)}
+                      </td>
+                      <td>
+                        {new Date(deliveryNote.date).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
         <div style={{ width: "1px" }}>
