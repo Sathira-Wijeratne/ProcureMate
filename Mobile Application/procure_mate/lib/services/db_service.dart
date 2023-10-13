@@ -38,7 +38,7 @@ class DBService {
   static Future<List<Map<String, dynamic>>> getAllApprovalPendingDeliveryNotes(
       String siteMngId) async {
     try {
-      final query = {"siteMngId": siteMngId};
+      final query = {"siteMngId": siteMngId, "status": "Sent"};
       final deliveryNotes = await deliveryNoteCollection.find(query).toList();
       return deliveryNotes;
     } catch (e) {
@@ -87,5 +87,17 @@ class DBService {
     });
 
     return response;
+  }
+
+  static Future<List<Map<String, dynamic>>> getPurchaseOrder(
+      String pOrderId) async {
+    try {
+      final query = {"pOrderId": pOrderId};
+      final purchaseOrders = await purchaseOrderCollection.find(query).toList();
+      return purchaseOrders;
+    } catch (e) {
+      print(e);
+      return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
+    }
   }
 }

@@ -1,18 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:procure_mate/services/db_service.dart';
 
 import '../models/site_manager.dart';
 
 class ViewDeliveryNoteInDetailScreen extends StatefulWidget {
   const ViewDeliveryNoteInDetailScreen(
-      this._width, this._height, this._user, this._deliveryId,
+      this._width, this._height, this._user, this._deliveryNote,
       {super.key});
 
   final double _width;
   final double _height;
   final SiteManager _user;
-  final Map<String, dynamic> _deliveryId;
+  final Map<String, dynamic> _deliveryNote;
 
   @override
   State<ViewDeliveryNoteInDetailScreen> createState() =>
@@ -23,6 +24,8 @@ class _ViewDeliveryNoteInDetailScreenState
     extends State<ViewDeliveryNoteInDetailScreen> {
   final emailController = TextEditingController();
   final Random _random = Random();
+  List<Map<String, dynamic>> _purchaseOrder1 = [];
+  Map<String, dynamic> _purchaseOrder2 = {};
 
   // Initial Selected Value
   String dropdownvalue = 'Item 1';
@@ -44,9 +47,21 @@ class _ViewDeliveryNoteInDetailScreenState
     super.initState();
     emailController.addListener(() => setState(() {}));
     _generateRandomPONumber();
+    _getPODetails();
   }
 
-  void _onTapConfirmationBtns(BuildContext context, String newStatus) {}
+  Future<void> _getPODetails() async {
+    _purchaseOrder1 = await DBService.getPurchaseOrder(widget._deliveryNote["pOrderId"]);
+    setState(() {
+      _purchaseOrder2 = _purchaseOrder1[0];
+      print(_purchaseOrder2.toString());
+    });
+  }
+
+  void _onTapConfirmationBtns(BuildContext context, String newStatus) {
+    widget._deliveryNote["status"] = newStatus;
+    print(widget._deliveryNote.toString());
+  }
 
   void _generateRandomPONumber() {
     setState(() {
