@@ -9,8 +9,10 @@ export default function Invoices() {
     window.location.replace("/");
   }
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -23,7 +25,9 @@ export default function Invoices() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
     axios
-      .get(`http://localhost:8070/supplier/getinvoices/${supplierId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_INVOICES_URL}/${supplierId}`
+      )
       .then((res) => {
         console.log(res.data);
         setInvoices(res.data);
@@ -127,7 +131,7 @@ export default function Invoices() {
             </h2>
             {invoices.length === 0 && (
               <center style={{ marginTop: "5%" }}>
-                <h3>No Invoices...</h3>
+                <h3>{constants.NO_INVOICES}</h3>
               </center>
             )}
             {invoices.length !== 0 && (
