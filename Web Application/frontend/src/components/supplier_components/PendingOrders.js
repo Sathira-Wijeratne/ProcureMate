@@ -5,12 +5,14 @@ import axios from "axios";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function PendingOrders() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -24,7 +26,9 @@ export default function PendingOrders() {
     setInterval(() => setCurrTime(new Date()), 1000);
 
     axios
-      .get(`http://localhost:8070/supplier/getpendingorders/${supplierId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_PENDINGS_ORDERS_URL}/${supplierId}`
+      )
       .then((res) => {
         console.log(res.data);
         setOrders(res.data);
@@ -108,10 +112,10 @@ export default function PendingOrders() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
@@ -156,9 +160,9 @@ export default function PendingOrders() {
                       className="raised-orders-table-row-hover"
                       onClick={() => {
                         window.location.replace(
-                          `/supplierhome/pendingorders/${order.pOrderId.substring(
-                            1
-                          )}`
+                          `/${constants.SUPPLIER_HOME_PATH}/${
+                            constants.PENDING_ORDERS_PATH
+                          }/${order.pOrderId.substring(1)}`
                         );
                       }}
                     >

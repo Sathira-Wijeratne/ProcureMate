@@ -54,6 +54,7 @@ const constants = {
   GET_ITEM_URL: "getitem",
   GET_INVOICES_URL: "getinvoices",
   GET_DELIVERY_NOTES_URL: "getdeliverynotes",
+  GET_PENDINGS_ORDERS_URL: "getpendingorders",
   CREATE_DELIVERY_NOTE_URL: "createdeliverynote",
   CREATE_INVOICE_URL: "createinvoice",
   UPDATE_PURCHASE_ORDER_URL: "updatepurchaseorder",
