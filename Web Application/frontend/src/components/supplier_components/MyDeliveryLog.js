@@ -5,6 +5,7 @@ import axios from "axios";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function MyDeliveryLog() {
+  // Check whether the session is open
   if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
@@ -26,6 +27,7 @@ export default function MyDeliveryLog() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
 
+    // Requesting the delivery notes from backend which are relavant to the current user.
     axios
       .get(
         `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_DELIVERY_NOTES_URL}/${supplierId}`
@@ -113,6 +115,7 @@ export default function MyDeliveryLog() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
+              // Closing the session.
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
