@@ -5,6 +5,7 @@ import axios from "axios";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function PendingOrders() {
+  // Check whether the session is open
   if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
@@ -25,6 +26,7 @@ export default function PendingOrders() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
 
+    // Requesting all the pending orders from the backend which are relavant to the current user.
     axios
       .get(
         `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_PENDINGS_ORDERS_URL}/${supplierId}`
@@ -112,6 +114,7 @@ export default function PendingOrders() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
+              // Closing the session.
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
