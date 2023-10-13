@@ -6,14 +6,16 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function SingleDeliveryNote() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
   const { deliveryId } = useParams();
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -28,15 +30,17 @@ export default function SingleDeliveryNote() {
     setInterval(() => setCurrTime(new Date()), 1000);
 
     axios
-      .get(`http://localhost:8070/supplier/getdeliverynote/${deliveryId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_DELIVERY_NOTE_URL}/${deliveryId}`
+      )
       .then((res) => {
         setDeliveryNote(res.data[0]);
         console.log(res.data[0]);
         axios
           .get(
-            `http://localhost:8070/supplier/getorder/${supplierId}/${res.data[0].pOrderId.substring(
-              1
-            )}`
+            `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${
+              constants.GET_ORDER_URL
+            }/${supplierId}/${res.data[0].pOrderId.substring(1)}`
           )
           .then((res) => {
             setOrder(res.data[0]);
@@ -120,10 +124,10 @@ export default function SingleDeliveryNote() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
