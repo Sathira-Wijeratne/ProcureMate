@@ -5,6 +5,7 @@ import axios from "axios";
 import constants from "../../common/SupplierCommonConstants";
 
 export default function Invoices() {
+  // Check whether the session is open
   if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
@@ -24,6 +25,8 @@ export default function Invoices() {
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
+
+    // Requesting the invoices which are relavant to the current supplier.
     axios
       .get(
         `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_INVOICES_URL}/${supplierId}`
@@ -111,6 +114,7 @@ export default function Invoices() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
+              // Closing the session.
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
               sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
