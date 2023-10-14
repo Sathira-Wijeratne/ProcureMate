@@ -56,7 +56,6 @@ router.route("/").get((req, res) => {
 //FETCHING DETAILS BASED ON PURCHASE ORDER ID
 router.route("/deliveryNote/getDeliveryNote/:deliveryId").get(async (req, res) => {
   let deliveryId = '#'+ req.params.deliveryId;
-
   //The attribute name in the model passed as first parameter.
   await DeliveryNote.findOne({ "deliveryId": `${deliveryId}` })
     .then((deliveryNote) => {
