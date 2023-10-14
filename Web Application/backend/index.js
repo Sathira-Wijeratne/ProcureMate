@@ -28,8 +28,11 @@ connection.once("open", () => {
 const testRouter = require("./routes/test.js");
 app.use("/test", testRouter);
 
-const settlePaymentRouter = require("./routes/settle-payment.js");
-app.use("/settle-payment", settlePaymentRouter);
+const purchaseOrderRouterPayment = require("./routes/purchaseOrder.js");
+app.use("/purchaseOrderPayment", purchaseOrderRouterPayment);
+
+const deliveryNoteRouterPayment = require("./routes/deliveryNote.js");
+app.use("/deliveryOrderPayment", deliveryNoteRouterPayment);
 
 app.listen(PORT, () => {
   console.log(`Server is up and running on PORT : ${PORT}`);
