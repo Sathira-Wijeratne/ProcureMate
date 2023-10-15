@@ -16,6 +16,7 @@ class PurchaseOrder{
   final String siteId;
   final String location;
   final String status;
+  final String rejectReason;
 
   PurchaseOrder(
       this.id,
@@ -32,5 +33,6 @@ class PurchaseOrder{
       this.siteMngId,
       this.siteId,
       this.location,
-      this.status);
+      this.status,
+      this.rejectReason);
 }
