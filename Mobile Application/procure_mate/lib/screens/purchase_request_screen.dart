@@ -184,7 +184,8 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
         "siteMngId": widget.user.empId,
         "siteId": widget.user.siteId,
         "location": widget.user.location,
-        "status": status
+        "status": status,
+        "rejectReason": ""
       };
       print(purchaseOrder.toString());
       Response response = await DBService.createPO(purchaseOrder);
