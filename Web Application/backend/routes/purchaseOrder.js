@@ -20,8 +20,8 @@ router.route("/add").post((req, res) => {
   const status = req.body.status;
   const newPurchaseOrder = new PurchaseOrder({
 
-    pOrderId,
-    itemCode,
+     pOrderId,
+      itemCode,
       itemName,
       unitPrice,
       qty,
