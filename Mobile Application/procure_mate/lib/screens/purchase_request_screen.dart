@@ -248,7 +248,7 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
             final selectedDate = await showDatePicker(
               context: context,
               initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
+              firstDate: DateTime(2023),
               lastDate: DateTime(2101),
             );
             if (selectedDate != null) {

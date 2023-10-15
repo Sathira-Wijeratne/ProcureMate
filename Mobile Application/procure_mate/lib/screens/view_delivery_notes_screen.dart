@@ -13,7 +13,8 @@ class ViewDeliveryNotesScreen extends StatefulWidget {
   final SiteManager user;
 
   @override
-  State<ViewDeliveryNotesScreen> createState() => _ViewDeliveryNotesScreenState();
+  State<ViewDeliveryNotesScreen> createState() =>
+      _ViewDeliveryNotesScreenState();
 }
 
 class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
@@ -48,8 +49,7 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
               .map((e) => GestureDetector(
                     onTap: () {
                       // Navigate to the my claims page when the item is tapped
-                      Navigator.of(context).pop(); // Close the drawer
-                      Navigator.of(context).push(
+                      Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => ViewDeliveryNoteInDetailScreen(
                               widget._width, widget._height, widget.user, e),
