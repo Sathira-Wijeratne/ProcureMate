@@ -34,6 +34,9 @@ app.use("/purchaseOrderPayment", purchaseOrderRouterPayment);
 const deliveryNoteRouterPayment = require("./routes/deliveryNote.js");
 app.use("/deliveryOrderPayment", deliveryNoteRouterPayment);
 
+const invoiceRouterPayment = require("./routes/invoice.js");
+app.use("/invoice", invoiceRouterPayment);
+
 app.listen(PORT, () => {
   console.log(`Server is up and running on PORT : ${PORT}`);
 });
