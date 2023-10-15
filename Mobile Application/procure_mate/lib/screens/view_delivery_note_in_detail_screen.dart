@@ -1,10 +1,8 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:procure_mate/models/response.dart';
 import 'package:procure_mate/services/db_service.dart';
-
 import '../models/site_manager.dart';
 
 class ViewDeliveryNoteInDetailScreen extends StatefulWidget {
