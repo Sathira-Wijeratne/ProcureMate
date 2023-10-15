@@ -22,8 +22,8 @@ class SiteManagerHomePage extends StatefulWidget {
 
 //Radio Button Group related logic
 List<String> options = [
-  'Approval Pending',
-  'Supplier Pending',
+  'Approved',
+  'Pending',
   'Rejected',
   'Completed'
 ];
@@ -47,6 +47,12 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
     print(purchaseorders1.toString());
     setState(() {
       purchaseorders2 = purchaseorders1;
+    });
+  }
+
+  void filter(String option){
+    setState(() {
+      purchaseorders2 = purchaseorders1.where((element) => element["status"] == option).toList();
     });
   }
 
@@ -168,7 +174,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
     return Column(
       children: [
         ListTile(
-          title: Text('Approval Pending'),
+          title: Text('Approved'),
           leading: Radio(
             value: options[0],
             groupValue: currentOption,
@@ -176,11 +182,12 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               setState(() {
                 currentOption = value.toString();
               });
+              filter(value!);
             },
           ),
         ),
         ListTile(
-          title: Text('Supplier Pending'),
+          title: Text('Pending'),
           leading: Radio(
             value: options[1],
             groupValue: currentOption,
@@ -188,6 +195,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               setState(() {
                 currentOption = value.toString();
               });
+              filter(value!);
             },
           ),
         ),
@@ -200,6 +208,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               setState(() {
                 currentOption = value.toString();
               });
+              filter(value!);
             },
           ),
         ),
@@ -212,6 +221,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               setState(() {
                 currentOption = value.toString();
               });
+              filter(value!);
             },
           ),
         )
