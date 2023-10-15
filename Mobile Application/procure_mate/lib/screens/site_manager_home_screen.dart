@@ -60,6 +60,14 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
          fontSize: 16.0);
 
    }else{
+     Fluttertoast.showToast(
+         msg: "Delete Request Unsuccessful!",
+         toastLength: Toast.LENGTH_SHORT,
+         gravity: ToastGravity.BOTTOM,
+         timeInSecForIosWeb: 1,
+         backgroundColor: Colors.amberAccent,
+         textColor: Colors.white,
+         fontSize: 16.0);
 
    }
   }
