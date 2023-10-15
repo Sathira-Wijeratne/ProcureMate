@@ -52,7 +52,7 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => ViewDeliveryNoteInDetailScreen(
-                              widget._width, widget._height, widget.user, e),
+                              widget._width, widget._height, widget.user, e,true),
                         ),
                       );
                     },

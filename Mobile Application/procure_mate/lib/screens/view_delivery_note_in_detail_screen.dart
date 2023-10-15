@@ -9,13 +9,14 @@ import '../models/site_manager.dart';
 
 class ViewDeliveryNoteInDetailScreen extends StatefulWidget {
   const ViewDeliveryNoteInDetailScreen(
-      this._width, this._height, this._user, this._deliveryNote,
+      this._width, this._height, this._user, this._deliveryNote,this._visible,
       {super.key});
 
   final double _width;
   final double _height;
   final SiteManager _user;
   final Map<String, dynamic> _deliveryNote;
+  final bool _visible;
 
   @override
   State<ViewDeliveryNoteInDetailScreen> createState() =>
@@ -173,6 +174,7 @@ class _ViewDeliveryNoteInDetailScreenState
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Total(),
               ),
+              widget._visible==true ?
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -189,7 +191,7 @@ class _ViewDeliveryNoteInDetailScreenState
                     },
                   ),
                 ],
-              ),
+              ) :Container(),
               const SizedBox(height: 24),
               const SizedBox(height: 24),
             ],
