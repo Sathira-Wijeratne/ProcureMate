@@ -357,7 +357,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                           'PO Number : ${e["pOrderId"]}',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.green[900],
+                            color: Colors.amberAccent,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -365,7 +365,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                           'DO Number : ${e["deliveryId"]}',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.green[900],
+                            color: Colors.amberAccent,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -379,14 +379,14 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                               'Item : ${e["itemName"]}',
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Colors.green,
+                                color: Colors.amberAccent,
                               ),
                             ),
                             Text(
                               'Quantity : ${e["qty"]}',
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Colors.green,
+                                color: Colors.amberAccent,
                               ),
                             ),
                           ],
@@ -401,14 +401,14 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                               'Amount : Rs.10,000',
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Colors.green,
+                                color: Colors.amberAccent,
                               ),
                             ),
                             Text(
                               'Date : ${e["date"].toString().substring(0, 10)}',
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Colors.green,
+                                color: Colors.amberAccent,
                               ),
                             ),
                           ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:procure_mate/services/db_service.dart';
 import '../models/site_manager.dart';
 import 'view_delivery_note_in_detail_screen.dart';
 
@@ -16,6 +16,12 @@ class DeliveryNoteHistoryScreen extends StatefulWidget {
 }
 
 class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
+
+  List<Map<String,dynamic>> POHistory1 =[];
+  List<Map<String,dynamic>> POHistory2 =[];
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +41,7 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
           child: Card(
             elevation: 50,
             shadowColor: Colors.black,
-            color: Colors.greenAccent[100],
+            color: Color(0xFFC8E7F2),
             child: SizedBox(
               width: 400,
               height: 160,
@@ -50,7 +56,7 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
                       'PO Number : 123',
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.green[900],
+                        color: Colors.black,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -64,14 +70,14 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
                           'Item : ABC',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.green,
+                            color: Colors.black,
                           ),
                         ),
                         Text(
                           'Quantity : 10',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.green,
+                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -86,14 +92,14 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
                           'Amount : Rs.10,000',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.green,
+                            color: Colors.black,
                           ),
                         ),
                         Text(
                           'Date : 12/10/2023',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.green,
+                            color: Colors.black,
                           ),
                         ),
                       ],
