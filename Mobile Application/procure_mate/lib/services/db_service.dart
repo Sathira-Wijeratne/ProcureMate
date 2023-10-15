@@ -125,4 +125,8 @@ class DBService {
       return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
     }
   }
+
+  static deletePendingPurchaseOrders(String sitemgrID) async {
+    await purchaseOrderCollection.remove(where.eq('siteMngId', sitemgrID));
+  }
 }
