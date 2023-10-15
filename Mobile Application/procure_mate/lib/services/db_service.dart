@@ -126,7 +126,15 @@ class DBService {
     }
   }
 
-  static deletePendingPurchaseOrders(String sitemgrID) async {
-    await purchaseOrderCollection.remove(where.eq('siteMngId', sitemgrID));
+  static deletePendingPurchaseOrders(String pOrderId) async {
+    Response response = Response();
+    await purchaseOrderCollection.deleteOne({'pOrderId': pOrderId}).whenComplete((){
+      response.code = 200;
+      response.message = "PO Deleted";
+    }).catchError((e){
+      response.code = 500;
+      response.message = e.toString();
+    });
+    return response;
   }
 }

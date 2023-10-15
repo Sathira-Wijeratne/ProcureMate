@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:procure_mate/models/response.dart';
 import 'package:procure_mate/models/site_manager.dart';
 import 'package:procure_mate/screens/view_delivery_notes_screen.dart';
 import 'package:procure_mate/screens/purchase_request_screen.dart';
@@ -46,10 +47,12 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
   }
 
   void  deletePendingPO(String poNumber) async{
-    purchaseorders1 = await DBService.deletePendingPurchaseOrders(poNumber);
-    setState(() {
-      purchaseorders2 = purchaseorders1;
-    });
+   Response response = await DBService.deletePendingPurchaseOrders(poNumber);
+   if(response.code == 200){
+
+   }else{
+
+   }
   }
 
   void filter(String option) {
