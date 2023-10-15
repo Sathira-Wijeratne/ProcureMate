@@ -115,4 +115,14 @@ class DBService {
 
     return response;
   }
+
+  static Future<List<Map<String, dynamic>>> getSiteManagerPurchaseOrders(String sitemgrID) async {
+    try {
+      final purchaseOrders = await purchaseOrderCollection.find(where.eq('siteMngId', sitemgrID).sortBy('pOrderId', descending: true)).toList();
+      return purchaseOrders;
+    } catch (e) {
+      print(e);
+      return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
+    }
+  }
 }

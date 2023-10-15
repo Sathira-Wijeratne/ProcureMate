@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:procure_mate/models/site_manager.dart';
 import 'package:procure_mate/screens/view_delivery_notes_screen.dart';
 import 'package:procure_mate/screens/purchase_request_screen.dart';
+import 'package:procure_mate/services/db_service.dart';
 
 import 'DeliveryNoteHistoryScreen.dart';
 import 'login_screen.dart';
@@ -22,8 +23,25 @@ class SiteManagerHomePage extends StatefulWidget {
 List<String> options = ['Approval Pending','Supplier Pending','Rejected'];
 class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
 
+  List<Map<String,dynamic>> purchaseorders1 = [];
+  List<Map<String,dynamic>> purchaseorders2 = [];
+
   String currentOption = options[0];
 
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPurchaseOrders();
+  }
+
+  Future<void> getPurchaseOrders() async {
+    purchaseorders1=await DBService.getSiteManagerPurchaseOrders(widget.user.empId);
+    print(purchaseorders1.toString());
+    setState(() {
+      purchaseorders2 = purchaseorders1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -31,7 +49,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
       appBar: AppBar(
         title: Align(alignment: Alignment.bottomRight, child : Text('Welcome to Procumate')),
       ),
-      body:Column(children:[Text( "Purchase Order History"),radioButtonGroup()]),
+      body:Column(children:[Text( "Purchase Order History"),radioButtonGroup(),LoadPurchaseRequests()]),
 
   );
 
@@ -179,5 +197,95 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
       ],
     );
   }
+  Widget LoadPurchaseRequests() =>ListView(
+      children: purchaseorders2
+          .map((e) => GestureDetector(
+        onTap: () {},
+        child: Card(
+          elevation: 50,
+          shadowColor: Colors.black,
+          color: Colors.greenAccent[100],
+          child: SizedBox(
+            width: 400,
+            height: 160,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'PO Number : ${e["pOrderId"]}',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.green[900],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    'DO Number : ${e["deliveryId"]}',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.green[900],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Item : ${e["itemName"]}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.green,
+                        ),
+                      ),
+                      Text(
+                        'Quantity : ${e["qty"]}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Amount : Rs.10,000',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.green,
+                        ),
+                      ),
+                      Text(
+                        'Date : ${e["date"].toString().substring(0, 10)}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ))
+          .toList());
 
 }
