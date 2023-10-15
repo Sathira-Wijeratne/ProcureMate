@@ -24,6 +24,8 @@ export default function PendingInvoices() {
   
 
   useEffect(() => {
+    setInterval(() => setCurrTime(new Date()), 1000);
+
     // Make an HTTP request to your server to fetch pending invoices using Axios
     axios.get(`${constants.BASE_URL}/invoice/invoices/pending`) // Replace with your actual API endpoint
       .then((response) => {
@@ -67,7 +69,7 @@ export default function PendingInvoices() {
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
-              href="/supplierhome/pendingorders"
+              href="/accountinghome/pendingInvoices"
               style={{ textDecoration: "none" }}
             >
               <BsFillStarFill
@@ -77,7 +79,7 @@ export default function PendingInvoices() {
             </a>
             <br />
             <br />
-            <a href="/supplierhome/invoices" style={{ textDecoration: "none" }}>
+            <a href="/accountinghome/deliveryLogs" style={{ textDecoration: "none" }}>
               <BsMenuButtonWideFill
                 style={{
                   marginBottom: "1%",
@@ -90,7 +92,7 @@ export default function PendingInvoices() {
             <br />
             <br />
             <a
-              href="/supplierhome/mydeliverylog"
+              href="/accountinghome/deliveryLogs"
               style={{ textDecoration: "none" }}
             >
               <BsMenuButtonWideFill
