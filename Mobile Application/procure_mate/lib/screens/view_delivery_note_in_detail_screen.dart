@@ -51,18 +51,21 @@ class _ViewDeliveryNoteInDetailScreenState
   }
 
   Future<void> _getPODetails() async {
-    _purchaseOrder1 = await DBService.getPurchaseOrder(widget._deliveryNote["pOrderId"]);
+    _purchaseOrder1 =
+        await DBService.getPurchaseOrder(widget._deliveryNote["pOrderId"]);
     setState(() {
       _purchaseOrder2 = _purchaseOrder1[0];
       print(_purchaseOrder2.toString());
     });
   }
 
-  Future<void> _onTapConfirmationBtns(BuildContext context, String newStatus) async {
+  Future<void> _onTapConfirmationBtns(
+      BuildContext context, String newStatus) async {
     widget._deliveryNote["status"] = newStatus;
     print(widget._deliveryNote.toString());
-    Response response = await DBService.updateDeliveryNoteStatus(widget._deliveryNote);
-    if(response.code == 200){
+    Response response =
+        await DBService.updateDeliveryNoteStatus(widget._deliveryNote);
+    if (response.code == 200) {
       Fluttertoast.showToast(
           msg: 'Delivery Note $newStatus!',
           toastLength: Toast.LENGTH_SHORT,
@@ -72,7 +75,7 @@ class _ViewDeliveryNoteInDetailScreenState
           textColor: Colors.white,
           fontSize: 16.0);
       Navigator.pop(context);
-    }else{
+    } else {
       print(response.message);
       Fluttertoast.showToast(
           msg: 'Something went wrong!',
@@ -125,7 +128,10 @@ class _ViewDeliveryNoteInDetailScreenState
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Quantity(),
               ),
-              displaySupplier(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: supplier(),
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Total(),
@@ -160,7 +166,8 @@ class _ViewDeliveryNoteInDetailScreenState
           border: OutlineInputBorder(),
         ),
         readOnly: true,
-        controller: TextEditingController(text: _randomPO),
+        controller:
+            TextEditingController(text: widget._deliveryNote["pOrderId"]),
       );
 
   Widget ClaimDate() {
@@ -169,29 +176,11 @@ class _ViewDeliveryNoteInDetailScreenState
       decoration: InputDecoration(
         labelText: 'Claim Date',
         border: OutlineInputBorder(),
-        suffixIcon: GestureDetector(
-          onTap: () async {
-            final selectedDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2101),
-            );
-            if (selectedDate != null) {
-              setState(() {
-                _selectedDate = selectedDate;
-              });
-            }
-          },
-          child: Icon(Icons.calendar_today),
-        ),
       ),
       controller: TextEditingController(
-        text: _selectedDate == null
-            ? ''
-            : '${_selectedDate!.toLocal()}'.split(
-                ' ')[0], // Display selected date in the format yyyy-MM-dd.
-      ),
+          text: _purchaseOrder2["date"] == null
+              ? ''
+              : _purchaseOrder2["date"].toString().substring(0, 10)!),
     );
   }
 
@@ -201,7 +190,7 @@ class _ViewDeliveryNoteInDetailScreenState
           border: OutlineInputBorder(),
         ),
         readOnly: true,
-        controller: TextEditingController(),
+        controller: TextEditingController(text: _purchaseOrder2["location"]),
       );
 
   Widget SiteManagerName() => TextField(
@@ -210,37 +199,27 @@ class _ViewDeliveryNoteInDetailScreenState
           border: OutlineInputBorder(),
         ),
         readOnly: true,
+        controller: TextEditingController(text: widget._user.name),
       );
 
-  Widget Items() => DropdownButton(
-        // Initial Value
-        value: dropdownvalue,
-
-        // Down Arrow Icon
-        icon: const Icon(Icons.keyboard_arrow_down),
-
-        // Array list of items
-        items: items.map((String items) {
-          return DropdownMenuItem(
-            value: items,
-            child: Text(items),
-          );
-        }).toList(),
-        // After selecting the desired option,it will
-        // change button value to selected value
-        onChanged: (String? newValue) {
-          setState(() {
-            dropdownvalue = newValue!;
-          });
-        },
-      );
+  Widget Items() => TextField(
+    decoration: InputDecoration(
+      labelText: 'Item',
+      border: OutlineInputBorder(),
+    ),
+    readOnly: true,
+    controller: TextEditingController(text: widget._deliveryNote["itemName"]),
+  );
 
   Widget Quantity() => TextField(
-      decoration: InputDecoration(
-        labelText: 'Quantity',
-        border: OutlineInputBorder(),
-      ),
-      readOnly: true);
+        decoration: InputDecoration(
+          labelText: 'Quantity',
+          border: OutlineInputBorder(),
+        ),
+        readOnly: true,
+        controller:
+            TextEditingController(text: widget._deliveryNote["qty"].toString()),
+      );
 
   Widget buildEmail() => TextField(
         controller: emailController,
@@ -311,10 +290,25 @@ class _ViewDeliveryNoteInDetailScreenState
         ],
       );
 
+  Widget supplier() => TextField(
+    decoration: InputDecoration(
+      labelText: 'Supplier',
+      border: OutlineInputBorder(),
+    ),
+    readOnly: true,
+    controller: TextEditingController(
+        text: widget._deliveryNote["supplierId"],
+  ));
+
   Widget Total() => TextField(
-      decoration: InputDecoration(
-        labelText: 'Total',
-        border: OutlineInputBorder(),
-      ),
-      readOnly: true);
+        decoration: InputDecoration(
+          labelText: 'Total',
+          border: OutlineInputBorder(),
+        ),
+        readOnly: true,
+        controller: TextEditingController(
+            text: (widget._deliveryNote["qty"] *
+                    widget._deliveryNote["unitPrice"])
+                .toString()),
+      );
 }
