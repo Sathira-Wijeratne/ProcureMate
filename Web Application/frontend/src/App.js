@@ -10,6 +10,7 @@ import CreateDeliveryInvoice from "./components/supplier_components/CreateDelive
 import SupplierSingleInvoice from "./components/supplier_components/SingleInvoice";
 import SupplierSingleDeliveryNote from "./components/supplier_components/SingleDeliveryNote";
 import RaisedOrders from "./components/procurement_staff_components/RaisedOrders";
+import SingleRaisedOrder from "./components/procurement_staff_components/SingleRaisedOrder";
 
 function App() {
   return (
@@ -47,7 +48,12 @@ function App() {
         path="/procurementstaffhome/raisedorders/"
         exact
         component={RaisedOrders}
-        />
+      />
+      <Route
+        path="/procurementstaffhome/raisedorders/get/:pOrderId/:location"
+        exact
+        component={SingleRaisedOrder}
+      />
     </Router>
   );
 }
