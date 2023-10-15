@@ -59,7 +59,7 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                     child: Card(
                       elevation: 50,
                       shadowColor: Colors.black,
-                      color: Colors.greenAccent[100],
+                      color: Color(0xFFC8E7F2),
                       child: SizedBox(
                         width: 400,
                         height: 160,
@@ -74,7 +74,7 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                                 'PO Number : ${e["pOrderId"]}',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Colors.green[900],
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -82,7 +82,7 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                                 'DO Number : ${e["deliveryId"]}',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Colors.green[900],
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -97,14 +97,14 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                                     'Item : ${e["itemName"]}',
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: Colors.green,
+                                      color: Colors.black,
                                     ),
                                   ),
                                   Text(
                                     'Quantity : ${e["qty"]}',
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: Colors.green,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ],
@@ -120,14 +120,14 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                                     'Amount : Rs.10,000',
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: Colors.green,
+                                      color: Colors.black,
                                     ),
                                   ),
                                   Text(
                                     'Date : ${e["date"].toString().substring(0, 10)}',
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: Colors.green,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ],
