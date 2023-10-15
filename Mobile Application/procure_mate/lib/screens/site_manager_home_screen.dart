@@ -342,7 +342,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               child: Card(
                 elevation: 5,
                 shadowColor: Colors.black,
-                color: Colors.greenAccent[100],
+                color: Color(0xFFC8E7F2),
                 child: SizedBox(
                   width: 400,
                   height: 160,
@@ -428,7 +428,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               child: Card(
                 elevation: 5,
                 shadowColor: Colors.black,
-                color: Colors.greenAccent[100],
+                color: Color(0xFFC8E7F2),
                 child: SizedBox(
                   width: 400,
                   height: 160,
