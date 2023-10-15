@@ -45,6 +45,13 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
     });
   }
 
+  void  deletePendingPO(String poNumber) async{
+    purchaseorders1 = await DBService.deletePendingPurchaseOrders(poNumber);
+    setState(() {
+      purchaseorders2 = purchaseorders1;
+    });
+  }
+
   void filter(String option) {
     setState(() {
       purchaseorders2 = purchaseorders1
@@ -292,11 +299,11 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               onDismissed: (direction) {
                 if (direction == DismissDirection.endToStart &&
                     e["status"] == "Pending") {
-                  print(e.toString());
+                  //delete from db
+                  deletePendingPO(e['pOrderId']);
                   // Handle the swipe-to-left action (e.g., delete the card).
                   setState(() {
                     purchaseorders2.remove(e);
-                    // You can also call a function to delete the item from your database.
                   });
                 }
               },
