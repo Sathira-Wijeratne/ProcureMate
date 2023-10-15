@@ -20,6 +20,22 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
   List<Map<String,dynamic>> POHistory1 =[];
   List<Map<String,dynamic>> POHistory2 =[];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getConfirmedDeliveryNotes();
+  }
+
+  Future<void> getConfirmedDeliveryNotes() async {
+    POHistory1 =
+    await DBService.getAllApprovedDeliveryNotes(widget.user.empId);
+    print(POHistory1.toString());
+    setState(() {
+      POHistory2 = POHistory1;
+    });
+  }
+
 
 
   @override

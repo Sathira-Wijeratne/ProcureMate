@@ -136,4 +136,17 @@ class DBService {
     });
     return response;
   }
+
+  //Fetch all Approved delivery notes
+  //fetch the delivery note
+  static Future<List<Map<String, dynamic>>> getAllApprovedDeliveryNotes(
+      String siteMngId) async {
+    try {
+      final query = {"siteMngId": siteMngId, "status": "Confirmed"};
+      final deliveryNotes = await deliveryNoteCollection.find(query).toList();
+      return deliveryNotes;
+    } catch (e) {
+      return Future.value(e as FutureOr<List<Map<String, dynamic>>>?);
+    }
+  }
 }
