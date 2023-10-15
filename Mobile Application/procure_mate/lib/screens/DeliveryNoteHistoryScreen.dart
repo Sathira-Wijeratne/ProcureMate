@@ -42,7 +42,7 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Delivery Notes"),
+        title: const Text("Delivery Notes History"),
       ),
       body: ListView(
           children: POHistory2
