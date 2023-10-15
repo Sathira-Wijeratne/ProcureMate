@@ -18,18 +18,12 @@ class SiteManagerHomePage extends StatefulWidget {
   @override
   State<SiteManagerHomePage> createState() => _SiteManagerHomePageState();
 }
-
+//Radio Button Group related logic
+List<String> options = ['Approval Pending','Supplier Pending','Rejected'];
 class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
 
-  // Future<void> _onTapLogoutBtn(BuildContext context) async {
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   final path = directory.path;
-  //   File file = File('$path/userdata.txt');
-  //   file.delete();
-  //   Navigator.of(context).pushReplacement(MaterialPageRoute(
-  //       builder: (BuildContext context) =>
-  //           LoginScreen(widget._width, widget._height)));
-  // }
+  String currentOption = options[0];
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -37,15 +31,9 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
       appBar: AppBar(
         title: Align(alignment: Alignment.bottomRight, child : Text('Welcome to Procumate')),
       ),
-      body: Text( "Purchase Order History"
-        // children: [
-        //   // ElevatedButton(
-        //   //     onPressed: () {
-        //   //       // _onTapLogoutBtn(context);
-        //   //     },
-        //   //     child: Text("Logout"))
-        // ],
-      ));
+      body:Column(children:[Text( "Purchase Order History"),radioButtonGroup()]),
+
+  );
 
   Widget leftNavBar() => Drawer(
           child: ListView(
@@ -149,4 +137,47 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
 
         ],
       ));
+  Widget radioButtonGroup() {
+    return Column(
+      children: [
+        ListTile(
+          title: Text('Approval Pending'),
+          leading: Radio(
+            value : options[0],
+            groupValue: currentOption,
+            onChanged: (value){
+              setState(() {
+                currentOption = value.toString();
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: Text('Supplier Pending'),
+          leading: Radio(
+            value : options[1],
+            groupValue: currentOption,
+            onChanged: (value){
+              setState(() {
+                currentOption = value.toString();
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: Text('Rejected'),
+          leading: Radio(
+            value : options[2],
+            groupValue: currentOption,
+            onChanged: (value){
+              setState(() {
+                currentOption = value.toString();
+              });
+            },
+          ),
+        )
+      ],
+    );
+  }
+
 }
