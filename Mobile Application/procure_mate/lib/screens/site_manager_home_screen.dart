@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:procure_mate/models/response.dart';
 import 'package:procure_mate/models/site_manager.dart';
@@ -49,6 +50,14 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
   void  deletePendingPO(String poNumber) async{
    Response response = await DBService.deletePendingPurchaseOrders(poNumber);
    if(response.code == 200){
+     Fluttertoast.showToast(
+         msg: "Purchase Order deleted!",
+         toastLength: Toast.LENGTH_SHORT,
+         gravity: ToastGravity.BOTTOM,
+         timeInSecForIosWeb: 1,
+         backgroundColor: Colors.redAccent,
+         textColor: Colors.white,
+         fontSize: 16.0);
 
    }else{
 
@@ -307,6 +316,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                   // Handle the swipe-to-left action (e.g., delete the card).
                   setState(() {
                     purchaseorders2.remove(e);
+                    purchaseorders1.remove(e);
                   });
                 }
               },
