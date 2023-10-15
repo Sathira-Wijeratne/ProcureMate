@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:procure_mate/models/response.dart';
+import 'package:procure_mate/screens/view_delivery_notes_screen.dart';
 import 'package:procure_mate/services/db_service.dart';
 import '../models/site_manager.dart';
 
@@ -59,33 +61,68 @@ class _ViewDeliveryNoteInDetailScreenState
     });
   }
 
+  Future<bool> _onWillPop(String? newStatus) async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Are you sure?'),
+          content: Text('Do you want to ${newStatus ?? ''} the delivery note'), // Include the newStatus variable with a default value
+
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    )) ??
+        false;
+  }
+
   Future<void> _onTapConfirmationBtns(
       BuildContext context, String newStatus) async {
-    widget._deliveryNote["status"] = newStatus;
-    print(widget._deliveryNote.toString());
-    Response response =
-        await DBService.updateDeliveryNoteStatus(widget._deliveryNote);
-    if (response.code == 200) {
-      Fluttertoast.showToast(
-          msg: 'Delivery Note $newStatus!',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      Navigator.pop(context);
-    } else {
-      print(response.message);
-      Fluttertoast.showToast(
-          msg: 'Something went wrong!',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+    var action = '';
+    if(newStatus == 'Rejected'){
+      action = "reject";
+    } else{
+      action = 'confirm';
     }
+    var response = await _onWillPop(action);
+    if(response){
+      widget._deliveryNote["status"] = newStatus;
+      print(widget._deliveryNote.toString());
+      Response response =
+      await DBService.updateDeliveryNoteStatus(widget._deliveryNote);
+      if (response.code == 200) {
+        Fluttertoast.showToast(
+            msg: 'Delivery Note $newStatus!',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        // Navigator.pop(context);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>ViewDeliveryNotesScreen(widget._width, widget._height, widget._user)));
+      } else {
+        print(response.message);
+        Fluttertoast.showToast(
+            msg: 'Something went wrong!',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    }else{
+
+    }
+
   }
 
   void _generateRandomPONumber() {
