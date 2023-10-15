@@ -22,9 +22,9 @@ class SiteManagerHomePage extends StatefulWidget {
 
 //Radio Button Group related logic
 List<String> options = [
-  'Approved',
   'Pending',
   'Rejected',
+  'Approved',
   'Completed'
 ];
 
@@ -61,11 +61,10 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
         drawer: leftNavBar(),
         appBar: AppBar(
           title: Align(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.center,
               child: Text('Welcome to Procumate')),
         ),
         body: Column(children: [
-          Text("Purchase Order History"),
           radioButtonGroup(),
           Expanded(child: SizedBox(child: LoadPurchaseRequests()))
         ]),
@@ -171,150 +170,231 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
       ));
 
   Widget radioButtonGroup() {
-    return Column(
-      children: [
-        ListTile(
-          title: Text('Approved'),
-          leading: Radio(
-            value: options[0],
-            groupValue: currentOption,
-            onChanged: (value) {
-              setState(() {
-                currentOption = value.toString();
-              });
-              filter(value!);
-            },
-          ),
-        ),
-        ListTile(
-          title: Text('Pending'),
-          leading: Radio(
-            value: options[1],
-            groupValue: currentOption,
-            onChanged: (value) {
-              setState(() {
-                currentOption = value.toString();
-              });
-              filter(value!);
-            },
-          ),
-        ),
-        ListTile(
-          title: Text('Rejected'),
-          leading: Radio(
-            value: options[2],
-            groupValue: currentOption,
-            onChanged: (value) {
-              setState(() {
-                currentOption = value.toString();
-              });
-              filter(value!);
-            },
-          ),
-        ),
-        ListTile(
-          title: Text('Completed'),
-          leading: Radio(
-            value: options[3],
-            groupValue: currentOption,
-            onChanged: (value) {
-              setState(() {
-                currentOption = value.toString();
-              });
-              filter(value!);
-            },
-          ),
-        )
-      ],
+    return Container(
+      width: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: options.map((option) {
+          return Column(
+            children: [
+              Radio(
+                value: option,
+                groupValue: currentOption,
+                onChanged: (value) {
+                  setState(() {
+                    currentOption = value.toString();
+                  });
+                  filter(value!);
+                },
+              ),
+              Text(
+                option,
+                style: TextStyle(fontSize: 10), // You can adjust the font size here
+              ),
+            ],
+          );
+        }).toList(),
+      ),
     );
   }
 
+  // Widget LoadPurchaseRequests() => ListView(
+  //     children: purchaseorders2
+  //         .map((e) => GestureDetector(
+  //               onTap: () {},
+  //               child: Card(
+  //                 elevation: 50,
+  //                 shadowColor: Colors.black,
+  //                 color: Colors.greenAccent[100],
+  //                 child: SizedBox(
+  //                   width: 400,
+  //                   height: 160,
+  //                   child: Padding(
+  //                     padding: const EdgeInsets.all(20.0),
+  //                     child: Column(
+  //                       children: [
+  //                         const SizedBox(
+  //                           height: 10,
+  //                         ),
+  //                         Text(
+  //                           'PO Number : ${e["pOrderId"]}',
+  //                           style: TextStyle(
+  //                             fontSize: 15,
+  //                             color: Colors.green[900],
+  //                             fontWeight: FontWeight.w500,
+  //                           ),
+  //                         ),
+  //                         Text(
+  //                           'DO Number : ${e["deliveryId"]}',
+  //                           style: TextStyle(
+  //                             fontSize: 15,
+  //                             color: Colors.green[900],
+  //                             fontWeight: FontWeight.w500,
+  //                           ),
+  //                         ),
+  //                         const SizedBox(
+  //                           height: 10,
+  //                         ),
+  //                         Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                           children: [
+  //                             Text(
+  //                               'Item : ${e["itemName"]}',
+  //                               style: TextStyle(
+  //                                 fontSize: 15,
+  //                                 color: Colors.green,
+  //                               ),
+  //                             ),
+  //                             Text(
+  //                               'Quantity : ${e["qty"]}',
+  //                               style: TextStyle(
+  //                                 fontSize: 15,
+  //                                 color: Colors.green,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         const SizedBox(
+  //                           height: 10,
+  //                         ),
+  //                         Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                           children: [
+  //                             Text(
+  //                               'Amount : Rs.10,000',
+  //                               style: TextStyle(
+  //                                 fontSize: 15,
+  //                                 color: Colors.green,
+  //                               ),
+  //                             ),
+  //                             Text(
+  //                               'Date : ${e["date"].toString().substring(0, 10)}',
+  //                               style: TextStyle(
+  //                                 fontSize: 15,
+  //                                 color: Colors.green,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         const SizedBox(
+  //                           height: 10,
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ))
+  //         .toList());
+
   Widget LoadPurchaseRequests() => ListView(
-      children: purchaseorders2
-          .map((e) => GestureDetector(
-                onTap: () {},
-                child: Card(
-                  elevation: 50,
-                  shadowColor: Colors.black,
-                  color: Colors.greenAccent[100],
-                  child: SizedBox(
-                    width: 400,
-                    height: 160,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'PO Number : ${e["pOrderId"]}',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.green[900],
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'DO Number : ${e["deliveryId"]}',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.green[900],
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Item : ${e["itemName"]}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.green,
-                                ),
-                              ),
-                              Text(
-                                'Quantity : ${e["qty"]}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Amount : Rs.10,000',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.green,
-                                ),
-                              ),
-                              Text(
-                                'Date : ${e["date"].toString().substring(0, 10)}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ),
+    children: purchaseorders2
+        .map((e) => Dismissible(
+      key: UniqueKey(),
+      onDismissed: (direction) {
+        if (direction == DismissDirection.endToStart) {
+          // Handle the swipe-to-left action (e.g., delete the card).
+          setState(() {
+            purchaseorders2.remove(e);
+            // You can also call a function to delete the item from your database.
+          });
+        }
+      },
+      background: Container(
+        color: Colors.red, // Background color when swiping left
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      child: Card(
+        elevation: 5,
+        shadowColor: Colors.black,
+        color: Colors.greenAccent[100],
+        child: SizedBox(
+          width: 400,
+          height: 160,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'PO Number : ${e["pOrderId"]}',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.green[900],
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ))
-          .toList());
+                Text(
+                  'DO Number : ${e["deliveryId"]}',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.green[900],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Item : ${e["itemName"]}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.green,
+                      ),
+                    ),
+                    Text(
+                      'Quantity : ${e["qty"]}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Amount : Rs.10,000',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.green,
+                      ),
+                    ),
+                    Text(
+                      'Date : ${e["date"].toString().substring(0, 10)}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ))
+        .toList(),
+  );
+
 }
