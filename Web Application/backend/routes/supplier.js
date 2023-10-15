@@ -248,6 +248,7 @@ router.route("/updatepurchaseorder/:pOrderId").put(async (req, res) => {
     siteId,
     location,
     status,
+    rejectReason,
   } = req.body;
   const unitPrice = Number(req.body.unitPrice);
   const qty = Number(req.body.qty);
@@ -269,6 +270,7 @@ router.route("/updatepurchaseorder/:pOrderId").put(async (req, res) => {
     siteId,
     location,
     status,
+    rejectReason,
   };
 
   // Update the purchase order in the database

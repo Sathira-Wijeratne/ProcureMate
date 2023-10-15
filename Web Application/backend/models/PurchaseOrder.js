@@ -59,6 +59,10 @@ const purchaseOrderSchema = new Schema({
     type: String,
     required: true,
   },
+  rejectReason: {
+    type: String,
+    required: false,
+  },
 });
 
 // create a model based on the purchase order schema

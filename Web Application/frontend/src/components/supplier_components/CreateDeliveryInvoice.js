@@ -118,6 +118,7 @@ export default function CreateDeliveryInvoice() {
           siteId: order.siteId,
           location: order.location,
           status: constants.COMPLETED,
+          rejectReason: order.rejectReason,
         };
 
         // Send the delivery note to the databse through backend.
