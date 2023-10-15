@@ -142,7 +142,7 @@ class DBService {
   static Future<List<Map<String, dynamic>>> getAllApprovedDeliveryNotes(
       String siteMngId) async {
     try {
-      final query = {"siteMngId": siteMngId, "status": "Confirmed"};
+      final query = where.eq("status", "Confirmed").or(where.eq("status", "Approved"));
       final deliveryNotes = await deliveryNoteCollection.find(query).toList();
       return deliveryNotes;
     } catch (e) {
