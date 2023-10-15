@@ -28,6 +28,9 @@ List<String> options = ['Pending', 'Rejected', 'Approved', 'Completed'];
 class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
   List<Map<String, dynamic>> purchaseorders1 = [];
   List<Map<String, dynamic>> purchaseorders2 = [];
+  //Banner count related
+  late List<Map<String, dynamic>> deliveryNotes1;
+  int countDN = 0;
 
   String currentOption = options[0];
 
@@ -36,12 +39,22 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
     // TODO: implement initState
     super.initState();
     getPurchaseOrders();
+    getDeliveryNotes();
+  }
+
+  Future<void> getDeliveryNotes() async {
+    deliveryNotes1 =
+    await DBService.getAllApprovalPendingDeliveryNotes(widget.user.empId);
+
+    setState(() {
+      countDN = deliveryNotes1.length;
+    });
   }
 
   Future<void> getPurchaseOrders() async {
     purchaseorders1 =
         await DBService.getSiteManagerPurchaseOrders(widget.user.empId);
-    print(purchaseorders1.toString());
+
     setState(() {
       purchaseorders2 = purchaseorders1;
     });
@@ -140,14 +153,15 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                         widget._width, widget._height, widget.user)),
               );
             },
-            trailing: ClipOval(
+            trailing: countDN!=0 ?
+            ClipOval(
               child: Container(
                 color: Colors.red,
                 width: 20,
                 height: 20,
                 child: Center(
                   child: Text(
-                    '8',
+                    countDN.toString(),
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
@@ -155,7 +169,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                   ),
                 ),
               ),
-            ),
+            ) : null,
           ),
           Divider(),
           ListTile(
