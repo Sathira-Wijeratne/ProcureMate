@@ -4,7 +4,6 @@ import 'package:procure_mate/models/delivery_note.dart';
 import 'package:procure_mate/models/purchase_order.dart';
 import 'package:procure_mate/models/site_manager.dart';
 
-
 void main() {
   group('site_manager', () {
     test('toJson', () {
@@ -56,23 +55,22 @@ void main() {
           'new');
 
       final json = {
-        "id":model.id,
+        "_id": model.id,
         "pOrderId": model.pOrderId,
         "itemCode": model.itemCode,
         "itemName": model.itemName,
         "unitPrice": model.unitPrice,
         "qty": model.qty,
         "uom": model.uom,
-        "amount":model.amount,
+        "amount": model.amount,
         "date": model.date,
         "dueDate": model.dueDate,
         "supplierId": model.supplierId,
-        "siteMngId":model.siteMngId,
+        "siteMngId": model.siteMngId,
         "siteId": model.siteId,
         "location": model.location,
         "status": model.status,
         "rejectReason": model.rejectReason,
-
       };
 
       expect(json, isA<Map<String, dynamic>>());
@@ -98,26 +96,37 @@ void main() {
   group('delivery_note', () {
     final objectId1 = ObjectId();
     test('toJson', () {
-
-
-    final model1 = DeliveryNote(objectId1, "D001", "P001", "S001", "2023/10/12", "Confirmed", "I001", "Cement", 150, 30, "kg", "S001", "SM001", 'Kaluthara');
+      final model1 = DeliveryNote(
+          objectId1,
+          "D001",
+          "P001",
+          "S001",
+          "2023/10/12",
+          "Confirmed",
+          "I001",
+          "Cement",
+          150,
+          30,
+          "kg",
+          "S001",
+          "SM001",
+          'Kaluthara');
 
       final json = {
-        "id":model1.id,
+        "_id": model1.id,
         "deliveryId": model1.deliveryId,
         "pOrderId": model1.pOrderId,
         "supplierId": model1.supplierId,
         "date": model1.date,
         "status": model1.status,
         "itemCode": model1.itemCode,
-        "itemName":model1.itemName,
+        "itemName": model1.itemName,
         "unitPrice": model1.unitPrice,
         "qty": model1.qty,
         "uom": model1.uom,
-        "siteMngId":model1.siteMngId,
+        "siteMngId": model1.siteMngId,
         "siteId": model1.siteId,
         "location": model1.location,
-
       };
 
       expect(json, isA<Map<String, dynamic>>());
@@ -135,7 +144,6 @@ void main() {
       expect(json["siteMngId"], equals("S001"));
       expect(json["siteId"], equals("SM001"));
       expect(json["location"], equals("Kaluthara"));
-
     });
   });
 }
