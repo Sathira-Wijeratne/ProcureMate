@@ -415,7 +415,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Amount : Rs.10,000',
+                              'Amount : Rs.${(e["qty"] * e["unitPrice"]).toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
@@ -505,7 +505,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Amount : Rs.10,000',
+                              'Amount : Rs.${(e["qty"] * e["unitPrice"]).toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
