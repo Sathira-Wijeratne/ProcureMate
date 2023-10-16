@@ -196,8 +196,12 @@ export default function PurchaseOrderDeliveryForm() {
           <h2>
             <b>Compare Orders</b>
           </h2>
+          <div className="row">
+            <div className="col-6">
           <label>
+            <div>
             Select Purchase Order ID:
+            </div>
             <select
               value={selectedPOrderId}
               onChange={(event) => {
@@ -213,18 +217,24 @@ export default function PurchaseOrderDeliveryForm() {
               ))}
             </select>
           </label>
+          </div>
           <br />
+          <div className="col-6">
           <label>
+            <div>
             Delivery Note:
+            </div>
             <input type="text" value={deliveryNote} readOnly />
           </label>
+          </div>
+          </div>
           {purchaseOrders.length === 0 && (
             <center style={{ marginTop: "5%" }}>
               <h2>No Pending Invoices</h2>
             </center>
           )}
           {purchaseOrders.length !== 0 && selectedPOrderId && (
-            <table>
+            <table class="table">
               <thead>
                 <tr>
                   <th></th>

@@ -38,33 +38,7 @@ export default function DeliveryLogs() {
   }, []);
 
   return (
-    // <div>
-    //   <h1>Delivery Notes</h1>
-    //   <table>
-    //     <thead>
-    //       <tr>
-    //         <th>Delivery Id</th>
-    //         <th>Status</th>
-    //         <th>Item Code</th>
-    //         <th>Item Name</th>
-    //         <th>Unit Price</th>
-    //         <th>Quantity</th>
-    //       </tr>
-    //     </thead>
-    //     <tbody>
-    //       {deliveryNotes.map((note, index) => (
-    //         <tr key={index}>
-    //           <td>{note.deliveryId}</td>
-    //           <td>{note.status}</td>
-    //           <td>{note.itemCode}</td>
-    //           <td>{note.itemName}</td>
-    //           <td>{note.unitPrice}</td>
-    //           <td>{note.qty}</td>
-    //         </tr>
-    //       ))}
-    //     </tbody>
-    //   </table>
-    // </div>
+ 
     <div className="row" style={{ height: "100%" }}>
       {/* <div style={{ width: "1px" }}>
           <p style={{ color: "white" }}>Invisible</p>
@@ -161,7 +135,7 @@ export default function DeliveryLogs() {
             </center>
           )}
           {deliveryLogs.length !== 0 && (
-            <table>
+            <table class="table">
               <thead>
                 <tr>
                   <th>Delivery Id</th>
@@ -176,7 +150,7 @@ export default function DeliveryLogs() {
                 {deliveryLogs.map((deliveryLog) => (
                   <tr key={deliveryLog._id}>
                     <td>{deliveryLog.deliveryId}</td>
-                    <td>{deliveryLog.Status}</td>
+                    <td>{deliveryLog.status}</td>
                     <td>{deliveryLog.itemCode}</td>
                     <td>{deliveryLog.itemName}</td>
                     <td>{deliveryLog.unitPrice}</td>

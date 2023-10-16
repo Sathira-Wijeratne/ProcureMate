@@ -137,7 +137,7 @@ export default function PendingInvoices() {
             </center>
           )}
           {invoices.length !== 0 && (
-            <table>
+            <table class="table">
               <thead>
                 <tr>
                   <th>Delivery ID</th>

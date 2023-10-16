@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+
 import axios from "axios";
 import constants from "../../common/AccountantCommonConstants";
 import Button from "react-bootstrap/Button";
-import { useParams } from 'react-router-dom';
-import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
+import { useParams } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import { BsFillStarFill, BsMenuButtonWideFill , BsFillHandThumbsUpFill, BsFillHandThumbsDownFill} from "react-icons/bs";
 export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
   // if (sessionStorage.getItem(constants.SESSION_KEY_ACCOUNTANT) === null) {
   //       window.location.replace("/");
@@ -22,6 +24,7 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
     year: "numeric",
   };
   const [selectedPOrderId, setSelectedPOrderId] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const [deliveryNote, setDeliveryNote] = useState("");
   const [pendingPOrderIds, setPendingPOrderIds] = useState([]);
   const [pendingInvoices, setPendingInvoices] = useState([]);
@@ -31,46 +34,62 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
 
   const { pOrderId } = useParams();
   const { deliveryId } = useParams();
-  useEffect(() => {
-    setInterval(() => setCurrTime(new Date()), 1000);
-        axios
-          .get(`${constants.BASE_URL}/purchaseOrderPayment/purchaseOrder/getPurchaseOrder/${pOrderId}`)
-          .then((response) => {
-            console.log('Purchase Orders');
-            console.log(response.data);
-            
-            setPurchaseOrders(response.data.purchaseOrder);
-          })
-          .catch((error) =>
-            console.error("Error fetching purchase orders:", error)
-          );
-        axios
-          .get(`${constants.BASE_URL}/deliveryOrderPayment/deliveryNote/getDeliveryNote/${deliveryId}`)
-          .then((response) => {
-            console.log("Delivery Logs");
-            console.log(response.data);
-            setDeliveryNotes(response.data.deliveryNote);
-          })
-          .catch((error) =>
-            console.error("Error fetching delivery notes:", error)
-          );
-      },[pOrderId,deliveryId])
 
-    const areQuantitiesMatching = () => {
-        if (purchaseOrders.length === 1 && deliveryNotes.length === 1) {
-          return purchaseOrders[0].qty === deliveryNotes[0].qty;
-        }
-        return false;
-      };
-  
+  const canConfirmPayment = purchaseOrders.qty === deliveryNotes.qty;
+
+  const quantitiesMatch = purchaseOrders.qty === deliveryNotes.qty;
+
   const handlePaymentConfirmation = () => {
-    const confirmPayment = window.confirm("Confirm Payment?");
-    if (confirmPayment) {
-      window.alert("Confirmed Payment");
+    if (canConfirmPayment) {
+      setShowModal(true);
     } else {
-      window.alert("Payment Declined");
+      window.alert("Quantities don't match. Payment cannot be confirmed.");
     }
   };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  const handleModalConfirm = () => {
+    window.alert("Payment Confirmed");
+    setShowModal(false);
+  };
+  useEffect(() => {
+    setInterval(() => setCurrTime(new Date()), 1000);
+    axios
+      .get(
+        `${constants.BASE_URL}/purchaseOrderPayment/purchaseOrder/getPurchaseOrder/${pOrderId}`
+      )
+      .then((response) => {
+        console.log("Purchase Orders");
+        console.log(response.data);
+
+        setPurchaseOrders(response.data.purchaseOrder);
+      })
+      .catch((error) =>
+        console.error("Error fetching purchase orders:", error)
+      );
+    axios
+      .get(
+        `${constants.BASE_URL}/deliveryOrderPayment/deliveryNote/getDeliveryNote/${deliveryId}`
+      )
+      .then((response) => {
+        console.log("Delivery Logs");
+        console.log(response.data);
+        setDeliveryNotes(response.data.deliveryNote);
+      })
+      .catch((error) => console.error("Error fetching delivery notes:", error));
+  }, [pOrderId, deliveryId]);
+
+  //   const handlePaymentConfirmation = () => {
+  //     const confirmPayment = window.confirm("Confirm Payment?");
+  //     if (confirmPayment) {
+  //       window.alert("Confirmed Payment");
+  //     } else {
+  //       window.alert("Payment Declined");
+  //     }
+  //   };
 
   return (
     <div className="row" style={{ height: "100%" }}>
@@ -167,63 +186,98 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
           <h2>
             <b>Compare Orders</b>
           </h2>
-          <label>
-            Select Purchase Order ID:
-            <input
-              value= {pOrderId}
-              disabled
-          
-            > 
-            </input>
-          </label>
-          <br />
-          <label>
-            Delivery Note:
-            <input type="text" value={ deliveryId } readOnly />
-          </label>
+          <div className="row">
+            <div className="col-6">
+              <label>
+                Select Purchase Order ID:
+                <input value={pOrderId} disabled></input>
+              </label>
+            </div>
+            <br />
+            <div className="col-6">
+              <label>
+                Delivery Note:
+                <input type="text" value={deliveryId} readOnly />
+              </label>
+            </div>
+          </div>
           {purchaseOrders.length === 0 && (
             <center style={{ marginTop: "5%" }}>
               <h2>No Orders To Compare</h2>
             </center>
           )}
-          {/* {purchaseOrders.length !== 0 ( */}
-            <table>
-              <thead>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <>
                 <tr>
-                  <th></th>
-                  <th>Item Code</th>
-                  <th>Item Name</th>
-                  <th>Quantity</th>
-                  <th>Unit Price</th>
+                  <td> PO </td>
+                  <td>{purchaseOrders.itemCode}</td>
+                  <td>{purchaseOrders.itemName}</td>
+                  <td>{purchaseOrders.qty}</td>
+                  <td>{purchaseOrders.unitPrice}</td>
+                  <td>
+                    {quantitiesMatch ? (
+                      <button className="btn btn-success">
+                        <BsFillHandThumbsUpFill />
+                      </button>
+                    ) : (
+                      <button className="btn btn-danger">
+                        <BsFillHandThumbsDownFill />
+                      </button>
+                    )}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                  <>
-                    <tr >
-                      <td> PO </td>
-                      <td>{purchaseOrders.itemCode}</td>
-                      <td>{purchaseOrders.itemName}</td>
-                      <td>{purchaseOrders.qty}</td>
-                      <td>{purchaseOrders.unitPrice}</td>
-                    </tr>
-                      <tr >
-                        <td> DO </td>
-                        <td>{deliveryNotes.itemCode}</td>
-                        <td>{deliveryNotes.itemName}</td>
-                        <td>{deliveryNotes.qty}</td>
-                        <td>{deliveryNotes.unitPrice}</td>
-                      </tr>
-                    {areQuantitiesMatching() ? (
-            <button className="btn btn-warning"  onClick={handlePaymentConfirmation}>Payment</button>
-          ) : (
-            <button className="btn btn-warning"  disabled>
-              Payment
-            </button>
-          )}
-                  </>
-              </tbody>
-            </table>
-
+                <tr>
+                  <td> DO </td>
+                  <td>{deliveryNotes.itemCode}</td>
+                  <td>{deliveryNotes.itemName}</td>
+                  <td>{deliveryNotes.qty}</td>
+                  <td>{deliveryNotes.unitPrice}</td>
+                  <td>
+                    {quantitiesMatch ? (
+                      <button className="btn btn-success">
+                        <BsFillHandThumbsUpFill />
+                      </button>
+                    ) : (
+                      <button className="btn btn-danger">
+                        <BsFillHandThumbsDownFill />
+                      </button>
+                    )}
+                  </td>
+                </tr>
+                <button
+                  className="btn btn-warning"
+                  onClick={handlePaymentConfirmation}
+                  disabled={!canConfirmPayment}
+                >
+                  Payment
+                </button>
+                <Modal show={showModal} onHide={handleModalClose}>
+                  {/* <Modal.Header closeButton> */}
+                  {/* <Modal.Title>Confirmation</Modal.Title> */}
+                  {/* </Modal.Header> */}
+                  <Modal.Body>Confirm Payment?</Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="success" onClick={handleModalConfirm}>
+                      YES
+                    </Button>
+                    <Button variant="danger" onClick={handleModalClose}>
+                      NO
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </>
+            </tbody>
+          </table>
         </div>
       </div>
       <div style={{ width: "1px" }}>
