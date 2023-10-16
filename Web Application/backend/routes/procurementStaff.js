@@ -11,7 +11,51 @@ router.route("/").get(async (req, res) => {
         .catch((err) => {
             console.log(err.message);
             res.status(500).send({
-                status: "Error with getting the purchase orders",
+                status: "Error with getting the pending purchase orders",
+                error: err.message
+            });
+        });
+});
+
+// Get all approved orders
+router.route("/approved").get(async (req, res) => {
+    await PurchaseOrder.find({ status: "Approved" })
+        .then((purchaseOrders) => {
+            res.json(purchaseOrders);
+        })
+        .catch((err) => {
+            console.log(err.message);
+            res.status(500).send({
+                status: "Error with getting the approved purchase orders",
+                error: err.message
+            });
+        });
+});
+
+// Get all rejected orders
+router.route("/rejected").get(async (req, res) => {
+    await PurchaseOrder.find({ status: "Rejected" })
+        .then((purchaseOrders) => {
+            res.json(purchaseOrders);
+        })
+        .catch((err) => {
+            console.log(err.message);
+            res.status(500).send({
+                status: "Error with getting the rejected purchase orders",
+                error: err.message
+            });
+        });
+});
+// Get all direct placed orders
+router.route("/direct").get(async (req, res) => {
+    await PurchaseOrder.find({ status: { $ne: "Rejected" }, amount: { $lt: 100000 } }) //get all orders except rejected orders
+        .then((purchaseOrders) => {
+            res.json(purchaseOrders);
+        })
+        .catch((err) => {
+            console.log(err.message);
+            res.status(500).send({
+                status: "Error with getting the direct placed purchase orders",
                 error: err.message
             });
         });
