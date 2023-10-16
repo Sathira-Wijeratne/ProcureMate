@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-
+import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import constants from "../../common/AccountantCommonConstants";
 import Button from "react-bootstrap/Button";
-import { useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { BsFillStarFill, BsMenuButtonWideFill , BsFillHandThumbsUpFill, BsFillHandThumbsDownFill} from "react-icons/bs";
 export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
   // if (sessionStorage.getItem(constants.SESSION_KEY_ACCOUNTANT) === null) {
   //       window.location.replace("/");
   //     }
+
+  const history = useHistory();
   const accountantId = sessionStorage.getItem(
     constants.SESSION_KEY_ACCOUNTANT_ID
   );
@@ -55,6 +56,21 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
     window.alert("Payment Confirmed");
     setShowModal(false);
   };
+
+  const handleConfirmPayment = () => {
+    axios
+      .put(`${constants.BASE_URL}/invoice/invoices/pending/${pOrderId}`, {
+        paymentStatus: "Paid",
+        // newPaymentStatus:"Paid"
+      })
+      .then(() => {
+        window.replace(`${constants.BASE_URL}/invoice/invoices/pending/${pOrderId}`);
+      })
+      .catch((error) => {
+        console.error("Error updating payment status:", error);
+      });
+  };
+  
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
     axios
@@ -82,14 +98,6 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
       .catch((error) => console.error("Error fetching delivery notes:", error));
   }, [pOrderId, deliveryId]);
 
-  //   const handlePaymentConfirmation = () => {
-  //     const confirmPayment = window.confirm("Confirm Payment?");
-  //     if (confirmPayment) {
-  //       window.alert("Confirmed Payment");
-  //     } else {
-  //       window.alert("Payment Declined");
-  //     }
-  //   };
 
   return (
     <div className="row" style={{ height: "100%" }}>
@@ -266,7 +274,10 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
                 </tr>
                 <button
                   className="btn btn-warning"
-                  onClick={handlePaymentConfirmation}
+                  onClick={() => {
+                    handlePaymentConfirmation();
+                    handleConfirmPayment();
+                  }}
                   disabled={!canConfirmPayment}
                   style={{
                     textAlign: 'right', // Increase the width of the select
@@ -276,6 +287,7 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
                   }}
                 >
                   Payment
+                 
                 </button>
                 <Modal show={showModal} onHide={handleModalClose}>
                   {/* <Modal.Header closeButton> */}

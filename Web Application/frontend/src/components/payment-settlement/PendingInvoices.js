@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import constants from "../../common/AccountantCommonConstants";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
@@ -10,6 +11,8 @@ export default function PendingInvoices() {
   const accountantId = sessionStorage.getItem(
     constants.SESSION_KEY_ACCOUNTANT_ID
   );
+
+  const { pOrderId } = useParams();
   const accountantName = sessionStorage.getItem(
     constants.SESSION_KEY_ACCOUNTANT_NAME
   );
@@ -22,6 +25,26 @@ export default function PendingInvoices() {
   };
   const [orders, setOrders] = useState([]);
   const [invoices, setInvoices] = useState([]);
+
+  const handleConfirmPayment = (pOrderId) => {
+    axios
+      .put(`${constants.BASE_URL}/invoice/invoices/pending/${pOrderId}`, {
+        status: "Paid",
+      })
+      .then(() => {
+        // Update the status in the state
+        const updatedInvoices = invoices.map((invoice) => {
+          if (invoice.pOrderId === pOrderId) {
+            return { ...invoice, status: "Paid" };
+          }
+          return invoice;
+        });
+        setInvoices(updatedInvoices);
+      })
+      .catch((error) => {
+        console.error("Error updating invoice status:", error);
+      });
+  };
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
@@ -146,6 +169,7 @@ export default function PendingInvoices() {
                   <th>Item Name</th>
                   <th>Quantity</th>
                   <th>Unit Price</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -157,6 +181,7 @@ export default function PendingInvoices() {
                     <td>{invoice.itemName}</td>
                     <td>{invoice.qty}</td>
                     <td>{invoice.unitPrice}</td>
+                    <td>{invoice.paymentStatus}</td>
                   </tr>
                 ))}
               </tbody>
