@@ -78,14 +78,14 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              Text(
-                                'DO Number : ${e["deliveryId"]}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              // Text(
+                              //   'DO Number : ${e["deliveryId"]}',
+                              //   style: TextStyle(
+                              //     fontSize: 15,
+                              //     color: Colors.black,
+                              //     fontWeight: FontWeight.w500,
+                              //   ),
+                              // ),
                               const SizedBox(
                                 height: 10,
                               ),

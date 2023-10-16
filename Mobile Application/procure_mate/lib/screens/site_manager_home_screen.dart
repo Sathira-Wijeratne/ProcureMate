@@ -28,6 +28,7 @@ List<String> options = ['Pending', 'Rejected', 'Approved', 'Completed'];
 class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
   List<Map<String, dynamic>> purchaseorders1 = [];
   List<Map<String, dynamic>> purchaseorders2 = [];
+
   //Banner count related
   late List<Map<String, dynamic>> deliveryNotes1;
   int countDN = 0;
@@ -44,7 +45,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
 
   Future<void> getDeliveryNotes() async {
     deliveryNotes1 =
-    await DBService.getAllApprovalPendingDeliveryNotes(widget.user.empId);
+        await DBService.getAllApprovalPendingDeliveryNotes(widget.user.empId);
 
     setState(() {
       countDN = deliveryNotes1.length;
@@ -60,29 +61,27 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
     });
   }
 
-  void  deletePendingPO(String poNumber) async{
-   Response response = await DBService.deletePendingPurchaseOrders(poNumber);
-   if(response.code == 200){
-     Fluttertoast.showToast(
-         msg: "Purchase Order deleted!",
-         toastLength: Toast.LENGTH_SHORT,
-         gravity: ToastGravity.BOTTOM,
-         timeInSecForIosWeb: 1,
-         backgroundColor: Colors.redAccent,
-         textColor: Colors.white,
-         fontSize: 16.0);
-
-   }else{
-     Fluttertoast.showToast(
-         msg: "Delete Request Unsuccessful!",
-         toastLength: Toast.LENGTH_SHORT,
-         gravity: ToastGravity.BOTTOM,
-         timeInSecForIosWeb: 1,
-         backgroundColor: Colors.amberAccent,
-         textColor: Colors.white,
-         fontSize: 16.0);
-
-   }
+  void deletePendingPO(String poNumber) async {
+    Response response = await DBService.deletePendingPurchaseOrders(poNumber);
+    if (response.code == 200) {
+      Fluttertoast.showToast(
+          msg: "Purchase Order deleted!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Delete Request Unsuccessful!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amberAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
   void filter(String option) {
@@ -102,7 +101,10 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
         ),
         body: Column(children: [
           radioButtonGroup(),
-          Expanded(child: SizedBox(child: LoadPurchaseRequests()))
+          Expanded(
+              child: SizedBox(
+            child: LoadPurchaseRequests(),
+          ))
         ]),
       );
 
@@ -153,23 +155,24 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                         widget._width, widget._height, widget.user)),
               );
             },
-            trailing: countDN!=0 ?
-            ClipOval(
-              child: Container(
-                color: Colors.red,
-                width: 20,
-                height: 20,
-                child: Center(
-                  child: Text(
-                    countDN.toString(),
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
+            trailing: countDN != 0
+                ? ClipOval(
+                    child: Container(
+                      color: Colors.red,
+                      width: 20,
+                      height: 20,
+                      child: Center(
+                        child: Text(
+                          countDN.toString(),
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ) : null,
+                  )
+                : null,
           ),
           Divider(),
           ListTile(
@@ -327,7 +330,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
 
   Widget LoadPurchaseRequests() => ListView(
         children: purchaseorders2.map((e) {
-          if(e["status"] == "Pending"){
+          if (e["status"] == "Pending") {
             return Dismissible(
               key: UniqueKey(),
               onDismissed: (direction) {
@@ -375,14 +378,14 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Text(
-                          'DO Number : ${e["deliveryId"]}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        // Text(
+                        //   'DO Number : ${e["deliveryId"]}',
+                        //   style: TextStyle(
+                        //     fontSize: 15,
+                        //     color: Colors.black,
+                        //     fontWeight: FontWeight.w500,
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -436,7 +439,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                 ),
               ),
             );
-          } else{
+          } else {
             return GestureDetector(
               key: UniqueKey(),
               child: Card(
@@ -461,14 +464,14 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Text(
-                          'DO Number : ${e["deliveryId"]}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        // Text(
+                        //   'DO Number : ${e["deliveryId"]}',
+                        //   style: TextStyle(
+                        //     fontSize: 15,
+                        //     color: Colors.black,
+                        //     fontWeight: FontWeight.w500,
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -523,7 +526,6 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               ),
             );
           }
-
         }).toList(),
       );
 }
