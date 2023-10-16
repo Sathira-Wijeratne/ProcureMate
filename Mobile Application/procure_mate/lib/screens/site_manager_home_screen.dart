@@ -55,10 +55,10 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
   Future<void> getPurchaseOrders() async {
     purchaseorders1 =
         await DBService.getSiteManagerPurchaseOrders(widget.user.empId);
-
     setState(() {
       purchaseorders2 = purchaseorders1;
     });
+    filter(options[0]);
   }
 
   void deletePendingPO(String poNumber) async {
