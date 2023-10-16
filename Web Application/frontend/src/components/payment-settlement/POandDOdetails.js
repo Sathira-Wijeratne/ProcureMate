@@ -194,22 +194,27 @@ export default function PurchaseOrderDeliveryForm() {
         </span>
         <div style={{ marginTop: "3%" }}>
           <h2>
-            <b>Compare Orders</b>
+            <b>{constants.COMPARE_PO_AND_DO}</b>
           </h2>
           <div className="row">
             <div className="col-6">
           <label>
             <div>
-            Select Purchase Order ID:
+            Select Purchase Order ID
             </div>
             <select
               value={selectedPOrderId}
               onChange={(event) => {
                 handlePOrderIdChange(event);
               }}
+              style={{
+                width: '150%', // Increase the width of the select
+                border: '4px solid lightblue', // Add a light blue border
+                fontWeight: 'bold', // Make the text bold
+              }}
               
             >
-              <option value=""> Select Purchase Order ID --</option>
+              <option value=""> Select Purchase Order ID </option>
               {pendingPOrderIds.map((pOrderId) => (
                 <option key={pOrderId} value={pOrderId}>
                   {pOrderId}
@@ -224,7 +229,12 @@ export default function PurchaseOrderDeliveryForm() {
             <div>
             Delivery Note:
             </div>
-            <input type="text" value={deliveryNote} readOnly />
+            <input type="text" value={deliveryNote} readOnly
+             style={{
+              width: '150%', // Increase the width of the input field
+              border: '4px solid lightblue', // Add a light blue border
+              fontWeight: 'bold', // Make the text bold
+            }} />
           </label>
           </div>
           </div>
@@ -253,14 +263,15 @@ export default function PurchaseOrderDeliveryForm() {
                       <td>{purchaseOrder.itemName}</td>
                       <td>{purchaseOrder.qty}</td>
                       <td>{purchaseOrder.unitPrice}</td>
-                      <Button 
+                      <button 
+                      style={{ backgroundColor: 'black', color: 'white' }}
                       onClick={() => {
                           window.location.replace(
                             `/accountinghome/matchedRecords/${selectedPOrderId.substring(
                               1
                             )}/${deliveryNote.substring(1)}`
                           );
-                            }} >VIEW</Button>  
+                            }} >VIEW</button>  
                       {/* <Button as={Link} to={`/accountinghome/matchedRecords/${selectedPOrderId.substring(1)}`}>VIEW</Button> */}
                     </tr>
 
