@@ -359,7 +359,7 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               child: Card(
                 elevation: 5,
                 shadowColor: Colors.black,
-                color: Color(0xFFC8E7F2),
+                color: Color(0xFFE8E478),
                 child: SizedBox(
                   width: 400,
                   height: 160,
@@ -445,7 +445,11 @@ class _SiteManagerHomePageState extends State<SiteManagerHomePage> {
               child: Card(
                 elevation: 5,
                 shadowColor: Colors.black,
-                color: Color(0xFFC8E7F2),
+                color: e["status"] == "Rejected"
+                    ? Color(0xFFDA8383)
+                    : e["status"] == "Completed"
+                        ? Color(0xFF66DE87)
+                        : Color(0xFFC8E7F2),
                 child: SizedBox(
                   width: 400,
                   height: 160,
