@@ -15,7 +15,7 @@ class DeliveryNoteHistoryScreen extends StatefulWidget {
   State<DeliveryNoteHistoryScreen> createState() => _DeliveryNoteHistoryScreenState();
 }
 //Radio Button Group related logic
-List<String> options = ['Approved', 'Rejected'];
+List<String> options = ['Confirmed', 'Rejected'];
 
 class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
 
@@ -122,14 +122,14 @@ class _DeliveryNoteHistoryScreenState extends State<DeliveryNoteHistoryScreen> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              Text(
-                                'DO Number : ${e["deliveryId"]}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              // Text(
+                              //   'DO Number : ${e["deliveryId"]}',
+                              //   style: TextStyle(
+                              //     fontSize: 15,
+                              //     color: Colors.black,
+                              //     fontWeight: FontWeight.w500,
+                              //   ),
+                              // ),
                               const SizedBox(
                                 height: 10,
                               ),
