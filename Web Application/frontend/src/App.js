@@ -11,6 +11,9 @@ import SupplierSingleInvoice from "./components/supplier_components/SingleInvoic
 import SupplierSingleDeliveryNote from "./components/supplier_components/SingleDeliveryNote";
 import RaisedOrders from "./components/procurement_staff_components/RaisedOrders";
 import SingleRaisedOrder from "./components/procurement_staff_components/SingleRaisedOrder";
+import ApprovedOrders from "./components/procurement_staff_components/ApprovedOrders";
+import RejectedOrders from "./components/procurement_staff_components/RejectedOrders";
+import DirectPlacedOrders from "./components/procurement_staff_components/DirectPlacedOrders";
 
 function App() {
   return (
@@ -53,6 +56,21 @@ function App() {
         path="/procurementstaffhome/raisedorders/get/:pOrderId/:location"
         exact
         component={SingleRaisedOrder}
+      />
+      <Route
+        path="/procurementstaffhome/approvedorders/"
+        exact
+        component={ApprovedOrders}
+      />
+      <Route
+        path="/procurementstaffhome/rejectedorders/"
+        exact
+        component={RejectedOrders}
+      />
+      <Route
+        path="/procurementstaffhome/directorders/"
+        exact
+        component={DirectPlacedOrders}
       />
     </Router>
   );
