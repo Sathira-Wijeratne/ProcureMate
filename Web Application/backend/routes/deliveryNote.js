@@ -71,5 +71,4 @@ router.route("/deliveryNote/getDeliveryNote/:deliveryId").get(async (req, res) =
     });
 });
 
-
 module.exports = router;

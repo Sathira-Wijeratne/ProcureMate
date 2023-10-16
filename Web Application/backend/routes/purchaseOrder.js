@@ -63,7 +63,7 @@ router.route("/purchaseOrder/getPurchaseOrder/:pOrderId").get(async (req, res) =
   //The attribute name in the model passed as first parameter.
   await PurchaseOrder.findOne({ "pOrderId": `${pOrderId}` })
     .then((purchaseOrder) => {
-      res.status(200).send({ status: "Invoice  Details fetched", purchaseOrder });
+      res.status(200).send({ status: "Purchase Order details fetched", purchaseOrder });
     })
     .catch((err) => {
       console.log(err.message);

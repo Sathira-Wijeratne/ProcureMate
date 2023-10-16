@@ -4,6 +4,7 @@ import Test from './components/Test';
 import DeliveryDetailsTable from './components/payment-settlement/POandDOdetails';
 import PendingInvoices from './components/payment-settlement/PendingInvoices';
 import DeliveryLogs from './components/payment-settlement/Deliver_LogsFile';
+import PurchaseOrderDeliveryForm from './components/payment-settlement/POandDOdetails';
 function App() {
   return (
     <Router>
@@ -11,7 +12,7 @@ function App() {
       <Route path="/purchaseOrderPayment" exact component={ DeliveryDetailsTable }/>
       <Route path="/accountinghome/pendingInvoices" exact component={ PendingInvoices }/>
       <Route path="/accountinghome/deliveryLogs" exact component={ DeliveryLogs }/>
-      
+      <Route path="/accountinghome/compareOrders" exact component={ PurchaseOrderDeliveryForm }/>
           </Router>
   );
 }
