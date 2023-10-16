@@ -184,20 +184,30 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
         </span>
         <div style={{ marginTop: "3%" }}>
           <h2>
-            <b>Compare Orders</b>
+            <b>{constants.COMPARE_PO_AND_DO}</b>
           </h2>
           <div className="row">
             <div className="col-6">
               <label>
                 Select Purchase Order ID:
-                <input value={pOrderId} disabled></input>
+                <input value={pOrderId} disabled   
+                style={{
+                width: '100%', // Increase the width of the select
+                border: '4px solid lightblue', // Add a light blue border
+                fontWeight: 'bold', // Make the text bold
+              }}></input>
               </label>
             </div>
             <br />
             <div className="col-6">
               <label>
                 Delivery Note:
-                <input type="text" value={deliveryId} readOnly />
+                <input type="text" value={deliveryId}  
+                 style={{
+                width: '100%', // Increase the width of the select
+                border: '4px solid lightblue', // Add a light blue border
+                fontWeight: 'bold', // Make the text bold
+              }} readOnly />
               </label>
             </div>
           </div>
@@ -258,6 +268,12 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
                   className="btn btn-warning"
                   onClick={handlePaymentConfirmation}
                   disabled={!canConfirmPayment}
+                  style={{
+                    textAlign: 'right', // Increase the width of the select
+                    float: 'right', // Add a light blue border
+                    fontWeight: 'bold', // Make the text bold
+                    marginRight: '-850px'
+                  }}
                 >
                   Payment
                 </button>
