@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-
+import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import constants from "../../common/AccountantCommonConstants";
 import Button from "react-bootstrap/Button";
-import { useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import {
   BsFillStarFill,
@@ -57,9 +56,24 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
   };
 
   const handleModalConfirm = () => {
+    handleConfirmPayment();
     window.alert("Payment Confirmed");
     setShowModal(false);
   };
+
+  const handleConfirmPayment = () => {
+    axios
+      .put(`${constants.BASE_URL}/invoice/invoices/pending/${pOrderId}`, {
+        paymentStatus: "Paid",
+      })
+      .then(() => {
+        window.location.replace(`/accountinghome/compareOrders`);
+      })
+      .catch((error) => {
+        console.error("Error updating payment status:", error);
+      });
+  };
+
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
     axios
@@ -86,15 +100,6 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
       })
       .catch((error) => console.error("Error fetching delivery notes:", error));
   }, [pOrderId, deliveryId]);
-
-  //   const handlePaymentConfirmation = () => {
-  //     const confirmPayment = window.confirm("Confirm Payment?");
-  //     if (confirmPayment) {
-  //       window.alert("Confirmed Payment");
-  //     } else {
-  //       window.alert("Payment Declined");
-  //     }
-  //   };
 
   return (
     <div className="row" style={{ height: "100%" }}>
@@ -278,7 +283,9 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
                 </tr>
                 <button
                   className="btn btn-warning"
-                  onClick={handlePaymentConfirmation}
+                  onClick={() => {
+                    handlePaymentConfirmation();
+                  }}
                   disabled={!canConfirmPayment}
                   style={{
                     textAlign: "right", // Increase the width of the select

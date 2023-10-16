@@ -48,20 +48,34 @@ router.route("/").get((req, res) => {
     });
 });
 
-
-router.get('/invoices/pending', async (req, res) => {
+router.get("/invoices/pending", async (req, res) => {
   try {
-    // Use Mongoose's find() method to query invoices with paymentStatus "pending"
-    const pendingInvoices = await Invoice.find({ paymentStatus: 'Pending' });
-
-    // Respond with the filtered invoices
+    const pendingInvoices = await Invoice.find({ paymentStatus: "Pending" });
     res.json(pendingInvoices);
   } catch (error) {
-    // Handle any errors that occur during the query
-    res.status(500).json({ error: 'An error occurred while fetching pending invoices' });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching pending invoices" });
   }
 });
 
-
+// Update payment status route
+router.put("/invoices/pending/:pOrderId", async (req, res) => {
+  let pOrderId = "#" + req.params.pOrderId;
+  const { paymentStatus } = req.body;
+  try {
+    const invoice = await Invoice.findOne({ pOrderId });
+    if (!invoice) {
+      return res.status(404).json({ message: "Invoice not found" });
+    }
+    invoice.paymentStatus = paymentStatus;
+    await invoice.save();
+    return res.json({ message: "Payment status updated successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating payment status" });
+  }
+});
 
 module.exports = router;
