@@ -34,5 +34,10 @@ class PurchaseOrder{
       this.siteId,
       this.location,
       this.status,
-      this.rejectReason);
+      this.rejectReason,
+
+
+
+
+      );
 }
