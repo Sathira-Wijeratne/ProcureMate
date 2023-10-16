@@ -37,18 +37,15 @@ export default function SingleDeliveryNote() {
       )
       .then((res) => {
         setDeliveryNote(res.data[0]);
-        console.log(res.data[0]);
 
         // Requesting relavant purchase order details from backend.
         axios
           .get(
-            `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${
-              constants.GET_ORDER_URL
+            `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_ORDER_URL
             }/${supplierId}/${res.data[0].pOrderId.substring(1)}`
           )
           .then((res) => {
             setOrder(res.data[0]);
-            console.log(res.data[0]);
           });
       });
   }, [deliveryId, supplierId]);
@@ -56,9 +53,6 @@ export default function SingleDeliveryNote() {
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
-        {/* <div style={{ width: "1px" }}>
-      <p style={{ color: "white" }}>Invisible</p>
-    </div> */}
         <div
           className="col-3"
           style={{ backgroundColor: "#b9bdba", height: "100vh" }}

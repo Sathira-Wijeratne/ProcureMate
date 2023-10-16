@@ -31,7 +31,6 @@ export default function RaisedOrders() {
         `http://localhost:8070/procurement/get/staff/member/name/${employeeEmail}`
       )
       .then((res) => {
-        console.log(res.data.name);
         setEmployeeName(res.data.name);
       })
       .catch((err) => {
@@ -68,7 +67,6 @@ export default function RaisedOrders() {
     axios
       .get("http://localhost:8070/procurement/")
       .then((res) => {
-        console.log(res.data);
         setRaisedOrders(res.data);
         setRaisedOrdersForSearch(res.data);
       })

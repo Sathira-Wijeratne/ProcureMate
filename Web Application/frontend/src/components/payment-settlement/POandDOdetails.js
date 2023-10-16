@@ -38,7 +38,6 @@ export default function PurchaseOrderDeliveryForm() {
     axios
       .get(`${constants.BASE_URL}/invoice/invoices/pending`) // Replace with the actual API endpoint
       .then((response) => {
-        console.log(response.data);
         setPendingInvoices(response.data);
         setPendingPOrderIds(response.data.map((invoice) => invoice.pOrderId));
         axios
@@ -52,8 +51,6 @@ export default function PurchaseOrderDeliveryForm() {
         axios
           .get(`${constants.BASE_URL}/deliveryOrderPayment/`)
           .then((response) => {
-            console.log("Delivery Logs");
-            console.log(response.data);
             setDeliveryNotes(response.data);
           })
           .catch((error) =>
@@ -67,9 +64,7 @@ export default function PurchaseOrderDeliveryForm() {
 
   const handlePOrderIdChange = (event) => {
     const selectedId = event.target.value;
-    console.log(selectedId);
     setSelectedPOrderId(selectedId);
-    console.log(pendingInvoices);
     const selectedInvoice = pendingInvoices.find(
       (invoice) => invoice.pOrderId === selectedId
     );
@@ -79,14 +74,10 @@ export default function PurchaseOrderDeliveryForm() {
     const selectedPurchaseOrder = purchaseOrders.find(
       (invoice) => invoice.pOrderId === selectedInvoice.pOrderId
     );
-    console.log("Selected delivery logs");
-
-    console.log(selectedInvoice);
     if (selectedInvoice) {
       setPurchaseOrders([selectedPurchaseOrder]);
       setDeliveryNotes([selectedDeliveryNote]);
       setDeliveryNote(selectedInvoice.deliveryId);
-      console.log([selectedDeliveryNote]);
     } else {
       setDeliveryNote(""); // Clear the delivery note if not found
     }
@@ -103,9 +94,6 @@ export default function PurchaseOrderDeliveryForm() {
 
   return (
     <div className="row" style={{ height: "100%" }}>
-      {/* <div style={{ width: "1px" }}>
-        <p style={{ color: "white" }}>Invisible</p>
-      </div> */}
       <div
         className="col-3"
         style={{ backgroundColor: "#b9bdba", height: "100vh" }}
@@ -135,7 +123,6 @@ export default function PurchaseOrderDeliveryForm() {
             href="/accountinghome/pendingInvoices"
             style={{ textDecoration: "none" }}
           >
-            {/* <BsFillStarFill style={{ marginBottom: "2%", marginRight: "5%" }} /> */}
             <BsMenuButtonWideFill
               style={{
                 marginBottom: "1%",
@@ -274,18 +261,15 @@ export default function PurchaseOrderDeliveryForm() {
                       >
                         VIEW
                       </button>
-                      {/* <Button as={Link} to={`/accountinghome/matchedRecords/${selectedPOrderId.substring(1)}`}>VIEW</Button> */}
                     </tr>
 
                     {deliveryNotes.map((deliveryNote) => (
                       <tr key={deliveryNote.id}>
-                        {/* <td key={deliveryNote.id}> */}
                         <td> DO </td>
                         <td>{deliveryNote.itemCode}</td>
                         <td>{deliveryNote.itemName}</td>
                         <td>{deliveryNote.qty}</td>
                         <td>{deliveryNote.unitPrice}</td>
-                        {/* </td> */}
                       </tr>
                     ))}
                   </>

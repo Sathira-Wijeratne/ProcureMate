@@ -42,9 +42,6 @@ export default function PendingOrders() {
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
-        {/* <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
-        </div> */}
         <div
           className="col-3"
           style={{ backgroundColor: "#b9bdba", height: "100vh" }}
@@ -163,25 +160,13 @@ export default function PendingOrders() {
                       className="raised-orders-table-row-hover"
                       onClick={() => {
                         window.location.replace(
-                          `/${constants.SUPPLIER_HOME_PATH}/${
-                            constants.PENDING_ORDERS_PATH
+                          `/${constants.SUPPLIER_HOME_PATH}/${constants.PENDING_ORDERS_PATH
                           }/${order.pOrderId.substring(1)}`
                         );
                       }}
                     >
                       <td>
-                        {/* <a
-                          href="#"
-                          onClick={() => {
-                            window.location.replace(
-                              `/supplierhome/pendingorders/${order.pOrderId.substring(
-                                1
-                              )}`
-                            );
-                          }}
-                        > */}
                         {order.pOrderId}
-                        {/* </a> */}
                       </td>
                       <td>{order.siteId}</td>
                       <td>{order.location}</td>

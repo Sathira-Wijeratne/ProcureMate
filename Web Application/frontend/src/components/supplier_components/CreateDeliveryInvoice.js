@@ -37,7 +37,6 @@ export default function CreateDeliveryInvoice() {
         `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_ORDER_URL}/${supplierId}/${pOrderId}`
       )
       .then((res) => {
-        console.log(res.data[0]);
         setOrder(res.data[0]);
         setDeliveredQty(res.data[0].qty);
 
@@ -48,7 +47,6 @@ export default function CreateDeliveryInvoice() {
           )
           .then((res) => {
             setItem(res.data[0]);
-            console.log(res.data[0]);
           });
       })
       .catch((err) => {
@@ -168,9 +166,6 @@ export default function CreateDeliveryInvoice() {
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
-        {/* <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
-        </div> */}
         <div
           className="col-3"
           style={{ backgroundColor: "#b9bdba", height: "100vh" }}

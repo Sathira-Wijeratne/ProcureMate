@@ -81,9 +81,6 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
         `${constants.BASE_URL}/purchaseOrderPayment/purchaseOrder/getPurchaseOrder/${pOrderId}`
       )
       .then((response) => {
-        console.log("Purchase Orders");
-        console.log(response.data);
-
         setPurchaseOrders(response.data.purchaseOrder);
       })
       .catch((error) =>
@@ -94,8 +91,6 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
         `${constants.BASE_URL}/deliveryOrderPayment/deliveryNote/getDeliveryNote/${deliveryId}`
       )
       .then((response) => {
-        console.log("Delivery Logs");
-        console.log(response.data);
         setDeliveryNotes(response.data.deliveryNote);
       })
       .catch((error) => console.error("Error fetching delivery notes:", error));
@@ -103,9 +98,6 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
 
   return (
     <div className="row" style={{ height: "100%" }}>
-      {/* <div style={{ width: "1px" }}>
-        <p style={{ color: "white" }}>Invisible</p>
-      </div> */}
       <div
         className="col-3"
         style={{ backgroundColor: "#b9bdba", height: "100vh" }}
@@ -135,7 +127,6 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
             href="/accountinghome/pendingInvoices"
             style={{ textDecoration: "none" }}
           >
-            {/* <BsFillStarFill style={{ marginBottom: "2%", marginRight: "5%" }} /> */}
             <BsMenuButtonWideFill
               style={{
                 marginBottom: "1%",
@@ -297,9 +288,6 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
                   Payment
                 </button>
                 <Modal show={showModal} onHide={handleModalClose}>
-                  {/* <Modal.Header closeButton> */}
-                  {/* <Modal.Title>Confirmation</Modal.Title> */}
-                  {/* </Modal.Header> */}
                   <Modal.Body>Confirm Payment?</Modal.Body>
                   <Modal.Footer>
                     <Button variant="success" onClick={handleModalConfirm}>

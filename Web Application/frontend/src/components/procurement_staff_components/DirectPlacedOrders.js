@@ -31,7 +31,6 @@ export default function DirectPlacedOrders() {
         `http://localhost:8070/procurement/get/staff/member/name/${employeeEmail}`
       )
       .then((res) => {
-        console.log(res.data.name);
         setEmployeeName(res.data.name);
       })
       .catch((err) => {
@@ -61,7 +60,6 @@ export default function DirectPlacedOrders() {
     axios
       .get("http://localhost:8070/procurement/direct/")
       .then((res) => {
-        console.log(res.data);
         setDirectOrders(res.data);
         setDirectOrdersForSearch(res.data);
       })

@@ -43,9 +43,6 @@ export default function MyDeliveryLog() {
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
-        {/* <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
-        </div> */}
         <div
           className="col-3"
           style={{ backgroundColor: "#b9bdba", height: "100vh" }}
@@ -164,25 +161,13 @@ export default function MyDeliveryLog() {
                       className="raised-orders-table-row-hover"
                       onClick={() => {
                         window.location.replace(
-                          `/${constants.SUPPLIER_HOME_PATH}/${
-                            constants.MY_DELIVERY_LOG_PATH
+                          `/${constants.SUPPLIER_HOME_PATH}/${constants.MY_DELIVERY_LOG_PATH
                           }/${deliveryNote.deliveryId.substring(1)}`
                         );
                       }}
                     >
                       <td>
-                        {/* <a
-                        href="#"
-                        onClick={() => {
-                          window.location.replace(
-                            `/supplierhome/mydeliverylog/${deliveryNote.deliveryId.substring(
-                              1
-                            )}`
-                          );
-                        }}
-                      > */}
                         {deliveryNote.deliveryId}
-                        {/* </a> */}
                       </td>
                       <td>{deliveryNote.pOrderId}</td>
                       <td>{deliveryNote.siteId}</td>

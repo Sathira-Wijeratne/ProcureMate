@@ -31,7 +31,6 @@ export default function ApprovedOrders() {
         `http://localhost:8070/procurement/get/staff/member/name/${employeeEmail}`
       )
       .then((res) => {
-        console.log(res.data.name);
         setEmployeeName(res.data.name);
       })
       .catch((err) => {
@@ -61,7 +60,6 @@ export default function ApprovedOrders() {
     axios
       .get("http://localhost:8070/procurement/approved")
       .then((res) => {
-        console.log(res.data);
         setApprovedOrders(res.data);
         setApprovedOrdersForSearch(res.data);
       })

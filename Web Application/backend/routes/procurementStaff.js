@@ -9,7 +9,7 @@ router.route("/").get(async (req, res) => {
             res.json(purchaseOrders);
         })
         .catch((err) => {
-            console.log(err.message);
+
             res.status(500).send({
                 status: "Error with getting the pending purchase orders",
                 error: err.message
@@ -24,7 +24,7 @@ router.route("/approved").get(async (req, res) => {
             res.json(purchaseOrders);
         })
         .catch((err) => {
-            console.log(err.message);
+
             res.status(500).send({
                 status: "Error with getting the approved purchase orders",
                 error: err.message
@@ -39,7 +39,7 @@ router.route("/rejected").get(async (req, res) => {
             res.json(purchaseOrders);
         })
         .catch((err) => {
-            console.log(err.message);
+
             res.status(500).send({
                 status: "Error with getting the rejected purchase orders",
                 error: err.message
@@ -53,7 +53,7 @@ router.route("/direct").get(async (req, res) => {
             res.json(purchaseOrders);
         })
         .catch((err) => {
-            console.log(err.message);
+
             res.status(500).send({
                 status: "Error with getting the direct placed purchase orders",
                 error: err.message
@@ -69,7 +69,7 @@ router.route("/get/:id").get(async (req, res) => {
             res.json(purchaseOrder);
         })
         .catch((err) => {
-            console.log(err.message);
+
             res.status(500).send({
                 status: "Error with getting the purchase order",
                 error: err.message
@@ -103,7 +103,7 @@ router.route("/get/staff/member/name/:id").get(async (req, res) => {
             res.json(staffMember);
         })
         .catch((err) => {
-            console.log(err.message);
+
             res.status(500).send({
                 status: "Error with geting the staff member name",
                 error: err.message
@@ -119,7 +119,7 @@ router.route("/get/staff/member/name/empId/:id").get(async (req, res) => {
             res.json(staffMember);
         })
         .catch((err) => {
-            console.log(err.message);
+
             res.status(500).send({
                 status: "Error with geting the staff member name",
                 error: err.message

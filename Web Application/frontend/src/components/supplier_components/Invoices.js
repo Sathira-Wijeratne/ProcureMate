@@ -32,7 +32,6 @@ export default function Invoices() {
         `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_INVOICES_URL}/${supplierId}`
       )
       .then((res) => {
-        console.log(res.data);
         setInvoices(res.data);
       })
       .catch((err) => {
@@ -42,9 +41,6 @@ export default function Invoices() {
   return (
     <div>
       <div className="row" style={{ height: "100%" }}>
-        {/* <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
-        </div> */}
         <div
           className="col-3"
           style={{ backgroundColor: "#b9bdba", height: "100vh" }}
@@ -162,25 +158,13 @@ export default function Invoices() {
                       className="raised-orders-table-row-hover"
                       onClick={() => {
                         window.location.replace(
-                          `/${constants.SUPPLIER_HOME_PATH}/${
-                            constants.INVOICES_PATH
+                          `/${constants.SUPPLIER_HOME_PATH}/${constants.INVOICES_PATH
                           }/${invoice.invoiceId.substring(1)}`
                         );
                       }}
                     >
                       <td>
-                        {/* <a
-                        href="#"
-                        onClick={() => {
-                          window.location.replace(
-                            `/supplierhome/invoices/${invoice.invoiceId.substring(
-                              1
-                            )}`
-                          );
-                        }}
-                      > */}
                         {invoice.invoiceId}
-                        {/* </a> */}
                       </td>
                       <td>{invoice.pOrderId}</td>
                       <td>{invoice.deliveryId}</td>

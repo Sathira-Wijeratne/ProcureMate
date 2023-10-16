@@ -31,7 +31,6 @@ export default function RejectedOrders() {
         `http://localhost:8070/procurement/get/staff/member/name/${employeeEmail}`
       )
       .then((res) => {
-        console.log(res.data.name);
         setEmployeeName(res.data.name);
       })
       .catch((err) => {
@@ -61,7 +60,6 @@ export default function RejectedOrders() {
     axios
       .get("http://localhost:8070/procurement/rejected")
       .then((res) => {
-        console.log(res.data);
         setRejectedOrders(res.data);
         setRejectedOrdersForSearch(res.data);
       })

@@ -62,9 +62,6 @@ export default function PendingInvoices() {
 
   return (
     <div className="row" style={{ height: "100%" }}>
-      {/* <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
-        </div> */}
       <div
         className="col-3"
         style={{ backgroundColor: "#b9bdba", height: "100vh" }}

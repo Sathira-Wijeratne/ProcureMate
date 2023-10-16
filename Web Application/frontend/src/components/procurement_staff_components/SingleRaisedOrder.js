@@ -40,7 +40,6 @@ export default function SingleRaisedOrder() {
         `http://localhost:8070/procurement/get/staff/member/name/${employeeEmail}`
       )
       .then((res) => {
-        console.log(res.data.name);
         setEmployeeName(res.data.name);
       })
       .catch((err) => {
@@ -55,7 +54,6 @@ export default function SingleRaisedOrder() {
         `http://localhost:8070/procurement/get/staff/member/name/empId/${siteMngId}`
       )
       .then((res) => {
-        console.log(res.data.name);
         setSiteManagerName(res.data.name);
       })
       .catch((err) => {
@@ -68,7 +66,6 @@ export default function SingleRaisedOrder() {
     axios
       .get(`http://localhost:8070/procurement/get/${pOrderId}`)
       .then((res) => {
-        console.log(res.data);
         setRaisedOrder(res.data);
         getSiteManagerName(res.data.siteMngId);
       })
@@ -122,10 +119,6 @@ export default function SingleRaisedOrder() {
   useEffect(() => {
     // set the current time
     setInterval(() => setCurrTime(new Date()), 1000);
-
-    console.log(pOrderId);
-
-    console.log(orderLimit);
     getEmployeeName();
     getRaisedOrder();
   }, []);
@@ -471,9 +464,8 @@ export default function SingleRaisedOrder() {
                 }}
               >
                 <button
-                  className={`approve-button ${
-                    rejectReason.trim() !== "" ? "disabled" : ""
-                  }`}
+                  className={`approve-button ${rejectReason.trim() !== "" ? "disabled" : ""
+                    }`}
                   disabled={rejectReason.trim() !== ""}
                   onClick={approveOrder}
                   style={{
@@ -485,9 +477,8 @@ export default function SingleRaisedOrder() {
                   }
                 </button>
                 <button
-                  className={`reject-button ${
-                    rejectReason.trim() === "" ? "disabled" : ""
-                  }`}
+                  className={`reject-button ${rejectReason.trim() === "" ? "disabled" : ""
+                    }`}
                   disabled={rejectReason.trim() === ""}
                   onClick={rejectOrder}
                 >

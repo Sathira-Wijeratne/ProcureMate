@@ -99,15 +99,6 @@ export default function LoginStaffMember() {
                         Login
                       </button>
                     </div>
-
-                    {/* <div>
-                      <p className="mb-0">
-                        Don't have an account?{" "}
-                        <a href="/signup" className="text-white-50 fw-bold">
-                          Sign Up
-                        </a>
-                      </p>
-                    </div> */}
                     <br />
                     <div>
                       <p className="mb-0">
