@@ -1,7 +1,7 @@
 import ProcurementConstants from "../../common/ProcurementStaffCommonConstants";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BsFillStarFill, BsMenuButtonWideFill, BsTriangle } from "react-icons/bs";
+import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import Button from "react-bootstrap/Button";
 
 
