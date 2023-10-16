@@ -135,7 +135,7 @@ export default function SingleRaisedOrder() {
                     <div id="procurement-raised-orders-profile-details" style={{ textAlign: "center", marginTop: "3%" }}>
                         <b>{employeeName}</b>
                         <br />
-                        {ProcurementConstants.RAISED_ORDERS_USER_ROLE}
+                        {ProcurementConstants.PROCUREMENT_STAFF_USER_ROLE}
                     </div>
                     <div id="procurement-raised-orders-tabs" style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
                         <div id="procurement-raised-orders-tabs-1" style={{ marginBottom: "30px" }}>
@@ -143,11 +143,11 @@ export default function SingleRaisedOrder() {
                                 <BsFillStarFill
                                     style={{ marginBottom: "2%", marginRight: "5%", color: "#3a7ae0" }}
                                 />
-                                <b style={{ color: "#3a7ae0" }}>{ProcurementConstants.RAISED_ORDERS_TAB1_NAME}</b>
+                                <b style={{ color: "#3a7ae0" }}>{ProcurementConstants.NAVIGATION_TAB1_NAME}</b>
                             </a>
                         </div>
                         <div id="procurement-raised-orders-tabs-2" style={{ marginBottom: "30px" }}>
-                            <a href="#" style={{ textDecoration: "none" }}>
+                            <a href="/procurementstaffhome/approvedorders/" style={{ textDecoration: "none" }}>
                                 <BsMenuButtonWideFill
                                     style={{
                                         marginBottom: "1%",
@@ -155,11 +155,11 @@ export default function SingleRaisedOrder() {
                                         color: "black",
                                     }}
                                 />
-                                <b style={{ color: "black" }}>{ProcurementConstants.RAISED_ORDERS_TAB2_NAME}</b>
+                                <b style={{ color: "black" }}>{ProcurementConstants.NAVIGATION_TAB2_NAME}</b>
                             </a>
                         </div>
                         <div id="procurement-raised-orders-tabs-3" style={{ marginBottom: "30px" }}>
-                            <a href="#" style={{ textDecoration: "none" }}>
+                            <a href="/procurementstaffhome/rejectedorders/" style={{ textDecoration: "none" }}>
                                 <BsMenuButtonWideFill
                                     style={{
                                         marginBottom: "1%",
@@ -167,11 +167,11 @@ export default function SingleRaisedOrder() {
                                         color: "black",
                                     }}
                                 />
-                                <b style={{ color: "black" }}>{ProcurementConstants.RAISED_ORDERS_TAB3_NAME}</b>
+                                <b style={{ color: "black" }}>{ProcurementConstants.NAVIGATION_TAB3_NAME}</b>
                             </a>
                         </div>
                         <div id="procurement-raised-orders-tabs-4" style={{ marginBottom: "30px" }}>
-                            <a href="#" style={{ textDecoration: "none" }}>
+                            <a href="/procurementstaffhome/directorders/" style={{ textDecoration: "none" }}>
                                 <BsMenuButtonWideFill
                                     style={{
                                         marginBottom: "1%",
@@ -179,7 +179,7 @@ export default function SingleRaisedOrder() {
                                         color: "black",
                                     }}
                                 />
-                                <b style={{ color: "black" }}>{ProcurementConstants.RAISED_ORDERS_TAB4_NAME}</b>
+                                <b style={{ color: "black" }}>{ProcurementConstants.NAVIGATION_TAB4_NAME}</b>
                             </a>
                         </div>
                     </div>

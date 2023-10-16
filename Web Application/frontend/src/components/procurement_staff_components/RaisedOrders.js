@@ -1,7 +1,7 @@
 import ProcurementConstants from "../../common/ProcurementStaffCommonConstants";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BsFillStarFill, BsMenuButtonWideFill, BsTriangle } from "react-icons/bs";
+import { BsFillStarFill, BsMenuButtonWideFill, } from "react-icons/bs";
 import Button from "react-bootstrap/Button";
 
 export default function RaisedOrders() {
@@ -93,7 +93,7 @@ export default function RaisedOrders() {
                     <div id="procurement-raised-orders-profile-details" style={{ textAlign: "center", marginTop: "3%" }}>
                         <b>{employeeName}</b>
                         <br />
-                        {ProcurementConstants.RAISED_ORDERS_USER_ROLE}
+                        {ProcurementConstants.PROCUREMENT_STAFF_USER_ROLE}
                     </div>
                     <div id="procurement-raised-orders-tabs" style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
                         <div id="procurement-raised-orders-tabs-1" style={{ marginBottom: "30px" }}>
@@ -101,7 +101,7 @@ export default function RaisedOrders() {
                                 <BsFillStarFill
                                     style={{ marginBottom: "2%", marginRight: "5%", color: "#3a7ae0" }}
                                 />
-                                <b style={{ color: "#3a7ae0" }}>{ProcurementConstants.RAISED_ORDERS_TAB1_NAME}</b>
+                                <b style={{ color: "#3a7ae0" }}>{ProcurementConstants.NAVIGATION_TAB1_NAME}</b>
                             </a>
                         </div>
                         <div id="procurement-raised-orders-tabs-2" style={{ marginBottom: "30px" }}>
@@ -113,11 +113,11 @@ export default function RaisedOrders() {
                                         color: "black",
                                     }}
                                 />
-                                <b style={{ color: "black" }}>{ProcurementConstants.RAISED_ORDERS_TAB2_NAME}</b>
+                                <b style={{ color: "black" }}>{ProcurementConstants.NAVIGATION_TAB2_NAME}</b>
                             </a>
                         </div>
                         <div id="procurement-raised-orders-tabs-3" style={{ marginBottom: "30px" }}>
-                            <a href="#" style={{ textDecoration: "none" }}>
+                            <a href="/procurementstaffhome/rejectedorders/" style={{ textDecoration: "none" }}>
                                 <BsMenuButtonWideFill
                                     style={{
                                         marginBottom: "1%",
@@ -125,11 +125,11 @@ export default function RaisedOrders() {
                                         color: "black",
                                     }}
                                 />
-                                <b style={{ color: "black" }}>{ProcurementConstants.RAISED_ORDERS_TAB3_NAME}</b>
+                                <b style={{ color: "black" }}>{ProcurementConstants.NAVIGATION_TAB3_NAME}</b>
                             </a>
                         </div>
                         <div id="procurement-raised-orders-tabs-4" style={{ marginBottom: "30px" }}>
-                            <a href="#" style={{ textDecoration: "none" }}>
+                            <a href="/procurementstaffhome/directorders/" style={{ textDecoration: "none" }}>
                                 <BsMenuButtonWideFill
                                     style={{
                                         marginBottom: "1%",
@@ -137,7 +137,7 @@ export default function RaisedOrders() {
                                         color: "black",
                                     }}
                                 />
-                                <b style={{ color: "black" }}>{ProcurementConstants.RAISED_ORDERS_TAB4_NAME}</b>
+                                <b style={{ color: "black" }}>{ProcurementConstants.NAVIGATION_TAB4_NAME}</b>
                             </a>
                         </div>
                     </div>
@@ -189,13 +189,13 @@ export default function RaisedOrders() {
                             >
                                 <thead>
                                     <tr>
-                                        <th>{ProcurementConstants.RAISED_ORDERS_TABLE_HEADER_PO_ID}</th>
-                                        <th>{ProcurementConstants.RAISED_ORDERS_TABLE_HEADER_ITEM_CODE}</th>
-                                        <th>{ProcurementConstants.RAISED_ORDERS_TABLE_HEADER_ITEM_NAME}</th>
-                                        <th>{ProcurementConstants.RAISED_ORDERS_TABLE_HEADER_QUANTITY}</th>
-                                        <th>{ProcurementConstants.RAISED_ORDERS_TABLE_HEADER_UNIT_PRICE}</th>
-                                        <th>{ProcurementConstants.RAISED_ORDERS_TABLE_HEADER_DATE}</th>
-                                        <th>{ProcurementConstants.RAISED_ORDERS_TABLE_HEADER_SITE}</th>
+                                        <th>{ProcurementConstants.TABLE_HEADER_PO_ID}</th>
+                                        <th>{ProcurementConstants.TABLE_HEADER_ITEM_CODE}</th>
+                                        <th>{ProcurementConstants.TABLE_HEADER_ITEM_NAME}</th>
+                                        <th>{ProcurementConstants.TABLE_HEADER_QUANTITY}</th>
+                                        <th>{ProcurementConstants.TABLE_HEADER_UNIT_PRICE}</th>
+                                        <th>{ProcurementConstants.TABLE_HEADER_DATE}</th>
+                                        <th>{ProcurementConstants.TABLE_HEADER_SITE}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
