@@ -109,12 +109,12 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
   }
 
   bool _validateFields() {
-    if (_dueDate == null){
+    if (_dueDate == null) {
       setState(() {
         _dueDateErrorMsg = 'Select due date!';
       });
     }
-    if (_quantityController.text == ''){
+    if (_quantityController.text == '') {
       setState(() {
         _qtyErrorMsg = 'Enter the quantity!';
       });
@@ -130,7 +130,6 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
           fontSize: 16.0);
       return false;
     } else if (_dueDate == null) {
-
       Fluttertoast.showToast(
           msg: "Select due date!",
           toastLength: Toast.LENGTH_SHORT,
@@ -151,7 +150,6 @@ class _PurchaseRequestScreenState extends State<PurchaseRequestScreen> {
           fontSize: 16.0);
       return false;
     } else if (_quantityController.text == '') {
-
       Fluttertoast.showToast(
           msg: "Enter the quantity!",
           toastLength: Toast.LENGTH_SHORT,
