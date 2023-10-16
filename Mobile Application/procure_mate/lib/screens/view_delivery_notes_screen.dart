@@ -70,14 +70,7 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                'PO Number : ${e["pOrderId"]}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+
                               // Text(
                               //   'DO Number : ${e["deliveryId"]}',
                               //   style: TextStyle(
@@ -94,10 +87,11 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Item : ${e["itemName"]}',
+                                    'PO Number : ${e["pOrderId"]}',
                                     style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
+
                                     ),
                                   ),
                                   Text(
@@ -117,7 +111,7 @@ class _ViewDeliveryNotesScreenState extends State<ViewDeliveryNotesScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Amount : Rs.10,000',
+                                    'Item : ${e["itemName"]}',
                                     style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
