@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function PendingOrders() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  // Check whether the session is open
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -22,8 +26,11 @@ export default function PendingOrders() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
 
+    // Requesting all the pending orders from the backend which are relavant to the current user.
     axios
-      .get(`http://localhost:8070/supplier/getpendingorders/${supplierId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_PENDINGS_ORDERS_URL}/${supplierId}`
+      )
       .then((res) => {
         console.log(res.data);
         setOrders(res.data);
@@ -55,12 +62,12 @@ export default function PendingOrders() {
               marginTop: "5%",
             }}
           >
-            <b>Pending Orders</b>
+            <b>{constants.PENDING_ORDERS}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -70,7 +77,7 @@ export default function PendingOrders() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>Pending Orders</b>
+              <b style={{ color: "#3a7ae0" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -82,7 +89,7 @@ export default function PendingOrders() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Invoices</b>
+              <b style={{ color: "black" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -97,7 +104,7 @@ export default function PendingOrders() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>My Delivery Log</b>
+              <b style={{ color: "black" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -107,14 +114,15 @@ export default function PendingOrders() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              // Closing the session.
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -123,11 +131,11 @@ export default function PendingOrders() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Pending Orders</b>
+              <b>{constants.PENDING_ORDERS}</b>
             </h2>
             {orders.length === 0 && (
               <center style={{ marginTop: "5%" }}>
-                <h2>No Pending Orders</h2>
+                <h2>{constants.NO_PENDING_ORDERS}</h2>
               </center>
             )}
             {orders.length !== 0 && (
@@ -141,19 +149,28 @@ export default function PendingOrders() {
               >
                 <thead>
                   <tr>
-                    <th>PO ID</th>
-                    <th>Site ID</th>
-                    <th>Location</th>
-                    <th>Item Name</th>
-                    <th>Quantity</th>
-                    <th>Due Date</th>
+                    <th>{constants.PO_ID}</th>
+                    <th>{constants.SITE_ID}</th>
+                    <th>{constants.LOCATION}</th>
+                    <th>{constants.ITEM_NAME}</th>
+                    <th>{constants.QUANTITY}</th>
+                    <th>{constants.DUE_DATE}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {orders.map((order) => (
-                    <tr>
+                    <tr
+                      className="raised-orders-table-row-hover"
+                      onClick={() => {
+                        window.location.replace(
+                          `/${constants.SUPPLIER_HOME_PATH}/${
+                            constants.PENDING_ORDERS_PATH
+                          }/${order.pOrderId.substring(1)}`
+                        );
+                      }}
+                    >
                       <td>
-                        <a
+                        {/* <a
                           href="#"
                           onClick={() => {
                             window.location.replace(
@@ -162,9 +179,9 @@ export default function PendingOrders() {
                               )}`
                             );
                           }}
-                        >
-                          {order.pOrderId}
-                        </a>
+                        > */}
+                        {order.pOrderId}
+                        {/* </a> */}
                       </td>
                       <td>{order.siteId}</td>
                       <td>{order.location}</td>
@@ -181,7 +198,7 @@ export default function PendingOrders() {
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>

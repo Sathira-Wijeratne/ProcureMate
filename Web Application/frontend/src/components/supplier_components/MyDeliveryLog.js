@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function MyDeliveryLog() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  // Check whether the session is open
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const dateFormatOptions = {
     weekday: "long",
     month: "long",
@@ -23,8 +27,11 @@ export default function MyDeliveryLog() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
 
+    // Requesting the delivery notes from backend which are relavant to the current user.
     axios
-      .get(`http://localhost:8070/supplier/getdeliverynotes/${supplierId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_DELIVERY_NOTES_URL}/${supplierId}`
+      )
       .then((res) => {
         console.log(res.data);
         setDeliveryNotes(res.data);
@@ -56,12 +63,12 @@ export default function MyDeliveryLog() {
               marginTop: "5%",
             }}
           >
-            <b>My Delivery Log</b>
+            <b>{constants.MY_DELIVERY_LOG}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -75,7 +82,7 @@ export default function MyDeliveryLog() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Pending Orders</b>
+              <b style={{ color: "black" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -87,7 +94,7 @@ export default function MyDeliveryLog() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Invoices</b>
+              <b style={{ color: "black" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -98,7 +105,7 @@ export default function MyDeliveryLog() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>My Delivery Log</b>
+              <b style={{ color: "#3a7ae0" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -108,14 +115,15 @@ export default function MyDeliveryLog() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              // Closing the session.
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -124,31 +132,46 @@ export default function MyDeliveryLog() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>My Delivery Log</b>
+              <b>{constants.MY_DELIVERY_LOG}</b>
             </h2>
-            <table
-              className="table"
-              style={{
-                width: "98%",
-                textAlign: "center",
-                marginTop: "2%",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>DO ID</th>
-                  <th>PO ID</th>
-                  <th>Site ID</th>
-                  <th>Location</th>
-                  <th>Invoice No</th>
-                  <th>Delivery Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {deliveryNotes.map((deliveryNote) => (
+            {deliveryNotes.length === 0 && (
+              <center style={{ marginTop: "5%" }}>
+                <h3>{constants.NO_DELIVERY_NOTES}</h3>
+              </center>
+            )}
+            {deliveryNotes.length !== 0 && (
+              <table
+                className="table"
+                style={{
+                  width: "98%",
+                  textAlign: "center",
+                  marginTop: "2%",
+                }}
+              >
+                <thead>
                   <tr>
-                    <td>
-                      <a
+                    <th>{constants.DO_ID}</th>
+                    <th>{constants.PO_ID}</th>
+                    <th>{constants.SITE_ID}</th>
+                    <th>{constants.LOCATION}</th>
+                    <th>{constants.INVOICE_NO}</th>
+                    <th>{constants.DELIVERY_DATE}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {deliveryNotes.map((deliveryNote) => (
+                    <tr
+                      className="raised-orders-table-row-hover"
+                      onClick={() => {
+                        window.location.replace(
+                          `/${constants.SUPPLIER_HOME_PATH}/${
+                            constants.MY_DELIVERY_LOG_PATH
+                          }/${deliveryNote.deliveryId.substring(1)}`
+                        );
+                      }}
+                    >
+                      <td>
+                        {/* <a
                         href="#"
                         onClick={() => {
                           window.location.replace(
@@ -157,23 +180,29 @@ export default function MyDeliveryLog() {
                             )}`
                           );
                         }}
-                      >
+                      > */}
                         {deliveryNote.deliveryId}
-                      </a>
-                    </td>
-                    <td>{deliveryNote.pOrderId}</td>
-                    <td>{deliveryNote.siteId}</td>
-                    <td>{deliveryNote.location}</td>
-                    <td>#IN-{deliveryNote.deliveryId.substring(3)}</td>
-                    <td>{new Date(deliveryNote.date).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        {/* </a> */}
+                      </td>
+                      <td>{deliveryNote.pOrderId}</td>
+                      <td>{deliveryNote.siteId}</td>
+                      <td>{deliveryNote.location}</td>
+                      <td>
+                        {constants.HASH_IN_DASH}
+                        {deliveryNote.deliveryId.substring(3)}
+                      </td>
+                      <td>
+                        {new Date(deliveryNote.date).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>

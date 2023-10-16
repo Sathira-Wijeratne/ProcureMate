@@ -3,16 +3,20 @@ import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function CreateDeliveryInvoice() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  // Check whether the session is open
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
   const { pOrderId } = useParams();
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -27,15 +31,20 @@ export default function CreateDeliveryInvoice() {
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
 
+    // Requesting the order details from backend.
     axios
-      .get(`http://localhost:8070/supplier/getorder/${supplierId}/${pOrderId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_ORDER_URL}/${supplierId}/${pOrderId}`
+      )
       .then((res) => {
         console.log(res.data[0]);
         setOrder(res.data[0]);
         setDeliveredQty(res.data[0].qty);
+
+        // Requesting item details from backend.
         axios
           .get(
-            `http://localhost:8070/supplier/getitem/${supplierId}/${res.data[0].itemName}`
+            `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_ITEM_URL}/${supplierId}/${res.data[0].itemName}`
           )
           .then((res) => {
             setItem(res.data[0]);
@@ -47,87 +56,113 @@ export default function CreateDeliveryInvoice() {
       });
   }, [supplierId, pOrderId]);
 
+  // Function which triggers delivery note creation and invoice generation actions.
   function proceed(e) {
     e.preventDefault();
-    var response = window.confirm(
-      "Are you sure you want to proceed?\nThis process will create the invoice and send the delivery note."
-    );
-    if (response) {
-      const deliveryNote = {
-        deliveryId: "#D" + pOrderId.substring(1),
-        pOrderId: "#" + pOrderId,
-        supplierId: supplierId,
-        date: new Date(),
-        status: "Sent",
-        itemName: order.itemName,
-        qty: deliveredQty,
-        uom: order.uom,
-        siteMngId: order.siteMngId,
-        siteId: order.siteId,
-        location: order.location,
-      };
 
-      const invoice = {
-        invoiceId: "#IN-" + pOrderId.substring(2),
-        deliveryId: "#D" + pOrderId.substring(1),
-        pOrderId: "#" + pOrderId,
-        supplierId: supplierId,
-        itemName: order.itemName,
-        qty: deliveredQty,
-        uom: order.uom,
-        unitPrice: item.unitPrice,
-        cost: deliveredQty * item.unitPrice,
-        date: new Date(),
-        paymentStatus: "Pending",
-      };
+    // Check the delivered and requested quantity.
+    if (deliveredQty > order.qty) {
+      alert(constants.WARNING_MESSAGE_QUANTITY_EXCEED);
+    } else {
+      // Ask for confirmation before creating delivery note and invoice.
+      var response = window.confirm(
+        constants.CONFIRM_MESSAGE_CREATING_DELIVERY_NOTE_AND_INVOICE
+      );
+      if (response) {
+        // Delivery note object
+        const deliveryNote = {
+          deliveryId: constants.HASH_D + pOrderId.substring(1),
+          pOrderId: constants.HASH + pOrderId,
+          supplierId: supplierId,
+          date: new Date(),
+          status: constants.SENT,
+          itemCode: order.itemCode,
+          itemName: order.itemName,
+          unitPrice: item.unitPrice,
+          qty: deliveredQty,
+          uom: order.uom,
+          siteMngId: order.siteMngId,
+          siteId: order.siteId,
+          location: order.location,
+        };
 
-      const purchaseOrder = {
-        pOrderId: order.pOrderId,
-        itemName: order.itemName,
-        qty: order.qty,
-        uom: order.uom,
-        amount: order.amount,
-        date: order.date,
-        dueDate: order.dueDate,
-        supplierId: order.supplierId,
-        siteMngId: order.siteMngId,
-        siteId: order.siteId,
-        location: order.location,
-        status: "Completed",
-      };
+        // Invoice object
+        const invoice = {
+          invoiceId: constants.HASH_IN_DASH + pOrderId.substring(2),
+          deliveryId: constants.HASH_D + pOrderId.substring(1),
+          pOrderId: constants.HASH + pOrderId,
+          supplierId: supplierId,
+          itemCode: order.itemCode,
+          itemName: order.itemName,
+          qty: deliveredQty,
+          uom: order.uom,
+          unitPrice: item.unitPrice,
+          cost: deliveredQty * item.unitPrice,
+          date: new Date(),
+          paymentStatus: constants.PENDING,
+        };
 
-      axios
-        .post(
-          `http://localhost:8070/supplier/createdeliverynote/`,
-          deliveryNote
-        )
-        .then((res) => {
-          axios
-            .post(`http://localhost:8070/supplier/createinvoice/`, invoice)
-            .then((res) => {
-              axios
-                .put(
-                  `http://localhost:8070/supplier/updatepurchaseorder/${pOrderId}`,
-                  purchaseOrder
-                )
-                .then(() => {
-                  alert("Purchase Order Completed!");
-                  window.location.replace(`/supplierhome/pendingorders`);
-                })
-                .catch((err) => {
-                  alert("Error in updating purchase order.");
-                  alert(err);
-                });
-            })
-            .catch((err) => {
-              alert("Error in creating invoice.");
-              console.log(err.message);
-            });
-        })
-        .catch((err) => {
-          alert("Error in creating delivery note.");
-          console.log(err.message);
-        });
+        // Updated purchase order object
+        const purchaseOrder = {
+          pOrderId: order.pOrderId,
+          itemCode: order.itemCode,
+          itemName: order.itemName,
+          unitPrice: item.unitPrice,
+          qty: order.qty,
+          uom: order.uom,
+          amount: order.amount,
+          date: order.date,
+          dueDate: order.dueDate,
+          supplierId: order.supplierId,
+          siteMngId: order.siteMngId,
+          siteId: order.siteId,
+          location: order.location,
+          status: constants.COMPLETED,
+          rejectReason: order.rejectReason,
+        };
+
+        // Send the delivery note to the databse through backend.
+        axios
+          .post(
+            `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_DELIVERY_NOTE_URL}/`,
+            deliveryNote
+          )
+          .then((res) => {
+            // Send the invoice to the database through backend.
+            axios
+              .post(
+                `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.CREATE_INVOICE_URL}/`,
+                invoice
+              )
+              .then((res) => {
+                // Update the purchase order status to completed.
+                axios
+                  .put(
+                    `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.UPDATE_PURCHASE_ORDER_URL}/${pOrderId}`,
+                    purchaseOrder
+                  )
+                  .then(() => {
+                    alert(constants.PURCHASE_ORDER_COMPLETED);
+                    // Redirect user to pending orders page.
+                    window.location.replace(
+                      `/${constants.SUPPLIER_HOME_PATH}/${constants.PENDING_ORDERS_PATH}`
+                    );
+                  })
+                  .catch((err) => {
+                    alert(constants.ERROR_UPDATING_PURCHASE_ORDER);
+                    console.log(err);
+                  });
+              })
+              .catch((err) => {
+                alert(constants.ERROR_CREATING_INVOICE);
+                console.log(err.message);
+              });
+          })
+          .catch((err) => {
+            alert(constants.ERROR_CREATING_DELIVERY_NOTE);
+            console.log(err.message);
+          });
+      }
     }
   }
   return (
@@ -153,12 +188,12 @@ export default function CreateDeliveryInvoice() {
               marginTop: "5%",
             }}
           >
-            <b>Pending Orders</b>
+            <b>{constants.PENDING_ORDERS}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -168,7 +203,7 @@ export default function CreateDeliveryInvoice() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>Pending Orders</b>
+              <b style={{ color: "#3a7ae0" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -180,7 +215,7 @@ export default function CreateDeliveryInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Invoices</b>
+              <b style={{ color: "black" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -195,7 +230,7 @@ export default function CreateDeliveryInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>My Delovery Log</b>
+              <b style={{ color: "black" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -205,14 +240,15 @@ export default function CreateDeliveryInvoice() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              // Closing the session.
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -221,13 +257,16 @@ export default function CreateDeliveryInvoice() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Pending Order</b>
+              <b>{constants.PENDING_ORDER}</b>
             </h2>
             <form onSubmit={proceed}>
               <div className="row" style={{ marginTop: "2%" }}>
                 <div className="col">
                   <center>
-                    <b>PO ID - #{pOrderId}</b>
+                    <b>
+                      {constants.PO_ID_DASH_HASH}
+                      {pOrderId}
+                    </b>
                   </center>
                   <div
                     style={{
@@ -239,30 +278,34 @@ export default function CreateDeliveryInvoice() {
                   >
                     <center style={{ marginTop: "4%" }}>
                       <h5>
-                        <b>Delivery Information</b>
+                        <b>{constants.DELIVERY_INFORMATION}</b>
                       </h5>
                     </center>
                     <center>
                       <table style={{ marginTop: "15%" }}>
                         <tr>
-                          <th>DO ID</th>
-                          <td>- #D-{pOrderId.substring(2)}</td>
+                          <th>{constants.DO_ID}</th>
+                          <td>
+                            {constants.DASH_HASH_D_DASH}
+                            {pOrderId.substring(2)}
+                          </td>
                         </tr>
                         <tr>
-                          <th>Requested Quantity</th>
+                          <th>{constants.REQUESTED_QUANTITY}</th>
                           <td>
                             - {order.qty} {order.uom}
                           </td>
                         </tr>
                         <tr>
-                          <th>Delivered Quantity</th>
+                          <th>{constants.DELIVERED_QUANTITY}</th>
                           <td>
                             -{" "}
-                            {order.uom !== "" && (
+                            {order.uom !== "" && order.uom !== "Units" && (
                               <input
                                 type="number"
                                 value={deliveredQty}
                                 min="0"
+                                max={order.qty}
                                 step="0.001"
                                 onChange={(e) => {
                                   setDeliveredQty(e.target.value);
@@ -270,11 +313,12 @@ export default function CreateDeliveryInvoice() {
                                 required
                               />
                             )}
-                            {order.uom === "" && (
+                            {(order.uom === "" || order.uom === "Units") && (
                               <input
                                 type="number"
                                 value={deliveredQty}
                                 min="0"
+                                max={order.qty}
                                 onChange={(e) => {
                                   setDeliveredQty(e.target.value);
                                 }}
@@ -285,11 +329,11 @@ export default function CreateDeliveryInvoice() {
                           </td>
                         </tr>
                         <tr>
-                          <th>Site ID</th>
+                          <th>{constants.SITE_ID}</th>
                           <td>- {order.siteId}</td>
                         </tr>
                         <tr>
-                          <th>Location</th>
+                          <th>{constants.LOCATION}</th>
                           <td>- {order.location}</td>
                         </tr>
                       </table>
@@ -298,7 +342,9 @@ export default function CreateDeliveryInvoice() {
                 </div>
                 <div className="col">
                   <center>
-                    <b>Item Name - {order.itemName}</b>
+                    <b>
+                      {constants.ITEM_NAME} - {order.itemName}
+                    </b>
                   </center>
                   <div
                     style={{
@@ -310,32 +356,36 @@ export default function CreateDeliveryInvoice() {
                   >
                     <center style={{ marginTop: "4%" }}>
                       <h5>
-                        <b>Invoice Details</b>
+                        <b>{constants.INVOICE_DETAILS}</b>
                       </h5>
                     </center>
                     <center>
                       <table style={{ marginTop: "15%" }}>
                         <tr>
-                          <th>Invoice No</th>
-                          <td>- #IN-{pOrderId.substring(2)}</td>
-                        </tr>
-                        <tr>
-                          <th>Unit Price</th>
+                          <th>{constants.INVOICE_NO}</th>
                           <td>
-                            - Rs. {Number.parseFloat(item.unitPrice).toFixed(2)}
+                            {constants.DASH_HASH_IN_DASH}
+                            {pOrderId.substring(2)}
                           </td>
                         </tr>
                         <tr>
-                          <th>Quantity</th>
+                          <th>{constants.UNIT_PRICE}</th>
+                          <td>
+                            - {constants.RS_DOT}{" "}
+                            {Number.parseFloat(item.unitPrice).toFixed(2)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>{constants.QUANTITY}</th>
                           <td>
                             - {deliveredQty} {order.uom}
                           </td>
                         </tr>
 
                         <tr>
-                          <th>Total Amount</th>
+                          <th>{constants.TOTAL_AMOUNT}</th>
                           <td>
-                            - Rs.{" "}
+                            - {constants.RS_DOT}{" "}
                             {Number.parseFloat(
                               deliveredQty * item.unitPrice
                             ).toFixed(2)}
@@ -352,13 +402,13 @@ export default function CreateDeliveryInvoice() {
                 style={{ float: "right", marginTop: "10%" }}
                 variant="btn btn-success"
               >
-                <b>Proceed</b>
+                <b>{constants.PROCEED}</b>
               </Button>
             </form>
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>

@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import axios from "axios";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function Invoices() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  // Check whether the session is open
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -21,8 +25,12 @@ export default function Invoices() {
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
+
+    // Requesting the invoices which are relavant to the current supplier.
     axios
-      .get(`http://localhost:8070/supplier/getinvoices/${supplierId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_INVOICES_URL}/${supplierId}`
+      )
       .then((res) => {
         console.log(res.data);
         setInvoices(res.data);
@@ -54,12 +62,12 @@ export default function Invoices() {
               marginTop: "5%",
             }}
           >
-            <b>Invoices</b>
+            <b>{constants.INVOICES}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -73,7 +81,7 @@ export default function Invoices() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Pending Orders</b>
+              <b style={{ color: "black" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -81,7 +89,7 @@ export default function Invoices() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>Invoices</b>
+              <b style={{ color: "#3a7ae0" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -96,7 +104,7 @@ export default function Invoices() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>My Delivery Log</b>
+              <b style={{ color: "black" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -106,14 +114,15 @@ export default function Invoices() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              // Closing the session.
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -122,30 +131,45 @@ export default function Invoices() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Invoices</b>
+              <b>{constants.INVOICES}</b>
             </h2>
-            <table
-              className="table"
-              style={{
-                width: "98%",
-                textAlign: "center",
-                marginTop: "2%",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>Invoice No</th>
-                  <th>PO ID</th>
-                  <th>DO ID</th>
-                  <th>Amount</th>
-                  <th> Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {invoices.map((invoice) => (
+            {invoices.length === 0 && (
+              <center style={{ marginTop: "5%" }}>
+                <h3>{constants.NO_INVOICES}</h3>
+              </center>
+            )}
+            {invoices.length !== 0 && (
+              <table
+                className="table"
+                style={{
+                  width: "98%",
+                  textAlign: "center",
+                  marginTop: "2%",
+                }}
+              >
+                <thead>
                   <tr>
-                    <td>
-                      <a
+                    <th>{constants.INVOICE_NO}</th>
+                    <th>{constants.PO_ID}</th>
+                    <th>{constants.DO_ID}</th>
+                    <th>{constants.AMOUNT}</th>
+                    <th> {constants.DATE}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invoices.map((invoice) => (
+                    <tr
+                      className="raised-orders-table-row-hover"
+                      onClick={() => {
+                        window.location.replace(
+                          `/${constants.SUPPLIER_HOME_PATH}/${
+                            constants.INVOICES_PATH
+                          }/${invoice.invoiceId.substring(1)}`
+                        );
+                      }}
+                    >
+                      <td>
+                        {/* <a
                         href="#"
                         onClick={() => {
                           window.location.replace(
@@ -154,22 +178,26 @@ export default function Invoices() {
                             )}`
                           );
                         }}
-                      >
+                      > */}
                         {invoice.invoiceId}
-                      </a>
-                    </td>
-                    <td>{invoice.pOrderId}</td>
-                    <td>{invoice.deliveryId}</td>
-                    <td>Rs. {Number.parseFloat(invoice.cost).toFixed(2)}</td>
-                    <td>{new Date(invoice.date).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        {/* </a> */}
+                      </td>
+                      <td>{invoice.pOrderId}</td>
+                      <td>{invoice.deliveryId}</td>
+                      <td>
+                        {constants.RS_DOT}{" "}
+                        {Number.parseFloat(invoice.cost).toFixed(2)}
+                      </td>
+                      <td>{new Date(invoice.date).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>

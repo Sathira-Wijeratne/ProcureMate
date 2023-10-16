@@ -3,15 +3,19 @@ import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Button from "react-bootstrap/Button";
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
+import constants from "../../common/SupplierCommonConstants";
 
 export default function SingleInvoice() {
-  if (sessionStorage.getItem("prMateReilppus") === null) {
+  // Check whether the session is open
+  if (sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER) === null) {
     window.location.replace("/");
   }
   const { invoiceId } = useParams();
 
-  const supplierId = sessionStorage.getItem("supplierId");
-  const supplierName = sessionStorage.getItem("supplierName");
+  const supplierId = sessionStorage.getItem(constants.SESSION_KEY_SUPPLIER_ID);
+  const supplierName = sessionStorage.getItem(
+    constants.SESSION_KEY_SUPPLIER_NAME
+  );
   const [currTime, setCurrTime] = useState(new Date());
   const dateFormatOptions = {
     weekday: "long",
@@ -23,8 +27,12 @@ export default function SingleInvoice() {
 
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
+
+    // Requesting invoice details from the backend.
     axios
-      .get(`http://localhost:8070/supplier/getinvoice/${invoiceId}`)
+      .get(
+        `${constants.BASE_URL}/${constants.SUPPLIER_URL}/${constants.GET_INVOICE_URL}/${invoiceId}`
+      )
       .then((res) => {
         setInvoice(res.data[0]);
         console.log(res.data[0]);
@@ -54,12 +62,12 @@ export default function SingleInvoice() {
               marginTop: "5%",
             }}
           >
-            <b>Invoices</b>
+            <b>{constants.INVOICES}</b>
           </div>
           <div style={{ textAlign: "center", marginTop: "3%" }}>
             <b>{supplierName}</b>
             <br />
-            Supplier
+            {constants.SUPPLIER}
           </div>
           <div style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}>
             <a
@@ -73,7 +81,7 @@ export default function SingleInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>Pending Orders</b>
+              <b style={{ color: "black" }}>{constants.PENDING_ORDERS}</b>
             </a>
             <br />
             <br />
@@ -81,7 +89,7 @@ export default function SingleInvoice() {
               <BsFillStarFill
                 style={{ marginBottom: "2%", marginRight: "5%" }}
               />
-              <b style={{ color: "#3a7ae0" }}>Invoices</b>
+              <b style={{ color: "#3a7ae0" }}>{constants.INVOICES}</b>
             </a>
             <br />
             <br />
@@ -96,7 +104,7 @@ export default function SingleInvoice() {
                   color: "black",
                 }}
               />
-              <b style={{ color: "black" }}>My Delovery Log</b>
+              <b style={{ color: "black" }}>{constants.MY_DELIVERY_LOG}</b>
             </a>
             <br />
           </div>
@@ -106,14 +114,15 @@ export default function SingleInvoice() {
             href="/"
             style={{ float: "right" }}
             onClick={() => {
-              sessionStorage.removeItem("prMateReilppus");
-              sessionStorage.removeItem("supplierEmail");
-              sessionStorage.removeItem("supplierId");
-              sessionStorage.removeItem("supplierName");
+              // Closing the session.
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_EMAIL);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_ID);
+              sessionStorage.removeItem(constants.SESSION_KEY_SUPPLIER_NAME);
             }}
           >
             <Button variant="btn btn-light">
-              <b>Log Out</b>
+              <b>{constants.LOG_OUT}</b>
             </Button>
           </a>
           <b style={{ marginLeft: "10%" }}>{currTime.toLocaleTimeString()}</b>
@@ -122,18 +131,22 @@ export default function SingleInvoice() {
           </span>
           <div style={{ marginTop: "3%" }}>
             <h2>
-              <b>Invoice</b>
+              <b>{constants.INVOICE}</b>
             </h2>
             <form>
               <div className="row" style={{ marginTop: "2%" }}>
                 <div className="col">
                   <center>
-                    <b>PO ID - {invoice.pOrderId}</b>
+                    <b>
+                      {constants.PO_ID} - {invoice.pOrderId}
+                    </b>
                   </center>
                 </div>
                 <div className="col">
                   <center>
-                    <b>Item Name - {invoice.itemName}</b>
+                    <b>
+                      {constants.ITEM_NAME} - {invoice.itemName}
+                    </b>
                   </center>
                 </div>
               </div>
@@ -148,34 +161,39 @@ export default function SingleInvoice() {
                 >
                   <center style={{ marginTop: "4%" }}>
                     <h5>
-                      <b>Invoice Details</b>
+                      <b>{constants.INVOICE_DETAILS}</b>
                     </h5>
                   </center>
                   <center>
                     <table style={{ marginTop: "15%", marginBottom: "10%" }}>
                       <tr>
-                        <th>Invoice No</th>
+                        <th>{constants.INVOICE_NO}</th>
                         <td>- #{invoiceId}</td>
                       </tr>
                       <tr>
-                        <th>Unit Price</th>
+                        <th>{constants.UNIT_PRICE}</th>
                         <td>
-                          - Rs.{" "}
+                          - {constants.RS_DOT}{" "}
                           {Number.parseFloat(invoice.unitPrice).toFixed(2)}
                         </td>
                       </tr>
                       <tr>
-                        <th>Quantity</th>
+                        <th>{constants.QUANTITY}</th>
                         <td>
                           - {invoice.qty} {invoice.uom}
                         </td>
                       </tr>
 
                       <tr>
-                        <th>Total Amount</th>
+                        <th>{constants.TOTAL_AMOUNT}</th>
                         <td>
-                          - Rs. {Number.parseFloat(invoice.cost).toFixed(2)}
+                          - {constants.RS_DOT}{" "}
+                          {Number.parseFloat(invoice.cost).toFixed(2)}
                         </td>
+                      </tr>
+                      <tr>
+                        <th>{constants.PAYMENT_STATUS}</th>
+                        <td>- {invoice.paymentStatus}</td>
                       </tr>
                     </table>
                   </center>
@@ -185,7 +203,7 @@ export default function SingleInvoice() {
           </div>
         </div>
         <div style={{ width: "1px" }}>
-          <p style={{ color: "white" }}>Invisible</p>
+          <p style={{ color: "white" }}>{constants.INVISIBLE}</p>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 const router = require("express").Router();
 let StaffMember = require("../models/StaffMember");
 
-// Get all staff members
+// This backend route is used to get all the staff members from staffmembers collection in the database.
 router.route("/").get((req, res) => {
   StaffMember.find()
     .then((staffMember) => {
@@ -12,7 +12,7 @@ router.route("/").get((req, res) => {
     });
 });
 
-// Get staff member by email
+// This backend route is used to get a specific staff member by giving the email.
 router.route("/get/email/:email").get(async (req, res) => {
   let email = req.params.email;
   await StaffMember.find({ email: `${email}` })
