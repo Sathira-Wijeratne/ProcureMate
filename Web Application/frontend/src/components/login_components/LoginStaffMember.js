@@ -25,7 +25,9 @@ export default function LoginStaffMember() {
               Math.random().toString()
             );
             sessionStorage.setItem("staffEmail", email);
-            window.location.replace(`http://localhost:3000/accountinghome`);
+            window.location.replace(
+              `http://localhost:3000/accountinghome/pendingInvoices`
+            );
           } else {
             alert("Unauthorized !");
           }
