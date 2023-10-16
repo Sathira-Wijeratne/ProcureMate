@@ -8,6 +8,7 @@ const constants = {
     PENDING_ORDER: "Pending Order",
     SUPPLIER: "Supplier",
     INVOICES: "Invoices",
+    PROCUREMENT_STAFF: "Procurement Staff",
     MY_DELIVERY_LOG: "My Delivery Log",
     LOG_OUT: "Log Out",
     PO_ID_DASH_HASH: "PO ID - #",

@@ -59,7 +59,7 @@ export default function PendingInvoices() {
             marginTop: "5%",
           }}
         >
-          <b>{constants.RAISED_ORDERS}</b>
+          <b>{constants.PROCUREMENT_STAFF}</b>
         </div>
         <div style={{ textAlign: "center", marginTop: "3%" }}>
           <b>{accountantName}</b>
