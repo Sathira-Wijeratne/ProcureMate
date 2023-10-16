@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory } from 'react-router-dom';
 import constants from "../../common/AccountantCommonConstants";
 import Button from "react-bootstrap/Button";
-import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
-export default function PurchaseOrderDeliveryForm() {
+export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
   // if (sessionStorage.getItem(constants.SESSION_KEY_ACCOUNTANT) === null) {
   //       window.location.replace("/");
   //     }
@@ -23,7 +21,6 @@ export default function PurchaseOrderDeliveryForm() {
     day: "numeric",
     year: "numeric",
   };
-  let history = useHistory;
   const [selectedPOrderId, setSelectedPOrderId] = useState("");
   const [deliveryNote, setDeliveryNote] = useState("");
   const [pendingPOrderIds, setPendingPOrderIds] = useState([]);
@@ -31,74 +28,48 @@ export default function PurchaseOrderDeliveryForm() {
   const [purchaseOrders, setPurchaseOrders] = useState([]);
   const [deliveryNotes, setDeliveryNotes] = useState([]);
   const [selectedDeliveryNote, setSelectedDeliveryNote] = useState([]);
-  const { pOrderId, deliveryId } = useParams();
-  // const { deliveryId } = useParams();
+
+  const { pOrderId } = useParams();
+  const { deliveryId } = useParams();
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
-    axios
-      .get(`${constants.BASE_URL}/invoice/invoices/pending`) // Replace with the actual API endpoint
-      .then((response) => {
-        console.log(response.data);
-        setPendingInvoices(response.data);
-        setPendingPOrderIds(response.data.map((invoice) => invoice.pOrderId));
         axios
-          .get(`${constants.BASE_URL}/purchaseOrderPayment/`)
+          .get(`${constants.BASE_URL}/purchaseOrderPayment/purchaseOrder/getPurchaseOrder/${pOrderId}`)
           .then((response) => {
-            setPurchaseOrders(response.data);
+            console.log('Purchase Orders');
+            console.log(response.data);
+            
+            setPurchaseOrders(response.data.purchaseOrder);
           })
           .catch((error) =>
             console.error("Error fetching purchase orders:", error)
           );
         axios
-          .get(`${constants.BASE_URL}/deliveryOrderPayment/`)
+          .get(`${constants.BASE_URL}/deliveryOrderPayment/deliveryNote/getDeliveryNote/${deliveryId}`)
           .then((response) => {
             console.log("Delivery Logs");
             console.log(response.data);
-            setDeliveryNotes(response.data);
+            setDeliveryNotes(response.data.deliveryNote);
           })
           .catch((error) =>
             console.error("Error fetching delivery notes:", error)
           );
-      })
-      .catch((error) => {
-        console.error("Error fetching pending purchase order IDs", error);
-      });
-  }, []);
+      },[pOrderId,deliveryId])
 
-  const handlePOrderIdChange = (event) => {
-    const selectedId = event.target.value;
-    console.log(selectedId);
-    setSelectedPOrderId(selectedId);
-    console.log(pendingInvoices);
-    const selectedInvoice = pendingInvoices.find(
-      (invoice) => invoice.pOrderId === selectedId
-    );
-    const selectedDeliveryNote = deliveryNotes.find(
-      (invoice) => invoice.deliveryId === selectedInvoice.deliveryId
-    );
-    const selectedPurchaseOrder = purchaseOrders.find(
-      (invoice) => invoice.pOrderId === selectedInvoice.pOrderId
-    );
-    console.log("Selected delivery logs");
-
-    console.log(selectedInvoice);
-    if (selectedInvoice) {
-      setPurchaseOrders([selectedPurchaseOrder]);
-      setDeliveryNotes([selectedDeliveryNote]);
-      setDeliveryNote(selectedInvoice.deliveryId);
-      console.log([selectedDeliveryNote]);
+    const areQuantitiesMatching = () => {
+        if (purchaseOrders.length === 1 && deliveryNotes.length === 1) {
+          return purchaseOrders[0].qty === deliveryNotes[0].qty;
+        }
+        return false;
+      };
+  
+  const handlePaymentConfirmation = () => {
+    const confirmPayment = window.confirm("Confirm Payment?");
+    if (confirmPayment) {
+      window.alert("Confirmed Payment");
     } else {
-      setDeliveryNote(""); // Clear the delivery note if not found
+      window.alert("Payment Declined");
     }
-  };
-
-  const handleViewClick = () => {
-    // Navigate to the MatchedRecords page
-    history.push('/matchedRecords');
-  };
-  const handleNavigate = () => {
-    // Change the URL to the desired page
-    window.location.replace = '/accountinghome/matchedRecords';
   };
 
   return (
@@ -198,32 +169,24 @@ export default function PurchaseOrderDeliveryForm() {
           </h2>
           <label>
             Select Purchase Order ID:
-            <select
-              value={selectedPOrderId}
-              onChange={(event) => {
-                handlePOrderIdChange(event);
-              }}
-              
-            >
-              <option value=""> Select Purchase Order ID --</option>
-              {pendingPOrderIds.map((pOrderId) => (
-                <option key={pOrderId} value={pOrderId}>
-                  {pOrderId}
-                </option>
-              ))}
-            </select>
+            <input
+              value= {pOrderId}
+              disabled
+          
+            > 
+            </input>
           </label>
           <br />
           <label>
             Delivery Note:
-            <input type="text" value={deliveryNote} readOnly />
+            <input type="text" value={ deliveryId } readOnly />
           </label>
           {purchaseOrders.length === 0 && (
             <center style={{ marginTop: "5%" }}>
-              <h2>No Pending Invoices</h2>
+              <h2>No Orders To Compare</h2>
             </center>
           )}
-          {purchaseOrders.length !== 0 && selectedPOrderId && (
+          {/* {purchaseOrders.length !== 0 ( */}
             <table>
               <thead>
                 <tr>
@@ -235,42 +198,32 @@ export default function PurchaseOrderDeliveryForm() {
                 </tr>
               </thead>
               <tbody>
-                {purchaseOrders.map((purchaseOrder) => (
                   <>
-                    <tr key={purchaseOrder._id}>
+                    <tr >
                       <td> PO </td>
-                      <td>{purchaseOrder.itemCode}</td>
-                      <td>{purchaseOrder.itemName}</td>
-                      <td>{purchaseOrder.qty}</td>
-                      <td>{purchaseOrder.unitPrice}</td>
-                      <Button 
-                      onClick={() => {
-                          window.location.replace(
-                            `/accountinghome/matchedRecords/${selectedPOrderId.substring(
-                              1
-                            )}/${deliveryNote.substring(1)}`
-                          );
-                            }} >VIEW</Button>  
-                      {/* <Button as={Link} to={`/accountinghome/matchedRecords/${selectedPOrderId.substring(1)}`}>VIEW</Button> */}
+                      <td>{purchaseOrders.itemCode}</td>
+                      <td>{purchaseOrders.itemName}</td>
+                      <td>{purchaseOrders.qty}</td>
+                      <td>{purchaseOrders.unitPrice}</td>
                     </tr>
-
-                    {deliveryNotes.map((deliveryNote) => (
-                      <tr key={deliveryNote.id}>
-                        {/* <td key={deliveryNote.id}> */}
+                      <tr >
                         <td> DO </td>
-                        <td>{deliveryNote.itemCode}</td>
-                        <td>{deliveryNote.itemName}</td>
-                        <td>{deliveryNote.qty}</td>
-                        <td>{deliveryNote.unitPrice}</td>
-                        {/* </td> */}
+                        <td>{deliveryNotes.itemCode}</td>
+                        <td>{deliveryNotes.itemName}</td>
+                        <td>{deliveryNotes.qty}</td>
+                        <td>{deliveryNotes.unitPrice}</td>
                       </tr>
-                    ))}
-                   
+                    {areQuantitiesMatching() ? (
+            <button className="btn btn-warning"  onClick={handlePaymentConfirmation}>Payment</button>
+          ) : (
+            <button className="btn btn-warning"  disabled>
+              Payment
+            </button>
+          )}
                   </>
-                ))}
               </tbody>
             </table>
-          )}
+
         </div>
       </div>
       <div style={{ width: "1px" }}>

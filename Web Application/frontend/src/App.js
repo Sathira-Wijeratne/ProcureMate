@@ -5,6 +5,7 @@ import DeliveryDetailsTable from './components/payment-settlement/POandDOdetails
 import PendingInvoices from './components/payment-settlement/PendingInvoices';
 import DeliveryLogs from './components/payment-settlement/Deliver_LogsFile';
 import PurchaseOrderDeliveryForm from './components/payment-settlement/POandDOdetails';
+import MatchedRecords from './components/payment-settlement/MatchedRecord';
 function App() {
   return (
     <Router>
@@ -13,6 +14,7 @@ function App() {
       <Route path="/accountinghome/pendingInvoices" exact component={ PendingInvoices }/>
       <Route path="/accountinghome/deliveryLogs" exact component={ DeliveryLogs }/>
       <Route path="/accountinghome/compareOrders" exact component={ PurchaseOrderDeliveryForm }/>
+      <Route path="/accountinghome/matchedRecords/:pOrderId/:deliveryId" exact component={ MatchedRecords }/>
           </Router>
   );
 }
