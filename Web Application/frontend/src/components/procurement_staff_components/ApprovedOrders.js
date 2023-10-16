@@ -1,7 +1,7 @@
 import ProcurementConstants from "../../common/ProcurementStaffCommonConstants";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BsFillStarFill, BsMenuButtonWideFill, BsTriangle } from "react-icons/bs";
+import { BsFillStarFill, BsMenuButtonWideFill } from "react-icons/bs";
 import Button from "react-bootstrap/Button";
 
 export default function ApprovedOrders() {
@@ -23,6 +23,7 @@ export default function ApprovedOrders() {
     };
 
     const [approvedOrders, setApprovedOrders] = useState([]);
+    const [approvedOrdersForSearch, setApprovedOrdersForSearch] = useState([]);
 
     // get the name of the logged in employee
     function getEmployeeName() {
@@ -37,6 +38,16 @@ export default function ApprovedOrders() {
             });
     }
 
+    function searchApprovedOrders(orderId) {
+        orderId = orderId.toUpperCase();
+        setApprovedOrders(approvedOrdersForSearch);
+
+        if (orderId !== '') {
+            const filteredOrders = approvedOrdersForSearch.filter(order => order.pOrderId.includes(orderId));
+            setApprovedOrders(filteredOrders);
+        }
+    }
+
     useEffect(() => {
         // set the current time
         setInterval(() => setCurrTime(new Date()), 1000);
@@ -47,6 +58,7 @@ export default function ApprovedOrders() {
             .then((res) => {
                 console.log(res.data);
                 setApprovedOrders(res.data);
+                setApprovedOrdersForSearch(res.data);
             })
             .catch((err) => {
                 alert(err.message);
@@ -152,11 +164,13 @@ export default function ApprovedOrders() {
                             <h2 style={{ margin: 0 }}>
                                 <b>{ProcurementConstants.APPROVED_ORDERS_PAGE_PAGE_BODY_HEADING}</b>
                             </h2>
-                            <form class="example" action="/action_page.php">
-                                <input type="text" placeholder="Search.." name="search2" />
-                                <button type="submit"><i class="fa fa-search"></i></button>
-                            </form>
+                            <div className="form-outline" style={{ marginRight: '65px', position: 'relative', display: 'flex' }}>
+                                <button type="submit" className="search-button">
+                                    <i className="fa fa-search"></i>
+                                </button><input type="search" id="form1" className="form-control" placeholder="Search via PO ID" maxLength={7} onChange={(e) => { searchApprovedOrders(e.target.value) }} />
+                            </div>
                         </div>
+
 
                         {approvedOrders.length === 0 && (
                             <center style={{ marginTop: "5%" }}>
