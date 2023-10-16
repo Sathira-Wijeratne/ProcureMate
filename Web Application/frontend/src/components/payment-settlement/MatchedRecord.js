@@ -4,7 +4,12 @@ import axios from "axios";
 import constants from "../../common/AccountantCommonConstants";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { BsFillStarFill, BsMenuButtonWideFill , BsFillHandThumbsUpFill, BsFillHandThumbsDownFill} from "react-icons/bs";
+import {
+  BsFillStarFill,
+  BsMenuButtonWideFill,
+  BsFillHandThumbsUpFill,
+  BsFillHandThumbsDownFill,
+} from "react-icons/bs";
 export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
   // if (sessionStorage.getItem(constants.SESSION_KEY_ACCOUNTANT) === null) {
   //       window.location.replace("/");
@@ -53,6 +58,7 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
   };
 
   const handleModalConfirm = () => {
+    handleConfirmPayment();
     window.alert("Payment Confirmed");
     setShowModal(false);
   };
@@ -61,16 +67,15 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
     axios
       .put(`${constants.BASE_URL}/invoice/invoices/pending/${pOrderId}`, {
         paymentStatus: "Paid",
-        // newPaymentStatus:"Paid"
       })
       .then(() => {
-        window.replace(`${constants.BASE_URL}/invoice/invoices/pending/${pOrderId}`);
+        window.location.replace(`/accountinghome/compareOrders`);
       })
       .catch((error) => {
         console.error("Error updating payment status:", error);
       });
   };
-  
+
   useEffect(() => {
     setInterval(() => setCurrTime(new Date()), 1000);
     axios
@@ -97,7 +102,6 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
       })
       .catch((error) => console.error("Error fetching delivery notes:", error));
   }, [pOrderId, deliveryId]);
-
 
   return (
     <div className="row" style={{ height: "100%" }}>
@@ -198,24 +202,31 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
             <div className="col-6">
               <label>
                 Select Purchase Order ID:
-                <input value={ '#' + pOrderId} disabled   
-                style={{
-                width: '100%', // Increase the width of the select
-                border: '4px solid lightblue', // Add a light blue border
-                fontWeight: 'bold', // Make the text bold
-              }}></input>
+                <input
+                  value={"#" + pOrderId}
+                  disabled
+                  style={{
+                    width: "100%", // Increase the width of the select
+                    border: "4px solid lightblue", // Add a light blue border
+                    fontWeight: "bold", // Make the text bold
+                  }}
+                ></input>
               </label>
             </div>
             <br />
             <div className="col-6">
               <label>
                 Delivery Note:
-                <input type="text" value= {'#' + deliveryId}  
-                 style={{ 
-                width: '100%', // Increase the width of the select
-                border: '4px solid lightblue', // Add a light blue border
-                fontWeight: 'bold', // Make the text bold
-              }} readOnly />
+                <input
+                  type="text"
+                  value={"#" + deliveryId}
+                  style={{
+                    width: "100%", // Increase the width of the select
+                    border: "4px solid lightblue", // Add a light blue border
+                    fontWeight: "bold", // Make the text bold
+                  }}
+                  readOnly
+                />
               </label>
             </div>
           </div>
@@ -276,18 +287,16 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
                   className="btn btn-warning"
                   onClick={() => {
                     handlePaymentConfirmation();
-                    handleConfirmPayment();
                   }}
                   disabled={!canConfirmPayment}
                   style={{
-                    textAlign: 'right', // Increase the width of the select
-                    float: 'right', // Add a light blue border
-                    fontWeight: 'bold', // Make the text bold
-                    marginRight: '-850px'
+                    textAlign: "right", // Increase the width of the select
+                    float: "right", // Add a light blue border
+                    fontWeight: "bold", // Make the text bold
+                    marginRight: "-850px",
                   }}
                 >
                   Payment
-                 
                 </button>
                 <Modal show={showModal} onHide={handleModalClose}>
                   {/* <Modal.Header closeButton> */}
