@@ -190,7 +190,7 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
             <div className="col-6">
               <label>
                 Select Purchase Order ID:
-                <input value={pOrderId} disabled   
+                <input value={ '#' + pOrderId} disabled   
                 style={{
                 width: '100%', // Increase the width of the select
                 border: '4px solid lightblue', // Add a light blue border
@@ -202,8 +202,8 @@ export default function MatchedRecords({ purchaseOrder, deliveryOrder }) {
             <div className="col-6">
               <label>
                 Delivery Note:
-                <input type="text" value={deliveryId}  
-                 style={{
+                <input type="text" value= {'#' + deliveryId}  
+                 style={{ 
                 width: '100%', // Increase the width of the select
                 border: '4px solid lightblue', // Add a light blue border
                 fontWeight: 'bold', // Make the text bold
