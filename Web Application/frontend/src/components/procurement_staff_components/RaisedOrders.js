@@ -113,6 +113,7 @@ export default function RaisedOrders() {
             style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}
           >
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-raised-orders-tabs-1"
               style={{ marginBottom: "30px" }}
             >
@@ -133,6 +134,7 @@ export default function RaisedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-raised-orders-tabs-2"
               style={{ marginBottom: "30px" }}
             >
@@ -153,6 +155,7 @@ export default function RaisedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-raised-orders-tabs-3"
               style={{ marginBottom: "30px" }}
             >
@@ -173,6 +176,7 @@ export default function RaisedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-raised-orders-tabs-4"
               style={{ marginBottom: "30px" }}
             >

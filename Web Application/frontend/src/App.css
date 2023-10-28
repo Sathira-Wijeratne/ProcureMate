@@ -132,3 +132,11 @@
   box-sizing: border-box;
   overflow-y: auto;
 }
+
+.procurement-staff-navigation-options-hover {
+  cursor: pointer;
+}
+
+.procurement-staff-navigation-options-hover:hover {
+  background-color: #8b848446;
+}

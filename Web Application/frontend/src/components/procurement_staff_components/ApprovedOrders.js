@@ -106,6 +106,7 @@ export default function ApprovedOrders() {
             style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}
           >
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-approved-orders-tabs-1"
               style={{ marginBottom: "30px" }}
             >
@@ -126,6 +127,7 @@ export default function ApprovedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-approved-orders-tabs-2"
               style={{ marginBottom: "30px" }}
             >
@@ -146,6 +148,7 @@ export default function ApprovedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-approved-orders-tabs-3"
               style={{ marginBottom: "30px" }}
             >
@@ -166,6 +169,7 @@ export default function ApprovedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-approved-orders-tabs-4"
               style={{ marginBottom: "30px" }}
             >
@@ -260,7 +264,7 @@ export default function ApprovedOrders() {
               <center style={{ marginTop: "5%" }}>
                 <h2>
                   {
-                    ProcurementConstants.RAISED_ORDERS_PAGE_PAGE_BODY_NO_ORDERS_MESSAGE
+                    ProcurementConstants.APPROVED_ORDERS_PAGE_PAGE_BODY_NO_ORDERS_MESSAGE
                   }
                 </h2>
               </center>
