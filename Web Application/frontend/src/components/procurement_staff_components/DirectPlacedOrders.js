@@ -106,6 +106,7 @@ export default function DirectPlacedOrders() {
             style={{ marginTop: "8%", fontSize: "150%", marginLeft: "10%" }}
           >
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-direct-orders-tabs-1"
               style={{ marginBottom: "30px" }}
             >
@@ -126,6 +127,7 @@ export default function DirectPlacedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-direct-orders-tabs-2"
               style={{ marginBottom: "30px" }}
             >
@@ -146,6 +148,7 @@ export default function DirectPlacedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-direct-orders-tabs-3"
               style={{ marginBottom: "30px" }}
             >
@@ -166,6 +169,7 @@ export default function DirectPlacedOrders() {
               </a>
             </div>
             <div
+              className="procurement-staff-navigation-options-hover"
               id="procurement-direct-orders-tabs-4"
               style={{ marginBottom: "30px" }}
             >
@@ -261,7 +265,7 @@ export default function DirectPlacedOrders() {
               <center style={{ marginTop: "5%" }}>
                 <h2>
                   {
-                    ProcurementConstants.RAISED_ORDERS_PAGE_PAGE_BODY_NO_ORDERS_MESSAGE
+                    ProcurementConstants.DIRECT_PLACED_ORDERS_PAGE_PAGE_BODY_NO_ORDERS_MESSAGE
                   }
                 </h2>
               </center>
