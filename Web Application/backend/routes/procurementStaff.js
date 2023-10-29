@@ -4,7 +4,7 @@ let StaffMember = require("../models/StaffMember");
 
 // Get all pending raised orders
 router.route("/").get(async (req, res) => {
-    await PurchaseOrder.find({ status: "Pending" })
+    await PurchaseOrder.find({ status: "Pending", amount: { $gte: 100000 } })
         .then((purchaseOrders) => {
             res.json(purchaseOrders);
         })
