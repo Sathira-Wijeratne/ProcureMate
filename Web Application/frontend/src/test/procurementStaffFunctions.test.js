@@ -59,9 +59,9 @@ describe("GET /direct", () => {
 
 describe("GET /get/:id", () => {
     it("should get a specific pending purchase order", async () => {
-        const res = await axios.get(`http://localhost:8070/procurement/get/P-0006`);
+        const res = await axios.get(`http://localhost:8070/procurement/get/P-0032`);
         expect(res.status).toBe(200);
-        expect(res.data.pOrderId).toBe('#P-0006');
+        expect(res.data.pOrderId).toBe('#P-0032');
         expect(res.data.status).toBe("Pending");
         expect(res.data.rejectReason).toBe("");
 
